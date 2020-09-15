@@ -190,7 +190,7 @@ Once you select either the title of subheader, you will see a TextMeshPro compon
 
 This scene also includes a simple acknowledgements page, named "Acknowledgements Canvas" in the hierarchy tab. We recommend temperarily disabling the Menu Canvas to better edit this page.
 
-![Finding Acknowledgements Canvas](Documentation/Finding Acknowledgements Canvas.png)
+![Finding Acknowledgements Canvas](Documentation/FindingAcknowledgementsCanvas.png)
 
 ![Acknowledgements Canvas](Documentation/AcknowledgementsCanvas.png)
 
@@ -224,6 +224,10 @@ This is how your final build settings should look. Build order is important for 
 
 
 
+Now you can build your project. Note that building your project can be a slow process. 
+
 
 
 ## Publishing online
+
+[TODO]
