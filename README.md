@@ -16,7 +16,7 @@ Unity Hub is an application where you can manage your Unity projects and Unity e
 
 https://store.unity.com/download?ref=personal
 
-You will also need to create an account and obtain a free personal license.
+You will also need to create an account and obtain a free personal license. These can be done in the Unity Hub application.
 
 
 
@@ -88,13 +88,15 @@ The in-game user interface may look weird when the game screen is not in 16:9 or
 
 To enter play mode, press the play button.
 
-**Important:** Do not make changes to your scene during play mode! All changes you make to scene will revert back when you exit play mode. Always make sure to exit play mode.
+ ![Play_Icons](Documentation/Play_Icons.png)
 
-![Play_Icons](Documentation/Play_Icons.png)
+**Always exit play mode before making adjustments!** All changes you make to scene will revert back when you exit play mode.
 
-### 
 
-### Adding your model
+
+### Importing your model's mesh
+
+You should replace 
 
 [TODO]
 
@@ -104,19 +106,60 @@ Be sure to
 
 
 
-### Creating your model's material
 
-First, you'll need to import your models' textures to the project. Simply drag it in your project window.
+
+### Importing your model's texture
+
+You'll need to import your models' textures to the project. Simply drag your image texture in your project window.
 
 [TODO]
 
-In Unity, select your texture and adjust its import settings. For reference, here is our import setting for our Whaleback texture. The most important setting is **Max Size**, where you should set it to your image's resolution.
+In Unity, select your texture and adjust its import settings. For reference, here is our import setting for our Whaleback texture. The most important setting is **Max Size**, where you should set it to your image's resolution. Values lower will reduce the fidelity of your texture, and any values higher will have no impact.
 
 ![Texture_Import_Settings](Documentation/Texture_Import_Settings.png)
 
 
 
-With your texture, you will need to create a **material** file. 
+We have already made a **material** file that you will insert your texture in it.
+
+1. Select the material file
+2. Drag the texture file into its input next to "Base Color"
+
+[TODO]
+
+
+
+### Adding your model to your scene
+
+In your "project" window, simply drag your model's mesh into the "scene" window.
+
+[TODO gif]
+
+The model you placed will initially have its pivot point in the origin point, so you should reset its **transform** by zeroing its x/y/z positions
+
+[TODO gif]
+
+
+
+### Change the tag of your model to "Terrain"
+
+To make your model interactable with our tools, you need to mark objects with the "Terrain" tag. Objects will also need a collider component. 
+
+[TODO gif]
+
+### Add the "Mesh Collider" component to your model
+
+Adding a collider component to your model is needed to make it interactable as well, in addition to allow for collisions to work with the player. 
+
+[TODO gif]
+
+### Moving the player object to the game's starting position
+
+Once the model's position is finished, move the player object to where you would like your users to start at.
+
+Note that the player's **blue axis** is their forward direction. 
+
+We recommend that you go into play mode to check that your new player location is suitable and doesn't have any issues, particularly that they do not clip through the ground and fall.
 
 [TODO]
 
@@ -136,15 +179,15 @@ Do you want to see the elevation of your measurements? If so, you will place one
 
 In our Whaleback project, our GPS marker is marked in the model's texture. We know the exact elevation at that point. 
 
-Go to Assets->_Toolkit Prefabs and drag the **Altitude Marker** object into your scene. After, manually place your object into your 
+Open the **Assets->_Toolkit Prefabs** folder and drag the **Altitude Marker** object into your scene. Afterwards, manually place the altitude marker into your real-world GPS-marker. 
 
 ![Altitude_Marker](Documentation/Altitude_Marker.png)
 
-We placed an **Altitude Marker** object into that spot, and specified its real-world elevation in the inspector.
+After placing your altitude marker, specify its real-world elevation in meters.
 
 ![Altitude_Marker_Inspector](Documentation/Altitude_Marker_Inspector.png)
 
-**Note:** The **"Anchor Down"** button allows your altitude marker to fall down to the nearest object (that has a collider) in your scene. It is for convenience and is optional to use.
+**Note:** The **"Anchor Down"** button allows your altitude marker to fall down to the nearest object (that has a collider) in your scene. It is simply for convenience and is optional to use.
 
 By default, showing elevation data is turned off. To enable it, find the "**Settings**" object in the scene hierarchy, and enable "Show Elevation Data"
 
@@ -158,19 +201,7 @@ You should now see the elevation of your latest pole measurements.
 
 
 
-### Moving the player object to the game's starting position
-
-*Where do you want your player to land when they enter your scene?*
-
-Once your model's position is finalized, you can move the player object to where you would like your users to spawn.
-
-Note that the player's **blue axis** is their forward direction. 
-
-We recommend that you go into play mode to check that your new player location is suitable and doesn't have any issues (such as the player clipping through the ground and falling forever).
-
-[TODO]
-
-### (Optional) Enabling sampling radius
+### (Optional) Enabling random sampling radius
 
 To mitigate the effects of noise during your measurements, you can enable the sampling of multiple points around your clicks.
 
@@ -180,21 +211,37 @@ By default, random sampling is disabled. To enable it or to change its settings,
 
 ![Enable Sampling Radius](Documentation/EnableSamplingRadius.png)
 
-Next, go into play mode what start taking pole measurements! You will see white lines representing the extra measurements that are taking place and are used when plotting to the stereonet.
+Next, go into play mode what start taking pole measurements! You will see white lines representing the extra measurements that are taking place and are averaged when plotting to the stereonet.
 
 With the default settings, you should see something similar to this:
 
 ![Gizmos preview](Documentation/GizmosPreview.png)
 
-The white lines are the extra random samples taken in your measurement. 
+The white lines are the extra random samples taken in your measurement. These lines are rendered even when occluded by objects. 
 
-**Note:** the visuals you see when "Gizmos" is enabled is only seen inside the editor, and not in the final build. Gizmos should already be enabled by default.
+**Note:** These white lines, in addition to other visuals that you see when "Gizmos" is enabled is only inside the editor, and not in the final build. Gizmos should already be enabled by default.
 
-**Note:** The "Gizmos" toggle in the top-right corner of your **game** tab (not the scene tab!). You should leave it enabled. ![Turn on Gizmos](Documentation/TurnOnGizmos.png)
+The "Gizmos" toggle in the top-right corner of your **game** tab (not the scene tab!). You should leave it enabled for both the scene and the game view. ![Turn on Gizmos](Documentation/TurnOnGizmos.png)
 
 
 
 ### (Optional) Setting up your map view
+
+To select your map camera, expand the "Map View" object and select "Map View Camera"
+
+[TODO]
+
+
+
+In your scene view, move the this camera object
+
+
+
+
+
+### (Optional) Using Popup UI Objects
+
+
 
 
 
@@ -210,7 +257,7 @@ In the hierarchy tab, open the "Manu Canvas" object to find the "Title" and "Sub
 
 ![Selecting Menu Canvas](Documentation/SelectingMenuCanvas.png)
 
-Once you select either the title of sub header, you will see a "TextMeshPro" component. Simply change the placeholder text.
+Once you select either the title of sub header, you will see a "**TextMeshPro**" component. Simply change the placeholder text.
 
 ![Finding TextMeshPro](Documentation/FindingTextMeshPro.png)
 
@@ -276,3 +323,4 @@ Here are the publishing settings we used in itch.io for our Whaleback project:
 ## Feedback
 
 For any questions or feedback, please email [TODO]
+
