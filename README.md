@@ -60,6 +60,15 @@ Simply click the on the project folder and click "open."
 
 ## Setting up the scene
 
+![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\ProjectAssets.png)
+
+For this guide, you will only use these four folders:
+
+- **_Model** is where you will place your model's mesh and texture. This folder also contains an unfinished **material** called "Model Material" that you will later use.
+- **_Toolkit Models** contains objects that you may will freely during your project. They are mostly for decoration
+- **_Toolkit Prefabs** contains 
+- **Scenes** contains **scenes**, which are essentially different game levels, or rooms. There is the **Field Scene** where users can interact with your model(s), and there is a **Main Menu** scene, which acts as an player introduction to your project. The main menu is covered later.
+
 ### Open the field scene
 
 After importing the package, open the scene called "Field Scene" inside "Assets/Scenes"
@@ -68,15 +77,17 @@ After importing the package, open the scene called "Field Scene" inside "Assets/
 
 This scene is where you will insert your own model(s) to be used in-game.
 
-By default, we've included a sample scene that you play around with! Feel free to either keep or swap out parts of this sample with your own objects. Instructions are detailed below. 
+By default, we've included a sample scene that you play around with! Feel free to either keep or swap out parts of this sample with your own objects.
 
-[TODO picture of scene]
+This guide will demonstrate replacing this scene with a model of our own. 
 
-
+![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\ToolkitScene.png)
 
 ### Setting the aspect ratio for your editor play mode
 
-The in-game user interface may look weird when the game screen is not in 16:9 or 16:10 aspect ratio. 
+This project's user interface was only designed to accustom 16:9 and 16:10 screen aspect ratios. Other aspect ratio may lead to a poor user experience. 
+
+
 
 **Note:** this does not affect the final build of the project, where its default resolution is defined elsewhere. This simply gives you a better preview of the in-game look in the Unity editor. In particular, the in-game UI will match what the final build will look like.
 
@@ -96,7 +107,7 @@ To enter play mode, press the play button.
 
 ### Importing your model's mesh
 
-You should replace 
+Open the **_Model** folder and drag and drop your model's mesh into it
 
 [TODO]
 
@@ -109,6 +120,8 @@ Be sure to
 
 
 ### Importing your model's texture
+
+Open the **_Model** folder and drag and drop your model's texture into it
 
 You'll need to import your models' textures to the project. Simply drag your image texture in your project window.
 
@@ -165,6 +178,8 @@ We recommend that you go into play mode to check that your new player location i
 
 
 
+## Optional Features
+
 ### (Optional) Setting your model's altitude
 
 **Important:** this step is only relevant if you have visible GPS markers (i.e. specific spots where you know the elevation of) in your model.
@@ -203,7 +218,7 @@ You should now see the elevation of your latest pole measurements.
 
 ### (Optional) Enabling random sampling radius
 
-To mitigate the effects of noise during your measurements, you can enable the sampling of multiple points around your clicks.
+To mitigate the effects of noise during your pole measurements, you can enable the sampling of multiple points around your clicks.
 
 By default, random sampling is disabled. To enable it or to change its settings, go to the "Settings" object in your hierarchy view.
 
