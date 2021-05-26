@@ -65,7 +65,7 @@ Simply click the on the project folder and click "open."
 For this guide, you will only use these four folders:
 
 - **_Model** is where you will place your model's mesh and texture. This folder also contains an unfinished **material** called "Model Material" that you will later use.
-- **_Toolkit Models** contains objects that you may will freely during your project. They are mostly for decoration
+- **_Toolkit Models** contains objects that you may add freely to your project. They are mostly for decoration
 - **_Toolkit Prefabs** contains 
 - **Scenes** contains **scenes**, which are essentially different game levels, or rooms. There is the **Field Scene** where users can interact with your model(s), and there is a **Main Menu** scene, which acts as an player introduction to your project. The main menu is covered later.
 
