@@ -14,7 +14,7 @@ This guide assumes you are a newcomer to the Unity game engine.
 
 Unity Hub is an application where you can manage your Unity projects and Unity editors.
 
-https://store.unity.com/download?ref=personal
+https://store.unity.com/download?ref=personal 
 
 You will also need to create an account and obtain a free personal license. These can be done in the Unity Hub application.
 
@@ -83,6 +83,14 @@ This guide will demonstrate replacing this scene with a model of our own.
 
 ![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\ToolkitScene.png)
 
+
+
+### Hiding the user interface for convenience
+
+
+
+
+
 ### Setting the aspect ratio for your editor play mode
 
 This project's user interface was only designed to accustom 16:9 and 16:10 screen aspect ratios. Other aspect ratio may lead to a poor user experience. 
@@ -110,10 +118,6 @@ To enter play mode, press the play button.
 Open the **_Model** folder and drag and drop your model's mesh into it
 
 [TODO]
-
-
-
-Be sure to 
 
 
 
@@ -179,6 +183,16 @@ We recommend that you go into play mode to check that your new player location i
 
 
 ## Optional Features
+
+### (Optional) Changing your jetpack speed settiongs
+
+
+
+### (Optional) Changing object scale
+
+Are your measurement tools showing objects that are too small?
+
+
 
 ### (Optional) Setting your model's altitude
 
