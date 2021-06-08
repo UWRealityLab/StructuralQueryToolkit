@@ -60,7 +60,7 @@ Simply click the on the project folder and click "open."
 
 ## Setting up the scene
 
-![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\ProjectAssets.png)
+![](Documentation\ProjectAssets.png)
 
 For this guide, you will only use these four folders:
 
@@ -89,13 +89,13 @@ This guide will demonstrate replacing this scene with a model of our own.
 
 When you open Toolkit scene, you will notice a rectangle is obstructing the part of the view. This is actually the user interface. We recommend hiding these obstructions in your editor, though this is merely for convenience and has no impact on the final build. 
 
-![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\Toolkit_Scene_With_Canvases.png)
+![](Documentation\Toolkit_Scene_With_Canvases.png)
 
 
 
 Under the "USER INTERFACE," simply click on the hide toggle.
 
-![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\Hiding_UI.gif)
+![](Documentation\Hiding_UI.gif)
 
 ### Setting the aspect ratio for your editor play mode
 
