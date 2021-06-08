@@ -22,7 +22,7 @@ You will also need to create an account and obtain a free personal license. Thes
 
 ### Adding a new Unity version
 
-After installing install Unity Hub, you will need to download an actual Unity editor to go with it. This project was last updated using Unity **2020.2.2**, and we strongly recommend using the same version. 
+After installing install Unity Hub, you will need to download an actual Unity editor to go with it. This project was last updated using Unity **2020.2.2**. We strongly recommend using the same version. 
 
 Go to the [Unity Archive Site](https://unity3d.com/get-unity/download/archive) and select the "Unity Hub" option.
 
@@ -46,13 +46,13 @@ If you are unfamiliar with Git, we recommend you download and extract the ZIP fi
 
 Once you have extracted the zip file, open Unity Hub to open the project. 
 
-![Adding Project](Documentation/Adding Project.png)
+![Adding Project](Documentation/Adding_Project.png)
 
 
 
 Simply click the on the project folder and click "open."
 
-![Adding Project](Documentation/Adding Project.gif)
+![Adding Project](Documentation/Adding_Project.gif)
 
 
 
@@ -67,7 +67,7 @@ For this guide, you will only use these four folders:
 - **_Model** is where you will place your model's mesh and texture. This folder also contains an unfinished **material** called "Model Material" that you will later use.
 - **_Toolkit Models** contains objects that you may add freely to your project. They are mostly for decoration.
 - **_Toolkit Prefabs** contains optional objects you can place into your scene. For example, the **Altitude Marker** is used to describe the elevation of your model.
-- **Scenes** contains **scenes**, which are essentially different game levels, or rooms. There is the **Field Scene** where users can interact with your model(s), and there is a **Main Menu** scene, which acts as an player introduction to your project. The main menu is covered later.
+- **_Scenes** contains **scenes**, which are essentially different game levels, or rooms. There is the **Field Scene** where users can interact with your model(s), and there is a **Main Menu** scene, which acts as an player introduction to your project. The main menu is covered later.
 
 ### Open the field scene
 
