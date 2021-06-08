@@ -81,7 +81,7 @@ By default, we've included a sample scene that you play around with! Feel free t
 
 This guide will demonstrate replacing this scene with a model of our own. 
 
-![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\ToolkitScene.png)
+![](Documentation\ToolkitScene.png)
 
 
 
