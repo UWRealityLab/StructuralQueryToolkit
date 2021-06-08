@@ -127,28 +127,25 @@ Open the **_Model** folder and drag and drop your model's mesh and texture into 
 
 
 
+### Adjusting your texture's import settings
 
+Afterwards, click on your texture file and adjust its import settings. For reference, here is our import setting for our project's texture. The most important setting is **Max Size**, where you should set it to be equal or greater than your image's resolution. Values lower will reduce the fidelity of your texture, and any values higher will have no impact. We recommend simply selecting the largest value.
 
-### Importing your model's texture
-
-Open the **_Model** folder and drag and drop your model's texture into it
-
-You'll need to import your models' textures to the project. Simply drag your image texture in your project window.
-
-[TODO]
-
-In Unity, select your texture and adjust its import settings. For reference, here is our import setting for our Whaleback texture. The most important setting is **Max Size**, where you should set it to your image's resolution. Values lower will reduce the fidelity of your texture, and any values higher will have no impact.
+1. Click on your texture file
+2. In the inspector (right side), be sure to set its max size field
 
 ![Texture_Import_Settings](Documentation/Texture_Import_Settings.png)
 
 
 
-We have already made a **material** file that you will insert your texture in it.
+### Creating your model's material
 
-1. Select the material file
-2. Drag the texture file into its input next to "Base Color"
+A **material** renders your model with its respective texture, but you will need to specify its shader and texture. We have already made a **material** file and specified its shader, so your only task is to apply your texture to it.
 
-[TODO]
+1. Click on **Model Material**
+2. With the Model Material file selected, drag and drop your texture file into its base mask input
+
+![ApplyTexture](Documentation/ApplyTexture.gif)
 
 
 
