@@ -83,7 +83,7 @@ This guide will demonstrate replacing this scene with a model of our own.
 
 ![](Documentation/ToolkitScene.png)
 
-
+Note: this view is not exactly what you will see when initially opening the Toolkit scene. 
 
 ### Hiding the user interface for convenience
 
