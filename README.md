@@ -65,8 +65,8 @@ Simply click the on the project folder and click "open."
 For this guide, you will only use these four folders:
 
 - **_Model** is where you will place your model's mesh and texture. This folder also contains an unfinished **material** called "Model Material" that you will later use.
-- **_Toolkit Models** contains objects that you may add freely to your project. They are mostly for decoration
-- **_Toolkit Prefabs** contains 
+- **_Toolkit Models** contains objects that you may add freely to your project. They are mostly for decoration.
+- **_Toolkit Prefabs** contains optional objects you can place into your scene. For example, the **Altitude Marker** is used to describe the elevation of your model.
 - **Scenes** contains **scenes**, which are essentially different game levels, or rooms. There is the **Field Scene** where users can interact with your model(s), and there is a **Main Menu** scene, which acts as an player introduction to your project. The main menu is covered later.
 
 ### Open the field scene
@@ -87,9 +87,15 @@ This guide will demonstrate replacing this scene with a model of our own.
 
 ### Hiding the user interface for convenience
 
+When you open Toolkit scene, you will notice a rectangle is obstructing the part of the view. This is actually the user interface. We recommend hiding these obstructions in your editor, though this is merely for convenience and has no impact on the final build. 
+
+![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\Toolkit_Scene_With_Canvases.png)
 
 
 
+Under the "USER INTERFACE," simply click on the hide toggle.
+
+![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\Hiding_UI.gif)
 
 ### Setting the aspect ratio for your editor play mode
 
@@ -113,11 +119,11 @@ To enter play mode, press the play button.
 
 
 
-### Importing your model's mesh
+### Importing your model's mesh and texture
 
-Open the **_Model** folder and drag and drop your model's mesh into it
+Open the **_Model** folder and drag and drop your model's mesh and texture into it
 
-[TODO]
+![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\ImportMeshAndTexture.gif)
 
 
 
@@ -184,7 +190,7 @@ We recommend that you go into play mode to check that your new player location i
 
 ## Optional Features
 
-### (Optional) Changing your jetpack speed settiongs
+### (Optional) Changing your jetpack speed settings
 
 
 
@@ -269,6 +275,10 @@ In your scene view, move the this camera object
 
 
 ### (Optional) Using Popup UI Objects
+
+
+
+**Adding hyperlinks to your text**
 
 
 
