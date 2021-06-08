@@ -60,7 +60,7 @@ Simply click the on the project folder and click "open."
 
 ## Setting up the scene
 
-![ProjectAssets](Documentation\ProjectAssets.png)
+![ProjectAssets](Documentation/ProjectAssets.png)
 
 For this guide, you will only use these four folders:
 
@@ -81,7 +81,7 @@ By default, we've included a sample scene that you play around with! Feel free t
 
 This guide will demonstrate replacing this scene with a model of our own. 
 
-![](Documentation\ToolkitScene.png)
+![](Documentation/ToolkitScene.png)
 
 
 
@@ -89,13 +89,13 @@ This guide will demonstrate replacing this scene with a model of our own.
 
 When you open Toolkit scene, you will notice a rectangle is obstructing the part of the view. This is actually the user interface. We recommend hiding these obstructions in your editor, though this is merely for convenience and has no impact on the final build. 
 
-![](Documentation\Toolkit_Scene_With_Canvases.png)
+![](Documentation/Toolkit_Scene_With_Canvases.png)
 
 
 
 Under the "USER INTERFACE," simply click on the hide toggle.
 
-![](Documentation\Hiding_UI.gif)
+![](Documentation/Hiding_UI.gif)
 
 ### Setting the aspect ratio for your editor play mode
 
@@ -123,7 +123,7 @@ To enter play mode, press the play button.
 
 Open the **_Model** folder and drag and drop your model's mesh and texture into it
 
-![](Documentation\ImportMeshAndTexture.gif)
+![](Documentation/ImportMeshAndTexture.gif)
 
 
 
