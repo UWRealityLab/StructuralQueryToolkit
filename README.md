@@ -123,7 +123,7 @@ To enter play mode, press the play button.
 
 Open the **_Model** folder and drag and drop your model's mesh and texture into it
 
-![](C:\Users\jacky\Documents\GitHub\StructuralQueryToolkit\Documentation\ImportMeshAndTexture.gif)
+![](Documentation\ImportMeshAndTexture.gif)
 
 
 
