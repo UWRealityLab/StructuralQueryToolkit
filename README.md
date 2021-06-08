@@ -60,7 +60,7 @@ Simply click the on the project folder and click "open."
 
 ## Setting up the scene
 
-![](Documentation\ProjectAssets.png)
+![ProjectAssets](Documentation\ProjectAssets.png)
 
 For this guide, you will only use these four folders:
 
