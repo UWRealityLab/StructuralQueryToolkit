@@ -1,3 +1,5 @@
+
+
 # Structural Geology Query Toolkit
 
 ## Overview
@@ -151,57 +153,123 @@ A **material** renders your model with its respective texture, but you will need
 
 ### Adding your model to your scene
 
-In your "project" window, simply drag your model's mesh into the "scene" window.
+In your "project" window, simply drag your model's mesh into the **hierarchy window**, where all the scene objects are located. We recommend placing your object into the **Environment** object, but that is optional.
 
-[TODO gif]
+![AddingModelToScene](Documentation/AddingModelToScene.gif)
 
-The model you placed will initially have its pivot point in the origin point, so you should reset its **transform** by zeroing its x/y/z positions
+You will now see your model in your scene. However, it is very likely that your model is incorrectly rotated and has an elevation offset in the y-axis. 
 
-[TODO gif]
+![Unrotated_Model](Documentation/Unrotated_Model.png)
+
+### Rotating your model 
+
+**NOTE:** the back side of your model will not be rendered. 
+
+For the majority of cases, you will need to rotate its X-axis by either 90 or -90 degrees. However, experiment with rotating it until it is upright and facing the correct direction. Remember that the blue axis is north.
 
 
+
+![Rotated_Model](Documentation/Rotated_Model.png)
+
+![Rotated_Model_Scene_Unshaded](Documentation/Rotated_Model_Scene_Unshaded.png)
+
+Note that currently, you have not applied your material to scene yet. 
+
+
+
+### Apply your material to your model
+
+1. Fully expand the model you added to your scene hierarchy. You should see an object called **default**. This is the object that contains the actual model data.
+2. Drag and drop your material to it
+
+![ApplyMaterial](Documentation/ApplyMaterial.gif)
+
+![Rotated_Model_Scene](Documentation/Rotated_Model_Scene.png)
 
 ### Change the tag of your model to "Terrain"
 
 To make your model interactable with our tools, you need to mark objects with the "Terrain" tag. Objects will also need a collider component. 
 
-[TODO gif]
+1. Select the **default** object that you imported into your scene. 
+2. Select the Tag dropdown and select "Terrain"
+
+![ChangeTag](Documentation/ChangeTag.gif)
 
 ### Add the "Mesh Collider" component to your model
 
 Adding a collider component to your model is needed to make it interactable as well, in addition to allow for collisions to work with the player. 
 
-[TODO gif]
+1. Click on the "Add Component" button for the "default" object
+2. Type in "mesh" or "mesh collider" and select the option called "Mesh Collider"
+
+![Adding_Mesh_Collider_1](Documentation/Adding_Mesh_Collider_1.png)
+
+
+
+![Adding_Mesh_Collider_2](Documentation/Adding_Mesh_Collider_2.png)
+
+Your object should look like this in the inspector.
+
+
 
 ### Moving the player object to the game's starting position
 
 Once the model's position is finished, move the player object to where you would like your users to start at.
 
-Note that the player's **blue axis** is their forward direction. 
-
 We recommend that you go into play mode to check that your new player location is suitable and doesn't have any issues, particularly that they do not clip through the ground and fall.
 
-[TODO]
+Here is a fast way of moving your player to your model:
+
+1. Select the **"Player"** object in your scene hierarchy view
+2. **IMPORTANT:** click on the scene tab to focus Unity editor on the scene view. You should notice that the scene tab now has a blue line on it, which indicates that it is focused
+3. Hold "v" on your keyboard and drag the player object to vertex snap anywhere on your model
+
+![Moving_Player](Documentation/Moving_Player.gif)
 
 
 
-## Optional Features
+**IMPORTANT:** Test your game by going into **play mode**. You may see yourself falling through your model. To mitigate this, recommend giving your player object an added offset of around 2 meters
 
-### (Optional) Changing your jetpack speed settings
+1. Select the "Player" object
+2. Increase its Y position by 2 meters
 
-
-
-### (Optional) Changing object scale
-
-Are your measurement tools showing objects that are too small?
+![Adding_Offset_To_Player](Documentation/Adding_Offset_To_Player.gif)
 
 
 
-### (Optional) Setting your model's altitude
+Congratulations!
 
-**Important:** this step is only relevant if you have visible GPS markers (i.e. specific spots where you know the elevation of) in your model.
+At this point, you should be able to walk around and take measurements on your model.
 
-Do you want to see the elevation of your measurements? If so, you will place one or more altitude marker objects in your scene.
+## Settings
+
+![Settings](Documentation/Settings.png)
+
+**Object Scale Multiplier:** changes the size of your measurement tool options
+
+**Jetpack Vertical Speed:** changes your vertical speed in jetpack mode
+
+**Jetpack Movement Speed:** changes how fast you pan in jetpack mode
+
+
+
+### Setting your model's elevation
+
+Do you want to see the elevation of your pole measurements? 
+
+By default, showing elevation data is turned off. To enable it, find the "**Settings**" object in the scene hierarchy, and enable **"Show Elevation Data"**
+
+![Enable Show Elevation](Documentation/EnableShowElevation.png)
+
+**IMPORTANT:** if your model was imported with an offset representing its elevation, then skip the rest of this section. You should be able to get accurate elevation results with your pole measurements.
+
+
+
+Using **altitude markers** is only relevant if:
+
+- Your model was not imported with an offset representing its elevation in meters
+
+- You have visible GPS markers (i.e. specific spots where you know the elevation of) in your model.
 
 **Note:** The Unity game engine uses the metric system, where one unit is one meter, so scale and translate your model accordingly.
 
@@ -219,11 +287,7 @@ After placing your altitude marker, specify its real-world elevation in meters.
 
 ![Altitude_Marker_Inspector](Documentation/Altitude_Marker_Inspector.png)
 
-**Note:** The **"Anchor Down"** button allows your altitude marker to fall down to the nearest object (that has a collider) in your scene. It is simply for convenience and is optional to use.
-
-By default, showing elevation data is turned off. To enable it, find the "**Settings**" object in the scene hierarchy, and enable "Show Elevation Data"
-
-![Enable Show Elevation](Documentation/EnableShowElevation.png)
+**Note:** The **"Anchor Down button** allows your altitude marker to fall down to the nearest object (that has a collider) in your scene. It is simply for convenience and is optional to use.
 
 
 
@@ -233,7 +297,7 @@ You should now see the elevation of your latest pole measurements.
 
 
 
-### (Optional) Enabling random sampling radius
+### Enabling random sampling radius
 
 To mitigate the effects of noise during your pole measurements, you can enable the sampling of multiple points around your clicks.
 
@@ -257,29 +321,51 @@ The "Gizmos" toggle in the top-right corner of your **game** tab (not the scene 
 
 
 
-### (Optional) Setting up your map view
+### Setting up your map view
 
 To select your map camera, expand the "Map View" object and select "Map View Camera"
 
-[TODO]
+![Map_View_Camera_Hierarchy](Documentation/Map_View_Camera_Hierarchy.png)
 
 
 
-In your scene view, move the this camera object
 
 
+By default, your camera renders orthographically. Move the this camera object and adjust its **size** field.
+
+![Moving_Map_View_Camera](Documentation/Moving_Map_View_Camera.gif)
+
+**Important:** Pay attention to the camera preview (in the bottom right corner of the scene view) to see how your map view will look like
+
+
+
+**Map View Settings**
+
+![Map_View](Documentation/Map_View.png)
+
+Adjust the **Dragging** and **Zooming** settings to best fit your scene. 
 
 
 
 ### (Optional) Using Popup UI Objects
 
+Inside the **_Toolkit Prefabs** folder, you will see two files called **Popup UI.*** 
 
+They can be used to put text and images into your scene. Drag any version of them into your scene.
+
+![Adding_Popup_UI](Documentation/Adding_Popup_UI.gif)
+
+**Editing the UI canvas**
+
+In your object hierarchy view, expand the object you just added. You should see a canvas that you can edit
+
+We recommend editing your canvas in **2D mode** in the scene view.
 
 **Adding hyperlinks to your text**
 
+In any objects in your scene that contain a TextMeshPro component, you can add another component to it called **Hyperlink**, this allows you to imbed links inside your TextMeshPro input. 
 
-
-
+![Hyperlink](Documentation/Hyperlink.png)
 
 
 
@@ -321,15 +407,13 @@ This is how your build settings should look. Build order is important for the ma
 
 Select "Build" to build your project. When asked for a directory, we recommend storing it in a separate and empty folder outside of the project. You will later need to compress this folder to share it.
 
-[TODO demonstration]
-
-
+To avoid any potential for your build failing due to file permissions, we recommend building to your desktop. 
 
 Note that building your project can be a slow process, taking several minutes. 
 
-## Running your build locally
+## Running your build locally (not recommended)
 
-Roughly speaking, due to browser security concerns, WebGL games must be executed through a web server. Running your project locally will result in the game not loading!  Creating your own server or changing your browser's settings can be tedious for yourself and others that you plan to share it with.
+Roughly speaking, due to browser security concerns, WebGL games must be executed through a web server. Running your project locally will result in the game not loading!  Hosting your own server or changing your browser's settings can be tedious for yourself and others that you plan to share it with.
 
 With that, the best way to share WebGL games is to upload it online and share it privately or publicly. 
 
@@ -344,15 +428,15 @@ Here is the itch.io [FAQ for uploaders](https://itch.io/docs/creators/faq#what-d
 
 Below is a screenshot of the access options you can pick between when uploading to itch.io.
 
-![itch_io_visibility](/Documentation/itch_io_visibility.png)
+![itch_io_visibility](Documentation/itch_io_visibility.png)
 
 To upload it, you will need to compress your build folder. 
 
-![CompressBuild](/Documentation/CompressBuild.png)
+![CompressBuild](Documentation/CompressBuild.png)
 
 Here are the publishing settings we used in itch.io for our Whaleback project:
 
-![CompressBuild](/Documentation/itch_io_publishing_settings.png)
+![CompressBuild](Documentation/itch_io_publishing_settings.png)
 
 
 
