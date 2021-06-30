@@ -24,7 +24,7 @@ You will also need to create an account and obtain a free personal license. Thes
 
 ### Adding a new Unity version
 
-After installing install Unity Hub, you will need to download an actual Unity editor to go with it. This project was last updated using Unity **2020.2.2**. We strongly recommend using the same version. 
+After installing install Unity Hub, you will need to download an actual Unity editor to go with it. This project was last updated using Unity **2020.3.12**. We strongly recommend using the same version. 
 
 Go to the [Unity Archive Site](https://unity3d.com/get-unity/download/archive) and select the "Unity Hub" option.
 
