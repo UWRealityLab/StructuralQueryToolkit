@@ -129,6 +129,10 @@ Open the **_Model** folder and drag and drop your model's mesh and texture into 
 
 
 
+
+
+
+
 ### Adjusting your texture's import settings
 
 Afterwards, click on your texture file and adjust its import settings. For reference, here is our import setting for our project's texture. The most important setting is **Max Size**, where you should set it to be equal or greater than your image's resolution. Values lower will reduce the fidelity of your texture, and any values higher will have no impact. We recommend simply selecting the largest value.
@@ -137,6 +141,31 @@ Afterwards, click on your texture file and adjust its import settings. For refer
 2. In the inspector (right side), be sure to set its max size field
 
 ![Texture_Import_Settings](Documentation/Texture_Import_Settings.png)
+
+
+
+
+
+### IMPORTANT: importing models with multiple textures
+
+If your model has multiple textures associated with it, then it's likely that it is an **obj** file. There should also be an **mtl** file associated with it as well. Drag everything into the Unity editor.
+
+<img src="Documentation/Adding_Obj_Mtl_Etc.gif" alt="Adding_Obj_Mtl_Etc"  />
+
+In addition, you will have to follow these steps to have the model rendered correctly
+
+1. In Unity, click on the model. If you don't which one to click on, then make sure its inspector settings match up with the image below
+2. In the inspector window, go to the **materials** **tab** and select **"Extract Materials..."** In the popup, just select the current folder
+   ![Extract_Materials](Documentation/Extract_Materials.png)
+3. Lots of **material** files will be added to the folder. Select them all before continuing to the next step
+   ![Selecting_Materials](Documentation/Selecting_Materials.gif)
+
+4. In the inspector window, convert them from lit materials to unlit. This prevents the in-world lighting from having any effect on how the model looks.
+   ![Switching_Materials_To_Unlit](Documentation/Switching_Materials_To_Unlit.gif)
+
+
+
+Afterwards, you can skip both the ["Creating your model's material"](https://github.com/UWRealityLab/StructuralQueryToolkit#adding-your-model-to-your-scene) and the  ["Apply your material to your model"](https://github.com/UWRealityLab/StructuralQueryToolkit#apply-your-material-to-your-model) steps (Note: these steps are not in sequential order).
 
 
 
