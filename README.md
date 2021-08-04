@@ -428,17 +428,41 @@ First, open the "Build Settings..." window
 
 ![Open Build Settings](Documentation/OpenBuildSettings.gif)
 
-This is how your build settings should look. Build order is important for the main menu to work!
+Your build list should have the main menu as the first entry (index 0), and any of your custom scene where your model resides should be in subsequent listings. If you do not see your scene name in the list, or if you intend to build your application with multiple scenes, then press the "**Add Open Scenes**" button while you have your scene open in the Unity editor. 
 
 ![Final build settings](Documentation/FinalBuildSettings.png)
 
 
 
-Select "Build" to build your project. When asked for a directory, we recommend storing it in a separate and empty folder outside of the project. You will later need to compress this folder to share it.
+Select "Build" to build your project. When asked for a directory, we recommend storing it in a separate and empty folder outside of the project. To avoid any potential for your build failing due to file permissions, we recommend building to your desktop.  
 
-To avoid any potential for your build failing due to file permissions, we recommend building to your desktop. 
+After it has finished building, you will later need to compress the folder in order to share it.
 
-Note that building your project can be a slow process, taking several minutes. 
+**Note:** building your project can be a slow process, taking several minutes. 
+
+
+
+## (optional) Building a game with multiple scenes
+
+If you have made multiple scenes to show off different models, then you will need to modify the main menu to give players the option to pick which scene to play.
+
+We have made a simple button prefab for you to drag and drop into the main menu in order 
+
+In the **_Toolkit Prefabs/Main Menu** folder, drag the **Scene Loader Button** inside the **Menu Canvas>Buttons Menu** object.
+
+![Adding_Scene_Loader_Button](Documentation/Adding_Scene_Loader_Button.gif)
+
+If placed correctly, you should see a new button in the main menu scene.
+
+![Added_New_Scene_Button](Documentation/Added_New_Scene_Button.png)
+
+After, drag and drop your scene file into the button's **Scene Loader Button** component.
+
+![Scene_Loader_Component](Documentation/Scene_Loader_Component.png)
+
+Lastly, be sure to change the button's text (expand the button to see its text object).
+
+**IMPORTANT:** mentioned in the previous step, you MUST have all of your scenes that you intend to build to be listed in the build settings. In other words, be sure to open your scenes, open the build settings (File > Build Settings...) and press the "**Add Open Scenes**" button. Make sure that the main menu scene is listed at the top. 
 
 ## Running your build locally (not recommended)
 
