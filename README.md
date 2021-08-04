@@ -1,12 +1,18 @@
 
 
-# Structural Geology Query Toolkit
+# Structural Geology Query Toolkit Instructions
 
-## Overview
+<img src="Documentation/Whaleback.png" alt="Whaleback" style="zoom: 25%;" />
+
+<img src="Documentation/Gastropod.png" alt="Gastropod" style="zoom: 25%;" />
 
 [TODO insert description of this project]
 
 This guide assumes you are a newcomer to the Unity game engine. 
+
+
+
+
 
 
 
