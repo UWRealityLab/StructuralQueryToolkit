@@ -2,9 +2,8 @@
 
 # Structural Geology Query Toolkit Instructions
 
-<img src="Documentation/Whaleback.png" alt="Whaleback" style="zoom: 25%;" />
-
-<img src="Documentation/Gastropod.png" alt="Gastropod" style="zoom: 25%;" />
+| <img src="Documentation/Whaleback.png" alt="Whaleback" style="zoom:25%;" /> | <img src="Documentation/Gastropod.png" alt="Gastropod" style="zoom: 25%;" /> |
+| :----------------------------------------------------------: | :----------------------------------------------------------: |
 
 [TODO insert description of this project]
 
