@@ -9,7 +9,7 @@
 | <img src="Documentation/Whaleback.png" alt="Whaleback" style="zoom:25%;" /> | <img src="Documentation/Gastropod.png" alt="Gastropod" style="zoom: 25%;" /> |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
 
-[TODO insert description of this project]
+Welcome to our workflow for generating a video-game-style virtual field experience in which you can interrogate outcrops with our structural-geology toolkit. Here we describe the step-by-step process of downloading the necessary software, setting up your geologic terrain model, and sharing the virtual field experience with the public.
 
 ### To learn how to build your own project, use the [wiki](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki)
 
