@@ -19,9 +19,9 @@ Welcome to our workflow for generating a video-game-style virtual field experien
 
 3. [Setting up the scene](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki/3.-Setting-up-the-scene)
 
-4. [Setting up the main menu](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki/4.-Setting-up-the-main-menu)
+4. [Setting up the main menu](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki/4.-Main-Menu-Template)
 
-5. [Settings](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki/5.-Settings)
+5. [Adjust Parameters](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki/5.-Adjust-Parameters)
 
 6. [Additional Features](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki/6.-Additional-Features)
 
@@ -29,14 +29,5 @@ Welcome to our workflow for generating a video-game-style virtual field experien
 
 8. [Running your build locally (not recommended)](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki/8.-Running-your-build-locally-(not-recommended))
 
-9. [Sharing your build](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki/8.-Sharing-your-build)
-
-   
-
-   [Give Feedback](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki/9.-Feedback)
-
-
-
-
-
-
+9. [Sharing your build](https://github.com/UWRealityLab/StructuralQueryToolkit/wiki/9.-Sharing-your-build)
+  
