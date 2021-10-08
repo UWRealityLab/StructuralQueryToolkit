@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: 826b0de5ebf8c4e45a2d77847b603641
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Work Sans
+  fontNames:
+  - Work Sans
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 91469b04a9e8e4ed5a0e8d8c9375220f, type: 3}
+  - {fileID: 12800000, guid: 520a6708c7c524eaa82538d6704cb333, type: 3}
+  - {fileID: 12800000, guid: 203f870a3c8b34ed1865b8405816b34a, type: 3}
+  - {fileID: 12800000, guid: 61ec783e6fac549b39335922303fc60f, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

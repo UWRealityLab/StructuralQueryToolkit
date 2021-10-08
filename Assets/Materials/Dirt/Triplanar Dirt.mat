@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Triplanar Dirt
+  m_Shader: {fileID: -6465566751694194690, guid: 8860cdab60fc0f8428d2b63e1087da37,
+    type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_7c3e740e436b4b1c8d38b14ddeeb313c:
+        m_Texture: {fileID: 2800000, guid: 4703c9ab0a600554bb101ce55f7b8a30, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_cc97dc99ee384d62a9e1a52353bfd49b:
+        m_Texture: {fileID: 2800000, guid: e06ab22f9d7f534488f9b969b7c0f07d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_1d1c378b0fe94cb98eea3302269fa998: -1.74
+    - Vector1_48f6eac613c749e5872e95328c9d7160: 1
+    - Vector1_4dcf132535f644f9a682d0a6d69e054c: 0.1
+    - Vector1_c35c2e44065a4519826cd3af1fa49d5d: 0.5
+    m_Colors:
+    - Color_d3a6efb271d048acbbe8214e4ae2f0bd: {r: 0.735849, g: 0.735849, b: 0.735849,
+        a: 0}
+  m_BuildTextureStacks: []
