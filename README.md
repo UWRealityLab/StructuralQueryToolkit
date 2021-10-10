@@ -1,6 +1,4 @@
 
-Hello
-
 # Structural Geology Query Toolkit Instructions
 
 ![](Documentation/pipeline_2.png)
