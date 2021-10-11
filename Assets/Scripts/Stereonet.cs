@@ -874,25 +874,14 @@ public class Stereonet : MonoBehaviour
         if (flagsList.Count != 0)
         {
             var materials = flagsList[0].GetComponent<Flag>().flagMeshRenderer.materials;
+            materials[1] = mat;
+
             foreach (var poleFlag in flagsList)
             {
                 poleFlag.GetComponent<Flag>().flagMeshRenderer.materials = materials;
             }
         }
         
-        /*
-        if (flagsList.Count != 0)
-        {
-            var materials = whalebackFlagsParent.GetChild(0).GetComponent<Flag>().flagMeshRenderer.materials;
-            materials[1] = mat;
-
-            for (int i = 0; i < whalebackFlagsParent.childCount; i++)
-            {
-                whalebackFlagsParent.GetChild(i).GetComponent<Flag>().flagMeshRenderer.materials = materials;
-            }
-        }
-        */
-
         // For the plane measurements
         foreach (var worldPlane in worldPlanes)
         {
