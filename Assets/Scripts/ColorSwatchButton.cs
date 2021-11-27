@@ -1,26 +1,21 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+[Serializable]
 public class ColorSwatchButton : MonoBehaviour
 {
-
-    private Color color;
-    [SerializeField] Material flagMaterial;
-    [SerializeField] Material twoPointPlaneMaterial;
+    public Color color;
 
     private void Start()
     {
         color = GetComponent<Image>().color;
     }
 
-    public void UpdateStereonetColor()
+    private void OnValidate()
     {
-        StereonetDashboard.singleton.selectedCard.GetComponent<StereonetCard>().SetColor(color);
-        StereonetsController.singleton.currStereonet.ChangeFlagsMaterial(flagMaterial, twoPointPlaneMaterial);
-
-        StereonetDashboard.singleton.CloseSwatch();
+        color = GetComponent<Image>().color;
     }
 }

@@ -56,27 +56,24 @@ public class PlanePlotting : PlayerTool
         MeasureButtonPlane.instance.SetColor(false);
         planeToolsWindow.SetActive(false);
         averageButtuon.SetActive(false);
-        PolePlotting.instance.stereonet.ClearUnfinishedPlanePoints();
+        StereonetsController.instance.currStereonet.ClearUnfinishedPlanePoints();
     }
 
     public override void Undo()
     {
-        StereonetsController.singleton.UndoPlane();
+        StereonetsController.instance.UndoPlane();
     }
 
     public override void UseTool(RaycastHit hit)
     {
-        var stereonet = PolePlotting.instance.stereonet;
+        var stereonet = StereonetsController.instance.currStereonet;
 
         flagPlantAudio.Play();
 
         Transform planePoint = Instantiate(planePointPrefab, hit.point, Quaternion.identity, stereonet.pointPlanesParent).transform;
         planePoint.localScale *= Settings.instance.ObjectScaleMultiplier;
         planePoint.up = hit.normal;
-
-        // TODO
-        planePoint.transform.GetComponent<MeshRenderer>().material = stereonet.flagMaterials[1];
-
+        
         if (measureMode == MeasureMode.TwoPoint)
         {
             // If the 2-point slider is active, it implies that the user hasn't confirmed the measurement yet
@@ -96,12 +93,12 @@ public class PlanePlotting : PlayerTool
     public void SetThreePointMeasurement()
     {
         measureMode = MeasureMode.ThreePoint;
-        PolePlotting.instance.stereonet.ClearUnfinishedPlanePoints();
+        StereonetsController.instance.currStereonet.ClearUnfinishedPlanePoints();
         PlaneTwoPointerSlider.instance.ConfirmMeasurement();
     }
     public void SetTwoPointMeasurement()
     {
         measureMode = MeasureMode.TwoPoint;
-        PolePlotting.instance.stereonet.ClearUnfinishedPlanePoints();
+        StereonetsController.instance.currStereonet.ClearUnfinishedPlanePoints();
     }
 }

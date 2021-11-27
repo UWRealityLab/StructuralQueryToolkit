@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using MathNet.Numerics;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -21,18 +22,30 @@ public class DragIcon : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
 
     public void OnDrag(PointerEventData eventData)
     {
-        WindowTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
+        var anchoredPosition = WindowTransform.anchoredPosition;
+        var pivot = WindowTransform.pivot;
+        var anchorMin = WindowTransform.anchorMin;
+        var anchorMax = WindowTransform.anchorMax;
+        var width = rectTransform.width;
+        var height = rectTransform.height;
         
-        WindowTransform.anchoredPosition = new Vector2(Mathf.Clamp(WindowTransform.anchoredPosition.x, 0, canvasRect.width - rectTransform.width), Mathf.Clamp(WindowTransform.anchoredPosition.y, 0, canvasRect.height - rectTransform.height));
+        anchoredPosition += eventData.delta / canvas.scaleFactor;
+        WindowTransform.anchoredPosition = anchoredPosition;
+        
+        WindowTransform.anchoredPosition = new Vector2(
+            Mathf.Clamp(anchoredPosition.x, -(canvasRect.width * anchorMin.x) + (width * pivot.x), (canvasRect.width * (1 - anchorMin.x) - (width * (1 - pivot.x)))), 
+            Mathf.Clamp(anchoredPosition.y, 0 + (height * pivot.y), canvasRect.height - (height * (1 - pivot.y))));
+        
+        
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Cursor.visible = false;
+        //Cursor.visible = false;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Cursor.visible = true;
+        //Cursor.visible = true;
     }
 }

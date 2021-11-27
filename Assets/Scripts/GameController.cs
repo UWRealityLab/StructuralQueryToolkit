@@ -74,11 +74,13 @@ public class GameController : MonoBehaviour
     public void SwitchToMapView(GameObject activity)
     {
         currActivity = activity;
+        activity.SetActive(true);
+        playerMapView.SetActive(true);
+
         playerCamera.SetActive(false);
         playerUI.SetActive(false);
-        playerMapView.SetActive(true);
         StereonetUI.SetActive(false);
-        activity.SetActive(true);
+   
         switchToMapViewEvent.Invoke();
         ToolManager.instance.DisableActiveTool();
     }
@@ -89,7 +91,6 @@ public class GameController : MonoBehaviour
         playerUI.SetActive(true);
         playerCamera.SetActive(true);
         StereonetUI.SetActive(true);
-        playerObj.SetActive(true);
         returnToFPSEvent.Invoke();
     }
 

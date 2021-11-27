@@ -20,22 +20,19 @@ public class StereonetUtils
             vector = -vector;
         }
 
+        trend = (Mathf.Atan2(vector.x, vector.z) * 180 / Mathf.PI);
+            
         if (vector.z < 0f)
         {
-            trend = (Mathf.Atan2(vector.x, vector.z) * 180 / Mathf.PI) + 180;
+             trend += 180;
         }
-        else
-        {
-            trend = (Mathf.Atan2(vector.x, vector.z) * 180 / Mathf.PI);
-        }
-
-        plunge = (Mathf.Asin(vector.y) * 180 / Mathf.PI);
-
         if (trend < 0f)
         {
             trend += 180;
         }
 
+        plunge = (Mathf.Asin(vector.y) * 180 / Mathf.PI);
+        
         strike = trend + 90;
         dip = 90 - plunge;
 

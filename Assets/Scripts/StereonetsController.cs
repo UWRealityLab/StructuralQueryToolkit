@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class StereonetsController : MonoBehaviour
 {
-    public static StereonetsController singleton;
+    public static StereonetsController instance;
     [SerializeField] Camera stereonetCamera;
     [SerializeField] GameObject stereonetPrefab;
     [SerializeField] Transform stereonetsListParent;
@@ -27,7 +27,7 @@ public class StereonetsController : MonoBehaviour
 
     private void Awake()
     {
-        singleton = this;
+        instance = this;
         stereonets = new List<Transform>();
         availableIDs = new bool[6];
     }
@@ -39,6 +39,7 @@ public class StereonetsController : MonoBehaviour
             currStereonet.Hide();
             //currStereonet.gameObject.SetActive(false);
         }
+        
         currStereonet = stereonets[index].GetComponent<Stereonet>();
         AssignStereonet(currStereonet);
         currStereonet.Show();
@@ -81,7 +82,7 @@ public class StereonetsController : MonoBehaviour
             //currStereonet.gameObject.SetActive(false);
             currStereonet.Hide();
         }
-        PolePlotting.instance.stereonet = stereonet;
+        PolePlotting.Instance.stereonet = stereonet;
         currStereonet = stereonet;
 
         
@@ -215,7 +216,7 @@ public class StereonetsController : MonoBehaviour
             Graphics.CopyTexture(stereonetPlot.mainTexture, stereonetTexture);
         }
 
-        StereonetDashboard.singleton.UpdateCard(stereonets.IndexOf(currStereonet.transform), currStereonet.GetNumPoints(), stereonetTexture);
+        StereonetDashboard.instance.UpdateCard(stereonets.IndexOf(currStereonet.transform), stereonetTexture);
     }
 
     public Stereonet GetStereonet(int index)

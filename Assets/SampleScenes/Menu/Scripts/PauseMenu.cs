@@ -6,7 +6,8 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class PauseMenu : MonoBehaviour
 {
-	private float m_TimeScaleRef = 1f;
+    public static PauseMenu instance;
+    private float m_TimeScaleRef = 1f;
     private float m_VolumeRef = 1f;
     private bool m_Paused;
 
@@ -15,6 +16,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
+        instance = this;
     }
 
     private void MenuOn ()
@@ -61,10 +63,10 @@ public class PauseMenu : MonoBehaviour
 
 
 #if !MOBILE_INPUT
-	void Update()
-	{
-		if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) && !StereonetDashboard.singleton.isActiveAndEnabled)
-		{
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) && !StereonetDashboard.instance.isActiveAndEnabled)
+        {
             OnMenuStatusChange();
         }
     }

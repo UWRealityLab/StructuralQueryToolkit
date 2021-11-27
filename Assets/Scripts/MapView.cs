@@ -27,6 +27,7 @@ public class MapView : MonoBehaviour
     
     private bool isInMapView = false;
 
+
     private void Awake()
     {
         instance = this;
@@ -41,18 +42,18 @@ public class MapView : MonoBehaviour
         playerSprite.localScale *= Settings.instance.ObjectScaleMultiplier;
         GameController.instance.switchToMapViewEvent.AddListener(() =>
         {
-            mapViewCamera.gameObject.SetActive(true);
-            mapViewCanvas.gameObject.SetActive(true);
+            mapViewCamera.enabled = true;
             GameController.CurrentCamera = mapViewCamera;
             isInMapView = true;
         });
         GameController.instance.returnToFPSEvent.AddListener(() =>
         {
-            mapViewCamera.gameObject.SetActive(false);
-            mapViewCanvas.gameObject.SetActive(false);
+            mapViewCamera.enabled = false;
             GameController.CurrentCamera = Camera.main;
             isInMapView = false;
         });
+        
+        gameObject.SetActive(false);
 
     }
 
@@ -60,7 +61,7 @@ public class MapView : MonoBehaviour
     {
         if (isInMapView)
         {
-            var isDragging = (Input.GetMouseButton(2)) || (!SketchTool.instance.isToggled && Input.GetMouseButton(0));
+            var isDragging = (Input.GetMouseButton(2)) || (SketchTool.instance && !SketchTool.instance.isToggled && Input.GetMouseButton(0));
             if (isDragging)
             {
                 // Dragging sensivity scales with how zoomed in the player is relative to the default zoom

@@ -17,14 +17,15 @@ public class DrawIfPropertyDrawer : PropertyDrawer
 
         // If true, then draw the property
         if (CheckCondition(property)) {
-            EditorGUI.PropertyField(position, property);
+            EditorGUI.PropertyField(position, property, label);
         } 
         // If the disabling type is read-only, then draw it as disabled instead
         else if (drawIfAttribute.disablingType == DrawIfAttribute.DisablingType.ReadOnly) {
             GUI.enabled = false;
-            EditorGUI.PropertyField(position, property);
+            EditorGUI.PropertyField(position, property, label);
             GUI.enabled = true;
         }
+
     }
 
     /// <summary>

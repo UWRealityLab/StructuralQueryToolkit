@@ -11,6 +11,19 @@ public class PolePlotting : PlayerTool
 {
     public static PolePlotting instance;
 
+    public static PolePlotting Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<PolePlotting>();
+            }
+
+            return instance;
+        }
+    }
+
     [HideInInspector] public Stereonet stereonet;
     
     [SerializeField] bool attachFlagsToObject = false;
@@ -63,7 +76,6 @@ public class PolePlotting : PlayerTool
         
         flag.up = hit.normal;
         var flagComponent = flag.transform.GetComponent<Flag>();
-        flagComponent.flagMeshRenderer.materials = StereonetsController.singleton.currStereonet.flagMaterials;
         flagComponent.stereonet = stereonet;
         
         // Was a valid spot to place a flag, so play audio
@@ -144,7 +156,7 @@ public class PolePlotting : PlayerTool
 
     public override void Undo()
     {
-        StereonetsController.singleton.UndoPole();
+        StereonetsController.instance.UndoPole();
     }
 
     public void ClearMeasurements()

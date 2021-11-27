@@ -57,8 +57,7 @@ public class Stereonet : MonoBehaviour
     [HideInInspector] public LinkedList<PiPlotLine> stereonetLinearPoints;
     private LinkedList<Transform> worldLinePoints; // In reality, this will only be 1 or 2 points 
     
-    public Material[] flagMaterials;
-    public Material twoPointPlaneMaterial; // For plane-plotting
+    public Color stereonetColor;
 
     [HideInInspector]
     public bool isPiPlotEnabled = false;
@@ -67,6 +66,8 @@ public class Stereonet : MonoBehaviour
 
     private void Awake()
     {
+        stereonetColor = new Color32(252, 141, 82, 255);
+        
         points = new LinkedList<Vector3>();
         normals = new LinkedList<Vector3>();
         poleElevations = new List<float>();
@@ -137,7 +138,6 @@ public class Stereonet : MonoBehaviour
         }
         finalPoint.gameObject.SetActive(true);
 
-
         List<Vector3> pointsList = new List<Vector3>();
 
         Vector3 sum = new Vector3(0.0f, 0.0f, 0.0f);
@@ -189,14 +189,14 @@ public class Stereonet : MonoBehaviour
             dir.z = det_z;
         }
         Vector3 normal = -dir.normalized;
-        StereonetsController.singleton.finalPlane.forward = normal;
+        StereonetsController.instance.finalPlane.forward = normal;
 
-        var finalPlane = StereonetsController.singleton.finalPlane;
-        var finalPlaneLeftCorner = StereonetsController.singleton.finalPlaneLeftCorner;
-        var finalPlaneRightCorner = StereonetsController.singleton.finalPlaneRightCorner;
+        var finalPlane = StereonetsController.instance.finalPlane;
+        var finalPlaneLeftCorner = StereonetsController.instance.finalPlaneLeftCorner;
+        var finalPlaneRightCorner = StereonetsController.instance.finalPlaneRightCorner;
         
         var isOverTurned = normal.y > 0f; 
-        finalPoint.position = StereonetsController.singleton.originTransform.position + (isOverTurned ? (-normal * 5f) : (normal * 5f));
+        finalPoint.position = StereonetsController.instance.originTransform.position + (isOverTurned ? (-normal * 5f) : (normal * 5f));
 
         int iters = 50;
         lineRenderer.positionCount = 0;
@@ -236,7 +236,7 @@ public class Stereonet : MonoBehaviour
 
             //Instantiate(specialPointPrefab, points[i], Quaternion.identity);
 
-            Debug.DrawLine(StereonetsController.singleton.originTransform.position, points[i], Color.blue, 3f);
+            Debug.DrawLine(StereonetsController.instance.originTransform.position, points[i], Color.blue, 3f);
         }
 
         return points;
@@ -250,7 +250,7 @@ public class Stereonet : MonoBehaviour
 
         var isOverturnedBedding = normal.y > 0f;
         var dirNormal = isOverturnedBedding ? normal : -normal;
-        var stereonetPointPosition = StereonetsController.singleton.originTransform.position - dirNormal * 4.9f;
+        var stereonetPointPosition = StereonetsController.instance.originTransform.position - dirNormal * 4.9f;
 
         if (latestPoint != null)
         {
@@ -278,7 +278,7 @@ public class Stereonet : MonoBehaviour
         var normal = flagUp;
         var isOverturnedBedding = normal.y > 0f;
         var dirNormal = isOverturnedBedding ? normal : -normal;
-        var stereonetPointPosition = StereonetsController.singleton.originTransform.position - dirNormal * 4.9f;
+        var stereonetPointPosition = StereonetsController.instance.originTransform.position - dirNormal * 4.9f;
 
         stereonetPoint.position = stereonetPointPosition;
 
@@ -297,7 +297,7 @@ public class Stereonet : MonoBehaviour
         
         var isOverturnedBedding = normal.y > 0f;
         var dirNormal = isOverturnedBedding ? normal : -normal;
-        var stereonetPointPosition = StereonetsController.singleton.originTransform.position - dirNormal * 4.9f;
+        var stereonetPointPosition = StereonetsController.instance.originTransform.position - dirNormal * 4.9f;
 
         if (latestPoint != null)
         {
@@ -323,6 +323,8 @@ public class Stereonet : MonoBehaviour
     {
         point.parent = pointPlanesParent;
         planePoints.AddFirst(point);
+        
+        point.transform.GetComponent<MeshRenderer>().material.SetColor("_Color", stereonetColor);
 
         if (planePoints.Count == 3)
         {
@@ -371,7 +373,7 @@ public class Stereonet : MonoBehaviour
                 planeMesh.triangles = new int[] { 0, 1, 2 };
             }
 
-            worldPlane.GetComponent<MeshRenderer>().material = flagMaterials[1];
+            worldPlane.GetComponent<MeshRenderer>().material.SetColor("_Color", stereonetColor);
             
             worldPlanes.AddFirst(worldPlane.transform);
             stereonetPlanes.AddFirst(piPlotPlane);
@@ -385,6 +387,8 @@ public class Stereonet : MonoBehaviour
     {
         point.parent = pointPlanesParent;
         planePoints.AddFirst(point);
+
+        point.transform.GetComponent<MeshRenderer>().material.SetColor("_Color", stereonetColor);
 
         if (planePoints.Count == 2)
         {
@@ -423,7 +427,7 @@ public class Stereonet : MonoBehaviour
             // Update slider
             PlaneTwoPointerSlider.instance.UpdateValues(worldPlane, piPlotPlane);
 
-            worldPlane.GetComponent<MeshRenderer>().material = twoPointPlaneMaterial;
+            worldPlane.GetComponent<MeshRenderer>().material.SetColor("_Color", stereonetColor);
 
             worldPlanes.AddFirst(worldPlaneParent.transform);
             stereonetPlanes.AddFirst(piPlotPlane);
@@ -478,6 +482,8 @@ public class Stereonet : MonoBehaviour
     {
         point.parent = stereonetLinearParent;
         worldLinePoints.AddFirst(point);
+        
+        point.transform.GetComponent<MeshRenderer>().material.SetColor("_Color", stereonetColor);
 
         if (worldLinePoints.Count == 2)
         {
@@ -495,7 +501,9 @@ public class Stereonet : MonoBehaviour
             var lineRenderer = lineGameObject.GetComponent<LineRenderer>();
             lineRenderer.widthMultiplier *= Settings.instance.ObjectScaleMultiplier;
             lineRenderer.SetPositions(new Vector3[] { a.position, b.position});
-            lineRenderer.material = flagMaterials[1];
+            //lineRenderer.startColor = stereonetColor;
+            //lineRenderer.endColor = stereonetColor;
+            lineRenderer.material.SetColor("_Color", stereonetColor);
 
             Vector3 normal = (a.position - b.position).normalized;
 
@@ -504,10 +512,10 @@ public class Stereonet : MonoBehaviour
 
             // Creating a point in the stereonet 
             RaycastHit hit;
-            if (!Physics.Raycast(StereonetsController.singleton.originTransform.position, -normal, out hit, 10f, ~stereonetLayer))
+            if (!Physics.Raycast(StereonetsController.instance.originTransform.position, -normal, out hit, 10f, ~stereonetLayer))
             {
                 // Second raycast and setting the prefab as unique
-                Physics.Raycast(StereonetsController.singleton.originTransform.position, normal, out hit, 10f, ~stereonetLayer);
+                Physics.Raycast(StereonetsController.instance.originTransform.position, normal, out hit, 10f, ~stereonetLayer);
             }
             stereonetPoint.transform.position = hit.point;
             stereonetPoint.SetData(-hit.normal);
@@ -576,11 +584,11 @@ public class Stereonet : MonoBehaviour
 
         // Creating a point in the stereonet 
         RaycastHit hit;
-        if (!Physics.Raycast(StereonetsController.singleton.originTransform.position, -combinedNormal, out hit, 10f, ~stereonetLayer))
+        if (!Physics.Raycast(StereonetsController.instance.originTransform.position, -combinedNormal, out hit, 10f, ~stereonetLayer))
         {
             Debug.Log("Pole does not contact the stereonet conventionally - flipping pole");
             // Second raycast and setting the prefab as unique
-            Physics.Raycast(StereonetsController.singleton.originTransform.position, combinedNormal, out hit, 10f, ~stereonetLayer);
+            Physics.Raycast(StereonetsController.instance.originTransform.position, combinedNormal, out hit, 10f, ~stereonetLayer);
         }
         stereonetPoint.transform.position = hit.point;
         stereonetPoint.SetData(-hit.normal);
@@ -802,7 +810,7 @@ public class Stereonet : MonoBehaviour
         // Bug fix: Since this can be called when switching cards in the dashboard, the finalPlane is actually not updated, so... call FitPlane()
         FitPlane();
 
-        Vector3 planeVector = StereonetsController.singleton.finalPlane.forward;
+        Vector3 planeVector = StereonetsController.instance.finalPlane.forward;
         StereonetUtils.CalculateTrendAndPlunge(planeVector, out data.avgPoleTrend, out data.avgPolePlunge);
 
         return data;
@@ -862,23 +870,20 @@ public class Stereonet : MonoBehaviour
     
     public void AddPoleFlag(Transform flag)
     {
+        flag.GetComponent<Flag>().flagMeshRenderer.materials[1].SetColor("_Color", stereonetColor);
         flagsList.Add(flag);
     }
     
-    public void ChangeFlagsMaterial(Material mat, Material twoPointPlaneMaterial)
+    public void ChangeFlagsMaterial(Color color)
     {
-        flagMaterials = new Material[] { flagMaterials[0], mat };
-        this.twoPointPlaneMaterial = twoPointPlaneMaterial;
+        stereonetColor = color;
 
         // For pole measurements
         if (flagsList.Count != 0)
         {
-            var materials = flagsList[0].GetComponent<Flag>().flagMeshRenderer.materials;
-            materials[1] = mat;
-
             foreach (var poleFlag in flagsList)
             {
-                poleFlag.GetComponent<Flag>().flagMeshRenderer.materials = materials;
+                poleFlag.GetComponent<Flag>().flagMeshRenderer.materials[1].SetColor("_Color", color);
             }
         }
         
@@ -892,7 +897,7 @@ public class Stereonet : MonoBehaviour
             var childPoints = worldPlane.GetComponentsInChildren<MeshRenderer>();
             foreach (var childPoint in childPoints)
             {
-                childPoint.material = mat;
+                childPoint.material.SetColor("_Color", color);;
             }
 
             var planeMeshRenderer = worldPlane.GetComponent<MeshRenderer>();
@@ -900,17 +905,17 @@ public class Stereonet : MonoBehaviour
             {
                 // This is a two-point plane
                 planeMeshRenderer = worldPlane.GetChild(0).GetComponent<MeshRenderer>();
-                planeMeshRenderer.material = twoPointPlaneMaterial;
+                planeMeshRenderer.material.SetColor("_Color", color);;
             }
             else
             {
                 // This is a three-point plane
-                planeMeshRenderer.material = mat;
+                planeMeshRenderer.material.SetColor("_Color", color);;
             }
         }
         foreach (var point in planePoints)
         {
-            point.GetComponent<MeshRenderer>().material = mat;
+            point.GetComponent<MeshRenderer>().material.SetColor("_Color", color);;
         }
         foreach (var steronetPlane in stereonetPlanes)
         {
@@ -921,7 +926,7 @@ public class Stereonet : MonoBehaviour
                     var meshes = combinedPlane.GetComponentsInChildren<MeshRenderer>();
                     foreach (var mesh in meshes)
                     {
-                        mesh.material = mat;
+                        mesh.material.SetColor("_Color", color);;
                     }
                 }
             }
@@ -930,18 +935,18 @@ public class Stereonet : MonoBehaviour
         // For line measurements
         foreach (var worldLine in worldLines)
         {
-            worldLine.GetComponent<LineRenderer>().material = mat;
+            worldLine.GetComponent<LineRenderer>().material.SetColor("_Color", color);;
 
             // Change colors of their children
             for (int i = 0; i < worldLine.childCount; i++)
             {
-                worldLine.GetChild(i).GetComponent<MeshRenderer>().material = mat;
+                worldLine.GetChild(i).GetComponent<MeshRenderer>().material.SetColor("_Color", color);;
             }
 
         }
         foreach (var worldLinearPoint in worldLinePoints)
         {
-            worldLinearPoint.GetComponent<MeshRenderer>().material = mat;
+            worldLinearPoint.GetComponent<MeshRenderer>().material.SetColor("_Color", color);;
         }
         foreach (var stereonetPoint in stereonetLinearPoints)
         {
@@ -951,11 +956,11 @@ public class Stereonet : MonoBehaviour
             {
                 foreach (var combinedLine in piPlotLine.combinedWorldLines)
                 {
-                    combinedLine.GetComponent<LineRenderer>().material = mat;
+                    combinedLine.GetComponent<LineRenderer>().material.SetColor("_Color", color);;
                     var meshes = combinedLine.GetComponentsInChildren<MeshRenderer>();
                     foreach (var mesh in meshes)
                     {
-                        mesh.material = mat;
+                        mesh.material.SetColor("_Color", color);;
                     }
                 }
             }

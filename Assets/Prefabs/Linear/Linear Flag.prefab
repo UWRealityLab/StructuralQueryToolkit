@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8124491317887016294}
   - component: {fileID: 6331954509982885013}
   m_Layer: 0
-  m_Name: Plane Flag
+  m_Name: Linear Flag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: dbb7bbcb3873147b897149791e3ccdec, type: 2}
+  - {fileID: 2100000, guid: 648a34d5951260648bf4193d31b3420c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

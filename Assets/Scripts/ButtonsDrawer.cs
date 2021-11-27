@@ -14,5 +14,10 @@ public class ButtonsDrawer : MonoBehaviour
         activeButton = button;
         button.Select();
     }
+
+    public Color GetActiveButtonColor()
+    {
+        return activeButton.GetColor();
+    }
     
 }

@@ -10,7 +10,7 @@ public class SceneLoaderButton : MonoBehaviour
     
     [SerializeField] private string sceneName;
     
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     public SceneAsset scene;
 
     private void OnValidate()
@@ -20,7 +20,7 @@ public class SceneLoaderButton : MonoBehaviour
             sceneName = scene.name;
         }
     }
-#endif
+    #endif
 
     
     public void PlayScene()

@@ -61,9 +61,9 @@ public class FirstPersonController : MonoBehaviour
 
     // Update is called once per frame
     private void Update()
-    {      
+    {
         RotateView();
-
+        
         if (!isGravityOn) {
             return;
         }
@@ -89,6 +89,7 @@ public class FirstPersonController : MonoBehaviour
         m_PreviouslyGrounded = m_CharacterController.isGrounded;
     }
 
+
     private void PlayLandingSound()
     {
         m_AudioSource.clip = m_LandSound;
@@ -104,7 +105,6 @@ public class FirstPersonController : MonoBehaviour
             NoGravityMove();
             return;
         }
-        
 
         float speed;
         GetInput(out speed);
@@ -274,15 +274,24 @@ public class FirstPersonController : MonoBehaviour
         }
     }
 
+
+    private float xRot;
+    private float yRot;
     private void RotateView()
     {
         if (Input.GetMouseButton(1))
         {
             m_MouseLook.LookRotation(transform, m_Camera.transform);
         }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            // Save xRot and yRot values
+            float yRot = CrossPlatformInputManager.GetAxis("Mouse X") * 5;
+            float xRot = CrossPlatformInputManager.GetAxis("Mouse Y") * 5;
+        }
         else
         {
-            m_MouseLook.LookRotationFixed(transform, m_Camera.transform, 0, 0);
+            m_MouseLook.LookRotationFixed(transform, m_Camera.transform, xRot, yRot);
         }
     }
 

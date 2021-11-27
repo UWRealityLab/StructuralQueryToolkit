@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 [ExecuteInEditMode]
 [ExecuteAlways]
-[RequireComponent(typeof(HorizontalLayoutGroup))]
 public class CustomToolsDrawer : MonoBehaviour
 {
     private static CustomToolsDrawer _instance;
@@ -26,8 +25,8 @@ public class CustomToolsDrawer : MonoBehaviour
         }
     }
 
-    private HorizontalLayoutGroup _LayoutGroup;
-    public HorizontalLayoutGroup LayoutGroup
+    private HorizontalOrVerticalLayoutGroup _LayoutGroup;
+    public HorizontalOrVerticalLayoutGroup LayoutGroup
     {
         set
         {
@@ -37,7 +36,7 @@ public class CustomToolsDrawer : MonoBehaviour
         {
             if (_LayoutGroup == null)
             {
-                return GetComponent<HorizontalLayoutGroup>();
+                return GetComponent<HorizontalOrVerticalLayoutGroup>();
             }
 
             return _LayoutGroup;
@@ -53,6 +52,8 @@ public class CustomToolsDrawer : MonoBehaviour
     {
         obj.SetParent(transform);
     }
+    
+    
 
     private void OnTransformChildrenChanged()
     {

@@ -127,7 +127,7 @@ LineRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
   m_Loop: 0
 --- !u!114 &943995621867131801
 MonoBehaviour:
@@ -141,9 +141,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9199a5de16a2494f852988fdc99cf7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCombined: 0
+  measurementName: 
   plane: {fileID: 943995622047283197}
+  strike: 0
+  dip: 0
   lineRenderer: {fileID: 943995621867131782}
-  isCombinedLine: 0
   leftCorner: {fileID: 943995622123159870}
   rightCorner: {fileID: 943995621910422843}
 --- !u!1 &943995621910422842
@@ -237,7 +240,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 87161ba9253c84605b0180c50d0f7f3d, type: 2}
+  - {fileID: 2100000, guid: 648a34d5951260648bf4193d31b3420c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
