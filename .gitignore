@@ -6,6 +6,11 @@
 [Ll]ogs/
 Assets/AssetStoreTools*
 
+[Uu]serSettings/
+.vs
+.vscode
+.idea
+
 # Visual Studio cache directory
 .vs/
 
