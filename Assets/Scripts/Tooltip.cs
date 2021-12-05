@@ -8,6 +8,9 @@ using UnityEngine.EventSystems;
 
 public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    
+    
+    
     [TextArea]
     public string HeaderText;
     [TextArea(4, 32)]
@@ -15,6 +18,12 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public Vector2 Offset;
 
     private Coroutine _ShowTooltipCo;
+    private RectTransform _rectTransform;
+
+    private void Start()
+    {
+        _rectTransform = GetComponent<RectTransform>();
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -31,7 +40,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
 
         _ShowTooltipCo = null;
-        TooltipSystem.Show(new Vector2(transform.position.x, transform.position.y) + Offset, HeaderText, DescriptionText);
+        TooltipSystem.Show(new Vector2(transform.position.x, transform.position.y), Offset, HeaderText, DescriptionText);
     }
 
     public void OnPointerExit(PointerEventData eventData)

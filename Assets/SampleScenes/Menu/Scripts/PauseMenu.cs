@@ -1,4 +1,5 @@
 using System;
+using StarterAssets;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,15 +7,17 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class PauseMenu : MonoBehaviour
 {
+    public static PauseMenu instance;
 	private float m_TimeScaleRef = 1f;
     private float m_VolumeRef = 1f;
     private bool m_Paused;
 
     [SerializeField] GameObject pauseCanvas;
-    [SerializeField] FirstPersonController playerController;
+    [SerializeField] FPSController playerController;
 
     private void Start()
     {
+        instance = this;
     }
 
     private void MenuOn ()
@@ -63,7 +66,7 @@ public class PauseMenu : MonoBehaviour
 #if !MOBILE_INPUT
 	void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) && !StereonetDashboard.singleton.isActiveAndEnabled)
+		if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P) && !StereonetDashboard.instance.isActiveAndEnabled)
 		{
             OnMenuStatusChange();
         }

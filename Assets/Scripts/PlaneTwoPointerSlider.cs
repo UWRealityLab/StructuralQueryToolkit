@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +32,15 @@ public class PlaneTwoPointerSlider : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        if (ToolManager.instance)
+        {
+            ToolManager.instance.undoEvent.RemoveListener(Hide);
+            ToolManager.instance.switchToolEvent.RemoveListener(Hide);
+        }
+    }
+
     public void UpdateValues(Transform worldPlane, PiPlotPlane piPlotPlane)
     {
         gameObject.SetActive(true);
@@ -55,7 +65,7 @@ public class PlaneTwoPointerSlider : MonoBehaviour
     {
         // This assumes that the 2-point measurement will be the latest measurement the player makes
         gameObject.SetActive(false);
-        StereonetsController.singleton.Undo();
+        StereonetsController.instance.Undo();
     }
 
     private void Hide()
@@ -74,5 +84,7 @@ public class PlaneTwoPointerSlider : MonoBehaviour
         //piPlotPlane.Rotate(piPlotPlane.up, deltaAngle);
         piPlotPlane.SetForward(plane.forward);
         LatestMeasurementUI.instance.SetPlaneMeasurementInformation(piPlotPlane.strike, piPlotPlane.dip);
+        
+        StereonetCamera.instance.cam.Render();
     }
 }

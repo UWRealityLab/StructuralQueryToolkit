@@ -8,14 +8,15 @@ public class SketchMeasurement : MonoBehaviour
 {
     public LineRenderer lineRenderer;
     
-    private MeshCollider MeshCollider;
-    private Mesh lineMesh;
+    private MeshCollider _meshCollider;
+    private Mesh _lineMesh;
 
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-        MeshCollider = GetComponent<MeshCollider>();
-        lineMesh = new Mesh();
+        _meshCollider = GetComponent<MeshCollider>();
+        _lineMesh = new Mesh();
+        _meshCollider.enabled = false;
     }
 
     public void AddPoint(Vector3 point, Vector3 normal)
@@ -36,7 +37,12 @@ public class SketchMeasurement : MonoBehaviour
     public void FinishLine(Camera currCamera)
     {
         //lineRenderer.Simplify(lineRenderer.startWidth / 2f);
-        lineRenderer.BakeMesh(lineMesh, currCamera, false);
-        MeshCollider.sharedMesh = lineMesh;
+        lineRenderer.BakeMesh(_lineMesh, currCamera, false);
+        _meshCollider.sharedMesh = _lineMesh;
+    }
+
+    public void SetColliderState(bool state)
+    {
+        _meshCollider.enabled = state;
     }
 }

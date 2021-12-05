@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 
-public class StereonetCard : MonoBehaviour
+public class StereonetCard : MonoBehaviour, IDashboardCard
 {
     [SerializeField] RawImage stereonetImage;
     [SerializeField] Image descriptionCardImage;
@@ -52,8 +52,6 @@ public class StereonetCard : MonoBehaviour
         editImage.enabled = true;
         colorImage.enabled = true;
         selectedIconImage.enabled = true;
-        
-        titleInputField.ActivateInputField();
     }
 
     public void Deselect()
@@ -67,6 +65,6 @@ public class StereonetCard : MonoBehaviour
 
     public void OpenColorSwatch()
     {
-        StereonetDashboard.singleton.OpenSwatch();
+        StereonetDashboard.instance.OpenSwatch();
     }
 }

@@ -36,7 +36,7 @@ public class PIPlotButton : MonoBehaviour
             isToggled = !isToggled;
 
             PolePlotting.instance.stereonet.SetLineRenderer(isToggled);
-            StereonetsController.singleton.currStereonet.isPiPlotEnabled = isToggled;
+            StereonetsController.instance.currStereonet.isPiPlotEnabled = isToggled;
 
             if (isToggled)
             {
@@ -46,6 +46,8 @@ public class PIPlotButton : MonoBehaviour
             {
                 image.color = offColor;
             }
+            
+            StereonetCamera.instance.cam.Render();
         }
     }
 

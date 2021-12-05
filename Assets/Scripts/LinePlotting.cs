@@ -42,7 +42,8 @@ public class LinePlotting : PlayerTool
     
     public override void Undo()
     {
-        StereonetsController.singleton.UndoLine();
+        StereonetsController.instance.UndoLine();
+        StereonetCamera.instance.cam.Render();
     }
 
 
@@ -54,9 +55,11 @@ public class LinePlotting : PlayerTool
 
         Transform linePoint = Instantiate(linePointPrefab, hit.point, Quaternion.identity, stereonet.pointPlanesParent).transform;
         linePoint.localScale *= Settings.instance.ObjectScaleMultiplier;
+        
         //linePoint.position += hit.normal * 0.1f;
         linePoint.up = hit.normal; // This is not needed if the linePointPrefab is just a sphere
-        linePoint.transform.GetComponent<MeshRenderer>().material = stereonet.flagMaterials[1];
         stereonet.AddLinePoint(linePoint);
+        
+        StereonetCamera.instance.cam.Render();
     }
 }

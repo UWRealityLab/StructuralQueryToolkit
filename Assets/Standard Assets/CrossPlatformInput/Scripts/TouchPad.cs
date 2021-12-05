@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -44,12 +45,11 @@ namespace UnityStandardAssets.CrossPlatformInput
 		Vector2 m_PreviousTouchPos; // swipe style control touch
 
 
-#if !UNITY_EDITOR
-    private Vector3 m_Center;
-    private Image m_Image;
-#else
+	    private Vector3 m_Center;
+	    private Image m_Image;
 		Vector3 m_PreviousMouse;
-#endif
+
+		[SerializeField] private Image cursorImage;
 
 		void OnEnable()
 		{
@@ -58,11 +58,10 @@ namespace UnityStandardAssets.CrossPlatformInput
         void Start()
         {
 			CreateVirtualAxes();
-#if !UNITY_EDITOR
             m_Image = GetComponent<Image>();
+            m_Image.alphaHitTestMinimumThreshold = 1f;
             m_Center = m_Image.transform.position;
-#endif
-		}
+        }
 
 		void CreateVirtualAxes()
 		{
@@ -130,6 +129,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 				Vector2 pointerDelta;
 				pointerDelta.x = Input.mousePosition.x - m_PreviousMouse.x;
 				pointerDelta.y = Input.mousePosition.y - m_PreviousMouse.y;
+				cursorImage.rectTransform.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 				m_PreviousMouse = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f);
 #endif
 				UpdateVirtualAxes(new Vector3(pointerDelta.x, pointerDelta.y, 0));
@@ -141,6 +141,7 @@ namespace UnityStandardAssets.CrossPlatformInput
 		{
 			m_Dragging = false;
 			m_Id = -1;
+			cursorImage.rectTransform.anchoredPosition = Vector3.zero;
 			UpdateVirtualAxes(Vector3.zero);
 		}
 

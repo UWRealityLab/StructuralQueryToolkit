@@ -16,7 +16,7 @@ public class ActivityNode : MonoBehaviour
         // Compass activity must be turned off
         // No UI elements can be pressed
         // Dashboard must be off
-        if (!StereonetDashboard.singleton.gameObject.activeSelf) { 
+        if (!StereonetDashboard.instance.gameObject.activeSelf) { 
             source.PlayOneShot(sound);
 
             //activity.SetActive(true);

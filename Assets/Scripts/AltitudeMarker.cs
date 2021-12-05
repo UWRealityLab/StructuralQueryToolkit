@@ -12,75 +12,41 @@ public class AltitudeMarker : MonoBehaviour
     public float elevation = 0f;
 
     // Apparently, you cannot access transform during OnValidate(), so we'll copy the position
-    [HideInInspector] public Vector3 pos;
+    [HideInInspector] public float yPos;
 
-    private bool isDirty = false;
-
-    private static bool hasUpdatedSettings = false;
-    
     private void Awake()
     {
-        pos = transform.position;
+        yPos = transform.position.y;
     }
 
     private void Start()
     {
-        pos = transform.position;
-        UpdateAltitudeBias();
         Destroy(gameObject);
-    }
-
-    private void Update()
-    {
-        if (transform.hasChanged && isDirty)
-        {
-            transform.hasChanged = false;
-            pos = transform.position; 
-            UpdateAltitudeBias();
-        }
-    }
-
-    private void LateUpdate()
-    {
-        pos = transform.position;
-        UpdateAltitudeBias();
-        Destroy(gameObject);
-    }
-
-    private void OnValidate()
-    {
-        isDirty = true;
-        //UpdateAltitudeBias();
     }
 
     public static void UpdateAltitudeBias()
     {
-        if (hasUpdatedSettings)
-        {
-            return;
-        }
-
-        hasUpdatedSettings = true;
-        
         var avgAltitude = 0f;
         
-        var altitudeMarkers = FindObjectsOfType<AltitudeMarker>(true);
+        var altitudeMarkers = FindObjectsOfType<AltitudeMarker>(false);
+        var settings = FindObjectOfType<Settings>().GetComponent<Settings>();
+
+        if (altitudeMarkers.Length == 0)
+        {
+            settings.elevationBias = 0f;
+            return;
+        }
+        
         foreach (var currAltitudeMarker in altitudeMarkers)
         {
-            avgAltitude += currAltitudeMarker.elevation - currAltitudeMarker.pos.y;
+            avgAltitude += currAltitudeMarker.elevation - currAltitudeMarker.yPos;
         }
         
         avgAltitude /= altitudeMarkers.Length;
         
-        var settings = FindObjectOfType<Settings>().GetComponent<Settings>();
         settings.elevationBias = avgAltitude;
         
         //print($"Altitude Bias: {avgAltitude}");
-    }
-
-    private void OnDrawGizmos()
-    {
-        //Gizmos.DrawWireSphere(transform.position, 0.25f);
     }
 }
 

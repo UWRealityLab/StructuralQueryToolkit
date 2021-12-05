@@ -7,11 +7,13 @@ using TMPro;
 public class RulerMeasurement : MonoBehaviour
 {
     public LineRenderer lineRenderer;
+    public Transform textTransform;
     public TextMeshProUGUI text;
 
     private float length;
 
     private Stack<Transform> rulerPoints;
+    private static readonly int colorID = Shader.PropertyToID("Color");
 
 
     // Start is called before the first frame update
@@ -19,7 +21,7 @@ public class RulerMeasurement : MonoBehaviour
     {
         text.isOverlay = true;
         length = 0;
-        text.text = "0m";
+        text.text = "";
         rulerPoints = new Stack<Transform>();
     }
 
@@ -32,16 +34,16 @@ public class RulerMeasurement : MonoBehaviour
     {
         Transform rulerPoint = Instantiate(RulerPlotting.instance.rulerPointPrefab, point, Quaternion.identity).transform;
         rulerPoint.localScale *= Settings.instance.ObjectScaleMultiplier;
-        rulerPoint.position += normal * 0.1f;
         rulerPoint.up = normal;
-        rulerPoints.Push(rulerPoint);
 
-        float distanceAdded = 0;
+        var distanceAdded = 0f;
         if (lineRenderer.positionCount > 0)
         {
-            var secondToLastPoint = lineRenderer.GetPosition(lineRenderer.positionCount - 1);
+            var secondToLastPoint = rulerPoints.Peek().position;
             distanceAdded = Vector3.Distance(secondToLastPoint, rulerPoint.position);
         }
+        
+        rulerPoints.Push(rulerPoint);
 
         lineRenderer.positionCount++;
         lineRenderer.SetPosition(lineRenderer.positionCount - 1, rulerPoint.position);
@@ -61,7 +63,7 @@ public class RulerMeasurement : MonoBehaviour
         else if (lineRenderer.positionCount == 1)
         {
             length = 0;
-            text.text = "0 m";
+            text.text = "";
             UpdateTextPositionLast();
         }
         else
@@ -87,6 +89,7 @@ public class RulerMeasurement : MonoBehaviour
         {
             centroid += lineRenderer.GetPosition(i);
         }
+
         centroid /= lineRenderer.positionCount;
 
         text.transform.position = centroid;
@@ -98,7 +101,7 @@ public class RulerMeasurement : MonoBehaviour
     /// <returns></returns>
     private void UpdateTextPositionLast()
     {
-        text.transform.position = lineRenderer.GetPosition(lineRenderer.positionCount - 1);
+        textTransform.position = lineRenderer.GetPosition(lineRenderer.positionCount - 1);
     }
 
     private void AddLength(float len)
@@ -122,4 +125,59 @@ public class RulerMeasurement : MonoBehaviour
     {
         text.fontSize = size;
     }
+
+    public int GetNumPoints()
+    {
+        return rulerPoints.Count;
+    }
+
+    public Vector3 GetLatestPoint()
+    {
+        return rulerPoints.Peek().position;
+    }
+
+    public void SetColor(Color color)
+    {
+        lineRenderer.startColor = color;
+        lineRenderer.endColor = color;
+
+        foreach (var point in rulerPoints)
+        {
+            point.GetComponent<MeshRenderer>().material.SetColor(colorID, color);
+        }
+
+        text.color = color;
+    }
+    
+    public void Destroy()
+    {
+        foreach (var point in rulerPoints)
+        {
+            GameObject.Destroy(point.gameObject);
+        }
+        Destroy(gameObject);
+    }
+
+    public void SetVisibilityState(bool state)
+    {
+        if (state)
+        {
+            foreach (var point in rulerPoints)
+            {
+                point.gameObject.SetActive(true);
+            }
+
+            lineRenderer.enabled = true;
+        }
+        else
+        {
+            foreach (var point in rulerPoints)
+            {
+                point.gameObject.SetActive(false);
+            }
+
+            lineRenderer.enabled = false;
+        }
+    }
+
 }

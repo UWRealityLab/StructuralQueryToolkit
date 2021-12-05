@@ -17,8 +17,6 @@ public class SketchTool : PlayerTool
 
     private Color CurrLineColor = new Color(0.3f, 0.3f, 0.3f);
 
-    [SerializeField] private GameObject optionsWindow;
-    
     [SerializeField] GameObject linePrefab;
     [SerializeField] Slider thicknessSlider;
     
@@ -38,8 +36,10 @@ public class SketchTool : PlayerTool
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        
         instance = this;
         lines = new LinkedList<SketchMeasurement>();
         
@@ -50,24 +50,6 @@ public class SketchTool : PlayerTool
             SetLineThickness(thicknessSlider);
             thicknessSliderText.text = $"{DefaultLineThickness:0.###}m";
         });
-    }
-
-    public override void Toggle()
-    {
-        base.Toggle();
-        optionsWindow.SetActive(isToggled);
-    }
-
-    public override void Enable()
-    {
-        base.Enable();
-        optionsWindow.SetActive(true);
-    }
-
-    public override void Disable()
-    {
-        base.Disable();
-        optionsWindow.SetActive(false);
     }
 
     public override void UseTool(RaycastHit hit)
@@ -188,10 +170,18 @@ public class SketchTool : PlayerTool
         if (drawMode == DrawMode.Erasing)
         {
             drawMode = DrawMode.Drawing;
+            foreach (var line in lines)
+            {
+                line.SetColliderState(false);
+            }
         }
         else
         {
             drawMode = DrawMode.Erasing;
+            foreach (var line in lines)
+            {
+                line.SetColliderState(true);
+            }
         }
     }
 

@@ -46,8 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 2715264475914866712}
-  FPSLineThickness: 0
-  MapThickness: 0
 --- !u!120 &2715264475914866712
 LineRenderer:
   m_ObjectHideFlags: 0

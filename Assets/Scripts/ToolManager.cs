@@ -9,6 +9,9 @@ using UnityEditor.Experimental.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
@@ -69,10 +72,34 @@ public abstract class PlayerTool : MonoBehaviour
     #endregion
     
     #region UI
-    [Header("User Interface")]
+
+    [Header("User Interface")] 
+    [SerializeField] private bool hideOnMapMode = true;
+    [SerializeField, Tooltip("Enable this if the tool's UI overlaps with the stereonet UI")] public bool BlocksStereonetUI = false;
     [SerializeField] private ChangeColorButton ToolButton;
+    
+    /// <summary>
+    /// List of objects that will turn on and off depending on this tool's active state
+    /// </summary>
     public List<GameObject> UserInterfaceObjects;
+
     #endregion
+
+    protected virtual void Start()
+    {
+        if (GameController.instance && hideOnMapMode)
+        {
+            GameController.instance.switchToMapViewEvent.AddListener(() =>
+            {
+                enabled = false;
+            });
+            
+            GameController.instance.returnToFPSEvent.AddListener(() =>
+            {
+                enabled = true;
+            });
+        }
+    }
 
 
     public virtual void Enable()
@@ -84,25 +111,6 @@ public abstract class PlayerTool : MonoBehaviour
         {
             ToolButton.SetButtonState(true);
         }
-    }
-    
-    public virtual void Disable() 
-    {
-        isToggled = false;
-        if (ToolButton)
-        {
-            ToolButton.SetButtonState(false);
-        }
-    }
-
-    private void OnEnable()
-    {
-        #if UNITY_EDITOR
-        if (PrefabUtility.IsPartOfPrefabInstance(gameObject))
-        {
-            PrefabUtility.UnpackPrefabInstance(gameObject, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
-        }
-        #endif
         
         if (UserInterfaceObjects != null)
         {
@@ -115,11 +123,20 @@ public abstract class PlayerTool : MonoBehaviour
             }
         }
 
-        MoveButtonToCustomToolDrawer();
+        if (BlocksStereonetUI)
+        {
+            StereonetPlayerUIController.instance.HideStereonetUI();
+        }
     }
-
-    private void OnDisable()
+    
+    public virtual void Disable() 
     {
+        isToggled = false;
+        if (ToolButton)
+        {
+            ToolButton.SetButtonState(false);
+        }
+        
         if (UserInterfaceObjects != null)
         {
             foreach (var obj in UserInterfaceObjects)
@@ -132,6 +149,33 @@ public abstract class PlayerTool : MonoBehaviour
         }
     }
 
+    private void OnValidate()
+    {
+        #if UNITY_EDITOR
+        if (PrefabUtility.IsPartOfPrefabInstance(gameObject))
+        {
+            PrefabUtility.UnpackPrefabInstance(gameObject, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
+            MoveButtonToCustomToolDrawer();
+        }
+        #endif
+    }
+
+    private void OnEnable()
+    {
+        if (ToolButton)
+        {
+            ToolButton.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (ToolButton)
+        {
+            ToolButton.gameObject.SetActive(false);
+        }
+    }
+
     private void OnDestroy()
     {
         if (UserInterfaceObjects != null)
@@ -141,33 +185,62 @@ public abstract class PlayerTool : MonoBehaviour
                 DestroyImmediate(obj);
             }
         }
+
+        if (ToolButton)
+        {
+            DestroyImmediate(ToolButton.gameObject);
+        }
+    }
+
+    private const int LEFT_MOUSE_POINTER = -1;
+
+    protected bool CannotUseTool()
+    {
+#if UNITY_EDITOR
+        if (!Application.isPlaying)
+        {
+            return true;
+        }
+#endif
+        var eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        var uiObjects = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, uiObjects);
+        
+        //print(EventSystem.current.IsPointerOverGameObject(LEFT_MOUSE_POINTER) + " " + EventSystem.current.IsPointerOverGameObject(0) + " " + EventSystem.current.IsPointerOverGameObject(1) + " " + EventSystem.current.IsPointerOverGameObject(2));
+        
+        return !isToggled || Input.touchCount >= 2 || EventSystem.current.IsPointerOverGameObject(LEFT_MOUSE_POINTER) || uiObjects.Count > 0 || EventSystem.current.IsPointerOverGameObject(1) || EventSystem.current.IsPointerOverGameObject(0);
     }
 
     public void CheckCanUseTool()
     {
-        if (!isToggled)
+        #if UNITY_EDITOR
+        if (!Application.isPlaying)
+        {
+            return;
+        }
+        #endif
+        
+        if (CannotUseTool())
         {
             return;
         }
 
         // Pointer clicks to invoke tool
-        if (Input.touchCount < 2 && !EventSystem.current.IsPointerOverGameObject(-1))
+        if (leftMouseClickMode == MouseClickMode.Held && Input.GetMouseButton(0) ||
+            leftMouseClickMode == MouseClickMode.ClickDown && Input.GetMouseButtonDown(0) ||
+            leftMouseClickMode == MouseClickMode.ClickUp && Input.GetMouseButtonUp(0) ||
+            (leftMouseClickMode == MouseClickMode.ClickDownAndUp && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0))))
         {
-            if (leftMouseClickMode == MouseClickMode.Held && Input.GetMouseButton(0) ||
-                leftMouseClickMode == MouseClickMode.ClickDown && Input.GetMouseButtonDown(0) ||
-                leftMouseClickMode == MouseClickMode.ClickUp && Input.GetMouseButtonUp(0) ||
-                (leftMouseClickMode == MouseClickMode.ClickDownAndUp && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0))))
-            {
-                UseTool();
-            }
+            UseTool();
+        }
 
-            if (rightMouseClickMode == MouseClickMode.Held && Input.GetMouseButton(0) ||
-                rightMouseClickMode == MouseClickMode.ClickDown && Input.GetMouseButtonDown(0) ||
-                rightMouseClickMode == MouseClickMode.ClickUp && Input.GetMouseButtonUp(0) ||
-                (rightMouseClickMode == MouseClickMode.ClickDownAndUp && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0))))
-            {
-                UseTool();
-            }
+        if (rightMouseClickMode == MouseClickMode.Held && Input.GetMouseButton(0) ||
+            rightMouseClickMode == MouseClickMode.ClickDown && Input.GetMouseButtonDown(0) ||
+            rightMouseClickMode == MouseClickMode.ClickUp && Input.GetMouseButtonUp(0) ||
+            (rightMouseClickMode == MouseClickMode.ClickDownAndUp && (Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(0))))
+        {
+            UseTool();
         }
         
         // Key presses to invoke tool
@@ -232,10 +305,7 @@ public abstract class PlayerTool : MonoBehaviour
 
     public abstract void UseTool(RaycastHit hit);
 
-    public virtual void OnInvalidHit()
-    {
-        
-    }
+    public virtual void OnInvalidHit() {}
 
     public abstract void Undo();
 
@@ -253,15 +323,17 @@ public abstract class PlayerTool : MonoBehaviour
     private void MoveButtonToCustomToolDrawer()
     {
         #if UNITY_EDITOR
-        if (Application.isPlaying)
+        
+        if (ToolButton)
         {
-            // No point in running this if we are in playmode
-            return;
+            ToolButton.gameObject.SetActive(true);
         }
+        
         var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
         if (prefabStage != null)
         {
             // If prefab stage is not null, then we are in prefab edit mode, so we do NOT want to move the button yet
+            //Debug.Log("In prefab mode -- not moving button to drawer");
             return;
         }
         
@@ -272,48 +344,18 @@ public abstract class PlayerTool : MonoBehaviour
         }
         else
         {
+            //Debug.LogError("Did not find button in tool prefab");
             return;
         }
 
         if (ToolButton.transform.IsChildOf(transform))
         {
-            if (!UserInterfaceObjects.Contains(ToolButton.gameObject))
-            {
-                UserInterfaceObjects.Add(ToolButton.gameObject);
-            }
             CustomToolsDrawer.Instance.AddObjectToDrawer(ToolButton.transform);
         }
         #endif
     }
 
 }
-#if UNITY_EDITOR
-[CustomEditor(typeof(PlayerTool), true)]
-[CanEditMultipleObjects]
-public class PlayerToolEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        DrawDefaultInspector();
-        
-        /*
-        var tool = (PlayerTool) target;
-
-        GUILayout.Space(20);
-        if (GUILayout.Button("Remove Tool"))
-        {
-            var userInterfaceObjects = tool.UserInterfaceObjects;
-
-            foreach (var obj in userInterfaceObjects)
-            {
-                Destroy(obj);
-            }
-        }
-    */
-    }
-}
-#endif    
-
 
 public class ToolManager : MonoBehaviour
 {
@@ -350,12 +392,17 @@ public class ToolManager : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR
+        if (!Application.isPlaying)
+        {
+            return;
+        }
+#endif
         if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)))
         {
             // Undo
             if (activeTool != null)
             {
-                //StereonetsController.singleton.Undo();
                 Undo();
             }
         }
@@ -385,7 +432,6 @@ public class ToolManager : MonoBehaviour
         if (activeTool.Equals(tool))
         {
             tool.Disable();
-            activeTool = null;
         }
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         activeCursor = null;

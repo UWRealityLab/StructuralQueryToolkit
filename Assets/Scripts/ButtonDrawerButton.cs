@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,12 @@ public class ButtonDrawerButton : MonoBehaviour
 {
     public Image SelectedIcon;
 
+    [SerializeField] private Color color;
+
+    public Color GetColor()
+    {
+        return color;
+    }
 
     public void Select()
     {

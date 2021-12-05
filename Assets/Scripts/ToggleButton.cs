@@ -14,7 +14,7 @@ public class ToggleButton : MonoBehaviour
     private Image img;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         img = GetComponent<Image>();
     }
@@ -25,5 +25,14 @@ public class ToggleButton : MonoBehaviour
         img.sprite = isToggled ? toggledImage : unToggledImaged;
     }
 
+    public void SetState(bool state)
+    {
+        isToggled = state;
+        img.sprite = isToggled ? toggledImage : unToggledImaged;
+    }
 
+    public bool GetState()
+    {
+        return isToggled;
+    }
 }

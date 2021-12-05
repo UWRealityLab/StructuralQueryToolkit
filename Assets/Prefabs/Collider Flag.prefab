@@ -60,8 +60,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 180fad9661ad44db09fe141b18e79777, type: 2}
-  - {fileID: 2100000, guid: 7ddf2753c011540948f2c57dc0595f38, type: 2}
+  - {fileID: 2100000, guid: 70a5cbb9acdbf4c2987ab45bf62f2e62, type: 2}
+  - {fileID: 2100000, guid: 648a34d5951260648bf4193d31b3420c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -141,3 +141,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flagMeshRenderer: {fileID: 4447851415671997064}
+  stereonet: {fileID: 0}
+  stereonetPoint: {fileID: 0}
