@@ -46,6 +46,8 @@ public class PIPlotButton : MonoBehaviour
             {
                 image.color = offColor;
             }
+            
+            StereonetCamera.instance.cam.Render();
         }
     }
 

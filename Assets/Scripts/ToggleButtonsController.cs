@@ -25,4 +25,9 @@ public class ToggleButtonsController : MonoBehaviour
         animator.SetBool(toggleParamName, savedParamState);
     }
 
+    public bool GetState()
+    {
+        return savedParamState;
+    }
+
 }

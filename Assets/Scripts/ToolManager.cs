@@ -9,6 +9,9 @@ using UnityEditor.Experimental.SceneManagement;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 [ExecuteInEditMode]
@@ -72,6 +75,7 @@ public abstract class PlayerTool : MonoBehaviour
 
     [Header("User Interface")] 
     [SerializeField] private bool hideOnMapMode = true;
+    [SerializeField, Tooltip("Enable this if the tool's UI overlaps with the stereonet UI")] public bool BlocksStereonetUI = false;
     [SerializeField] private ChangeColorButton ToolButton;
     
     /// <summary>
@@ -117,6 +121,11 @@ public abstract class PlayerTool : MonoBehaviour
                     obj.SetActive(true);
                 }
             }
+        }
+
+        if (BlocksStereonetUI)
+        {
+            StereonetPlayerUIController.instance.HideStereonetUI();
         }
     }
     
@@ -183,9 +192,36 @@ public abstract class PlayerTool : MonoBehaviour
         }
     }
 
+    private const int LEFT_MOUSE_POINTER = -1;
+
+    protected bool CannotUseTool()
+    {
+#if UNITY_EDITOR
+        if (!Application.isPlaying)
+        {
+            return true;
+        }
+#endif
+        var eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        var uiObjects = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, uiObjects);
+        
+        //print(EventSystem.current.IsPointerOverGameObject(LEFT_MOUSE_POINTER) + " " + EventSystem.current.IsPointerOverGameObject(0) + " " + EventSystem.current.IsPointerOverGameObject(1) + " " + EventSystem.current.IsPointerOverGameObject(2));
+        
+        return !isToggled || Input.touchCount >= 2 || EventSystem.current.IsPointerOverGameObject(LEFT_MOUSE_POINTER) || uiObjects.Count > 0 || EventSystem.current.IsPointerOverGameObject(1) || EventSystem.current.IsPointerOverGameObject(0);
+    }
+
     public void CheckCanUseTool()
     {
-        if (!isToggled || Input.touchCount >= 2 || EventSystem.current.IsPointerOverGameObject(-1))
+        #if UNITY_EDITOR
+        if (!Application.isPlaying)
+        {
+            return;
+        }
+        #endif
+        
+        if (CannotUseTool())
         {
             return;
         }
@@ -356,6 +392,12 @@ public class ToolManager : MonoBehaviour
 
     private void Update()
     {
+#if UNITY_EDITOR
+        if (!Application.isPlaying)
+        {
+            return;
+        }
+#endif
         if (Input.GetKeyDown(KeyCode.Z) && (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftCommand)))
         {
             // Undo

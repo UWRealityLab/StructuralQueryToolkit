@@ -213,7 +213,7 @@ public class TopographicProfileMeasurement : MonoBehaviour
         maxX = float.MinValue;
 
         var scaling = Mathf.Max(TotalDistance, Mathf.Abs(MaxHeight - MinHeight));
-        var aspectRatio = graphDimensions.x / graphDimensions.y; // The X and Y axis need to be 1:1
+        var aspectRatio = Mathf.Max(1f, graphDimensions.x / graphDimensions.y); // The X and Y axis need to be 1:1
         
         var i = 0;
         foreach (var graphPoint in graphPoints)

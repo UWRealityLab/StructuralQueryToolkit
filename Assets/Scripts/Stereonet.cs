@@ -594,6 +594,8 @@ public class Stereonet : MonoBehaviour
         stereonetPoint.SetData(-hit.normal);
         stereonetLinearPoints.AddFirst(stereonetPoint);
         numCombinedLines++;
+        
+        StereonetCamera.instance.cam.Render();
     }
 
     private int numCombinedPlanes = 0;
@@ -633,6 +635,8 @@ public class Stereonet : MonoBehaviour
         piPlotPlane.SetForward(combinedNormal);
         stereonetPlanes.AddFirst(piPlotPlane);
         numCombinedPlanes++;
+        
+        StereonetCamera.instance.cam.Render();
     }
 
     

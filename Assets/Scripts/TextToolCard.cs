@@ -48,8 +48,6 @@ public class TextToolCard : MonoBehaviour, IDashboardCard
     {
         deleteIcon.enabled = true;
         SelectedIndicatorIcon.SetState(true);
-        
-        titleInputField.ActivateInputField();
     }
     
     public void Deselect()

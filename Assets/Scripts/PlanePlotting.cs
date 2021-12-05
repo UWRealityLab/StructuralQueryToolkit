@@ -62,6 +62,7 @@ public class PlanePlotting : PlayerTool
     public override void Undo()
     {
         StereonetsController.instance.UndoPlane();
+        StereonetCamera.instance.cam.Render();
     }
 
     public override void UseTool(RaycastHit hit)
@@ -88,6 +89,8 @@ public class PlanePlotting : PlayerTool
         {
             stereonet.AddPlanePointThreePoint(planePoint);
         }
+        
+        StereonetCamera.instance.cam.Render();
     }
 
     public void SetThreePointMeasurement()

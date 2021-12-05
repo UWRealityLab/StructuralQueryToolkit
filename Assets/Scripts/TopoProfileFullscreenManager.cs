@@ -68,10 +68,10 @@ public class TopoProfileFullscreenManager : MonoBehaviour
         yBottomText.text = $"{_activeProfile.MinHeight.ToString("F", _nfi)}m";
 
         yTopText.text = $"{_activeProfile.MaxHeight.ToString("F", _nfi)}m";
-        yTopText.rectTransform.anchoredPosition = new Vector2(yTopText.rectTransform.anchoredPosition.x, Mathf.Lerp(0f, graphRenderer.rectTransform.rect.height, _maxYPos));
+        yTopText.rectTransform.anchoredPosition = new Vector2(yTopText.rectTransform.anchoredPosition.x, Mathf.Lerp(-graphRenderer.rectTransform.rect.height, 0f, _maxYPos));
 
         xText.text = $"{_activeProfile.TotalDistance.ToString("F", _nfi)}m";
-        xText.rectTransform.anchoredPosition = new Vector2(Mathf.Lerp(0f, graphRenderer.rectTransform.rect.width, _maxXPos), xText.rectTransform.anchoredPosition.y);
+        xText.rectTransform.anchoredPosition = new Vector2(Mathf.Lerp(-graphRenderer.rectTransform.rect.width, 0f, _maxXPos), xText.rectTransform.anchoredPosition.y);
 
         var rawGraphPoints = activeProfile.GetRawGraphPoints();
         

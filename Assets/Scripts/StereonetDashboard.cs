@@ -89,6 +89,7 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
     protected override void OnClosedDashboard()
     {
         CloseSwatch();
+        StereonetCamera.instance.cam.Render();
     }
 
     public void ChangeSelectedCardColor(ColorSwatchButton colorButton)

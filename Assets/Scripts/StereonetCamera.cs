@@ -9,23 +9,9 @@ public class StereonetCamera : MonoBehaviour
 
     public Camera cam;
 
-    private float frameTime = 1 / 30f;
-    private float timeLeft;
-
     private void Awake()
     {
         instance = this;
-        timeLeft = frameTime;
-    }
-
-    private void Update()
-    {
-        timeLeft -= Time.deltaTime;
-        if (timeLeft < 0)
-        {
-            cam.Render();
-            timeLeft = frameTime;
-        }
     }
 
     private void OnDisable()

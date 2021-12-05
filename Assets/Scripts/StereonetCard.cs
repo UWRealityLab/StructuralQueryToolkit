@@ -52,8 +52,6 @@ public class StereonetCard : MonoBehaviour, IDashboardCard
         editImage.enabled = true;
         colorImage.enabled = true;
         selectedIconImage.enabled = true;
-        
-        titleInputField.ActivateInputField();
     }
 
     public void Deselect()

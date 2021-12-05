@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.Characters.FirstPerson;
+using StarterAssets;
 
 public class JetpackController : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class JetpackController : MonoBehaviour
     [SerializeField] Transform playerTransform;
     float currYVelocity = 0f;
 
-    private FirstPersonController firstPersonController;
+    private FPSController firstPersonController;
 
     private bool hasStopped = true;
 
@@ -18,7 +18,7 @@ public class JetpackController : MonoBehaviour
     void Start()
     {
         instance = this;
-        firstPersonController = playerTransform.GetComponent<FirstPersonController>();
+        firstPersonController = playerTransform.GetComponent<FPSController>();
     }
 
     // Update is called once per frame
@@ -40,13 +40,13 @@ public class JetpackController : MonoBehaviour
 
         if (!firstPersonController.isGravityOn && CheckCanMove(yVelocity))
         {
-            currYVelocity = Mathf.Lerp(currYVelocity, yVelocity, 0.05f);
+            currYVelocity = Mathf.Lerp(currYVelocity, yVelocity, 5f * Time.deltaTime);
             playerTransform.position += new Vector3(0, currYVelocity, 0);
             hasStopped = false;
         }
         else if (CheckCanMove(currYVelocity))
         { // Slowly lerp the player up/down unless they're blocked
-            currYVelocity = Mathf.Lerp(currYVelocity, 0, 0.2f);
+            currYVelocity = Mathf.Lerp(currYVelocity, 0, 5f * Time.deltaTime);
             playerTransform.position += new Vector3(0, currYVelocity, 0);
         }
         else

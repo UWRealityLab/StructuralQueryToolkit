@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,6 +29,15 @@ public class PlaneTwoPointerSlider : MonoBehaviour
         {
             ToolManager.instance.undoEvent.AddListener(Hide);
             ToolManager.instance.switchToolEvent.AddListener(Hide);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (ToolManager.instance)
+        {
+            ToolManager.instance.undoEvent.RemoveListener(Hide);
+            ToolManager.instance.switchToolEvent.RemoveListener(Hide);
         }
     }
 
@@ -74,5 +84,7 @@ public class PlaneTwoPointerSlider : MonoBehaviour
         //piPlotPlane.Rotate(piPlotPlane.up, deltaAngle);
         piPlotPlane.SetForward(plane.forward);
         LatestMeasurementUI.instance.SetPlaneMeasurementInformation(piPlotPlane.strike, piPlotPlane.dip);
+        
+        StereonetCamera.instance.cam.Render();
     }
 }

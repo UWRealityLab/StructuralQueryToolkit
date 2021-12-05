@@ -33,8 +33,8 @@ public class DragIcon : MonoBehaviour, IDragHandler, IPointerDownHandler, IPoint
         WindowTransform.anchoredPosition = anchoredPosition;
         
         WindowTransform.anchoredPosition = new Vector2(
-            Mathf.Clamp(anchoredPosition.x, -(canvasRect.width * anchorMin.x) + (width * pivot.x), (canvasRect.width * (1 - anchorMin.x) - (width * (1 - pivot.x)))), 
-            Mathf.Clamp(anchoredPosition.y, 0 + (height * pivot.y), canvasRect.height - (height * (1 - pivot.y))));
+            Mathf.Clamp(anchoredPosition.x, -(canvasRect.width * anchorMin.x) + (width * pivot.x), (canvasRect.width * (1 - anchorMax.x) - (width * (1 - pivot.x)))), 
+            Mathf.Clamp(anchoredPosition.y, -(canvasRect.height * anchorMin.y) + (height * pivot.y), canvasRect.height * (1 - anchorMax.y) - (height * (1 - pivot.y))));
         
         
     }

@@ -46,6 +46,11 @@ public class RulerPlotting : PlayerTool
     protected override void Start()
     {
         base.Start();
+        if (!Application.isPlaying)
+        {
+            return;
+        }
+        
         instance = this;
         if (rulers == null)
         {
@@ -72,7 +77,7 @@ public class RulerPlotting : PlayerTool
 
     private void Update()
     {
-        if (!isToggled)
+        if (CannotUseTool())
         {
             return;
         }

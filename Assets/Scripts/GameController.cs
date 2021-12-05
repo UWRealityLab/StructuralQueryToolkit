@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -42,7 +43,7 @@ public class GameController : MonoBehaviour
     GameObject currActivity;
 
     private CharacterController characterController;
-    private FirstPersonController firstPersonController;
+    private FPSController firstPersonController;
 
     public UnityEvent switchToMapViewEvent;
     public UnityEvent returnToFPSEvent;
@@ -54,12 +55,17 @@ public class GameController : MonoBehaviour
     private void Start() {
         CurrentCamera = Camera.main;
         characterController = playerObj.GetComponent<CharacterController>();
-        firstPersonController = playerObj.GetComponent<FirstPersonController>();
+        firstPersonController = playerObj.GetComponent<FPSController>();
 
         if (cursor)
         {
             Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
         }
+
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            Application.targetFrameRate = 60;
+        }        
     }
 
     public void SwitchToActivity(GameObject activity) {
