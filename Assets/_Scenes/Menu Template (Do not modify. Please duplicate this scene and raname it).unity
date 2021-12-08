@@ -3637,13 +3637,14 @@ GameObject:
   - component: {fileID: 1957030529}
   - component: {fileID: 1957030528}
   - component: {fileID: 1957030533}
+  - component: {fileID: 1957030534}
   m_Layer: 5
   m_Name: Quit (enable for non-WebGL applications)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1957030527
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3659,9 +3660,9 @@ RectTransform:
   m_Father: {fileID: 49494479}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 500, y: -755.74}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1957030528
@@ -3808,6 +3809,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1957030534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957030526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1451fe602849c5f40aaee082e95f8a52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2055138528
 GameObject:
   m_ObjectHideFlags: 0
@@ -4051,6 +4064,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
