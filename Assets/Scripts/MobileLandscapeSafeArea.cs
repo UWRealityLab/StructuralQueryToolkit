@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.iOS;
 
 public class MobileLandscapeSafeArea : MonoBehaviour
 {

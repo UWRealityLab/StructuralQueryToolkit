@@ -5,8 +5,6 @@ using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
-using Random = UnityEngine.Random;
 
 public class WorldTextGroup
 {
@@ -34,10 +32,11 @@ public class WorldTextGroup
         textComponent.ChangeColor(color);
         textComponent.group = this;
         
-        textComponent.StartEdit();
+        //textComponent.StartEdit();
         
         _texts.AddFirst(textComponent);
     }
+
     
     public void ChangeColor(Color color)
     {
@@ -153,6 +152,11 @@ public class WorldTextGroup
             worldText.HideControls();
         }
     }
+
+    public WorldText GetLatestText()
+    {
+        return _texts.First.Value;
+    }
 }
 
 public class WorldText : MonoBehaviour
@@ -176,14 +180,16 @@ public class WorldText : MonoBehaviour
 
     public void StartEdit()
     {
+        print("START EDIT");
         Text.ActivateInputField();
-        TextTool.instance.DisallowTyping();
+        TextTool.instance.EnterTextEditingMode();
         GameController.instance.DisablePlayer();
     }
 
     public void EndEdit()
     {
-        TextTool.instance.AllowTyping();
+        print("END EDIT");
+        TextTool.instance.LeaveTextEditingMode();
         GameController.instance.EnablePlayer();
     }
 

@@ -17,15 +17,20 @@ using Application = UnityEngine.Application;
 public class TopoProfileFullscreenManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI titleText;
-    [SerializeField] private TextMeshProUGUI graphDataText;
     [SerializeField] private UILineRenderer graphRenderer;
 
     [SerializeField] private DownloadPopupIndicator downloadPopupIndicator;
 
-    [Header("Text")] 
+    [Header("Axis Text")] 
     [SerializeField] private TMP_Text yTopText;
     [SerializeField] private TMP_Text yBottomText;
     [SerializeField] private TMP_Text xText;
+    
+    [Header("Information Box Text")]
+    [SerializeField] private TextMeshProUGUI topGraphDataText;
+    [SerializeField] private TextMeshProUGUI xGraphDataText;
+    [SerializeField] private TextMeshProUGUI yGraphDataText;
+
     
     private TopographicProfileMeasurement _activeProfile;
     private Vector2[] _graphPoints;
@@ -76,37 +81,35 @@ public class TopoProfileFullscreenManager : MonoBehaviour
         var rawGraphPoints = activeProfile.GetRawGraphPoints();
         
         titleText.text = string.IsNullOrEmpty(titleName) ? "Profile" : titleName;
-        graphDataText.text = MakeGraphTextList(rawGraphPoints);
+        UpdateGraphTextList(rawGraphPoints);
         graphRenderer.Points = _graphPoints;
     }
 
-    private string MakeGraphTextList(Vector2[] rawGraphPoints)
+    private void UpdateGraphTextList(Vector2[] rawGraphPoints)
     {
-        var sigFigs = TopographicProfileTool.instance.sigDigits;
+        var xDataStrBuilder = new StringBuilder("x\n");
+        var yDataStrBuilder = new StringBuilder("y\n");
 
-        var nfi = new NumberFormatInfo();
-        nfi.NumberDecimalDigits = sigFigs;
-        
-        var strBuilder = new StringBuilder();
-
-        strBuilder.AppendLine($"Title: {titleText.text} \nTotal Samples: {rawGraphPoints.Length}\nx\ty");
+        topGraphDataText.text = $"Title: {titleText.text} \nTotal Samples: {rawGraphPoints.Length}";
 
         foreach (var rawGraphPoint in rawGraphPoints)
         {
-            strBuilder.AppendLine($"{rawGraphPoint.x.ToString("F", nfi)}\t{rawGraphPoint.y.ToString("F", _nfi)}");
+            xDataStrBuilder.AppendLine($"{rawGraphPoint.x.ToString("F", _nfi)}");
+            yDataStrBuilder.AppendLine($"{rawGraphPoint.y.ToString("F", _nfi)}");
         }
 
-        return strBuilder.ToString();
+        xGraphDataText.text = xDataStrBuilder.ToString();
+        yGraphDataText.text = yDataStrBuilder.ToString();
     }
     
     public void ExportGraphToTxt()
     {
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
-            WebGLFileSaver.SaveFile(graphDataText.text,$"{titleText.text}.txt");
+            WebGLFileSaver.SaveFile(xGraphDataText.text,$"{titleText.text}.txt");
         }
 
-        GUIUtility.systemCopyBuffer = graphDataText.text;
+        GUIUtility.systemCopyBuffer = xGraphDataText.text;
         
         downloadPopupIndicator.ShowPopup();
     }
@@ -165,7 +168,7 @@ public class TopoProfileFullscreenManager : MonoBehaviour
         xText.text = "";
         
         titleText.text = "Profile";
-        graphDataText.text = "";
+        xGraphDataText.text = "";
         graphRenderer.Points = new Vector2[] { Vector2.zero };
 
     }

@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
+using UnityStandardAssets.Characters.ThirdPerson;
 
 public class TopographicProfileTool : PlayerTool
 {

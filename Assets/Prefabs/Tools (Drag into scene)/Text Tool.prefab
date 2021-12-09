@@ -6428,7 +6428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HeaderText: Text Tool
-  DescriptionText: Place a text box to the world
+  DescriptionText: Place a text box to the surface
   Offset: {x: 0.03, y: 0}
 --- !u!114 &3182411480159971938
 MonoBehaviour:

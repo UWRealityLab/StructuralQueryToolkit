@@ -93,7 +93,7 @@ public class TextTool : PlayerTool
         
         _activeTextGroup.AddText(textPrefab, hit.point, _currFontSize, _currColor);
     }
-
+    
     public override void Undo()
     {
         _activeTextGroup.Undo();
@@ -219,7 +219,7 @@ public class TextTool : PlayerTool
         }
     }*/
 
-    public void DisallowTyping()
+    public void EnterTextEditingMode()
     {
         if (PauseMenu.instance)
         {
@@ -228,7 +228,7 @@ public class TextTool : PlayerTool
         _isTyping = true;
     }
 
-    public void AllowTyping()
+    public void LeaveTextEditingMode()
     {
         if (PauseMenu.instance)
         {
