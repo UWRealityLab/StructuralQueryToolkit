@@ -8,7 +8,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
-using UnityStandardAssets.Characters.ThirdPerson;
 
 public class TopographicProfileTool : PlayerTool
 {
@@ -68,7 +67,7 @@ public class TopographicProfileTool : PlayerTool
     protected override void Start()
     {
         base.Start();
-
+        
         _currMarkerSize = 1f;
         _currColor = buttonsDrawer.GetActiveButtonColor();
         _currColor.a = MARKER_ALPHA;

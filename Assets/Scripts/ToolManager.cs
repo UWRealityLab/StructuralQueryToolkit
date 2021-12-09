@@ -87,6 +87,11 @@ public abstract class PlayerTool : MonoBehaviour
 
     protected virtual void Start()
     {
+        if (!Application.isPlaying)
+        {
+            return;
+        }
+
         if (GameController.instance && hideOnMapMode)
         {
             GameController.instance.switchToMapViewEvent.AddListener(() =>

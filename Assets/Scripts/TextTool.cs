@@ -49,10 +49,7 @@ public class TextTool : PlayerTool
     {
         base.Start();
         
-        if (Application.isPlaying)
-        {
-            _currFontSize = TEXT_SIZE;
-        }
+        _currFontSize = TEXT_SIZE;
 
         /*if (GameController.instance)
         {
