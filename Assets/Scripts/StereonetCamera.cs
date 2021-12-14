@@ -29,6 +29,11 @@ public class StereonetCamera : MonoBehaviour
         StartCoroutine(UpdateStereonetCoroutine());
     }
 
+    public void UpdateStereonetImmediate()
+    {
+        cam.Render();
+    }
+
     private IEnumerator UpdateStereonetCoroutine()
     {
         yield return new WaitForEndOfFrame();
