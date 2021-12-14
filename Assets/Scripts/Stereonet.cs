@@ -324,7 +324,7 @@ public class Stereonet : MonoBehaviour
         point.parent = pointPlanesParent;
         planePoints.AddFirst(point);
         
-        point.transform.GetComponent<MeshRenderer>().material.SetColor("_Color", stereonetColor);
+        point.transform.GetComponent<MeshRenderer>().material.SetColor(_colorProperty, stereonetColor);
 
         if (planePoints.Count == 3)
         {
@@ -373,7 +373,7 @@ public class Stereonet : MonoBehaviour
                 planeMesh.triangles = new int[] { 0, 1, 2 };
             }
 
-            worldPlane.GetComponent<MeshRenderer>().material.SetColor("_Color", stereonetColor);
+            worldPlane.GetComponent<MeshRenderer>().material.SetColor(_colorProperty, stereonetColor);
             
             worldPlanes.AddFirst(worldPlane.transform);
             stereonetPlanes.AddFirst(piPlotPlane);
@@ -388,7 +388,7 @@ public class Stereonet : MonoBehaviour
         point.parent = pointPlanesParent;
         planePoints.AddFirst(point);
 
-        point.transform.GetComponent<MeshRenderer>().material.SetColor("_Color", stereonetColor);
+        point.transform.GetComponent<MeshRenderer>().material.SetColor(_colorProperty, stereonetColor);
 
         if (planePoints.Count == 2)
         {
@@ -427,7 +427,7 @@ public class Stereonet : MonoBehaviour
             // Update slider
             PlaneTwoPointerSlider.instance.UpdateValues(worldPlane, piPlotPlane);
 
-            worldPlane.GetComponent<MeshRenderer>().material.SetColor("_Color", stereonetColor);
+            worldPlane.GetComponent<MeshRenderer>().material.SetColor(_colorProperty, stereonetColor);
 
             worldPlanes.AddFirst(worldPlaneParent.transform);
             stereonetPlanes.AddFirst(piPlotPlane);
@@ -483,7 +483,7 @@ public class Stereonet : MonoBehaviour
         point.parent = stereonetLinearParent;
         worldLinePoints.AddFirst(point);
         
-        point.transform.GetComponent<MeshRenderer>().material.SetColor("_Color", stereonetColor);
+        point.transform.GetComponent<MeshRenderer>().material.SetColor(_colorProperty, stereonetColor);
 
         if (worldLinePoints.Count == 2)
         {
@@ -503,7 +503,7 @@ public class Stereonet : MonoBehaviour
             lineRenderer.SetPositions(new Vector3[] { a.position, b.position});
             //lineRenderer.startColor = stereonetColor;
             //lineRenderer.endColor = stereonetColor;
-            lineRenderer.material.SetColor("_Color", stereonetColor);
+            lineRenderer.material.SetColor(_colorProperty, stereonetColor);
 
             Vector3 normal = (a.position - b.position).normalized;
 
@@ -599,6 +599,8 @@ public class Stereonet : MonoBehaviour
     }
 
     private int numCombinedPlanes = 0;
+    private static readonly int _colorProperty = Shader.PropertyToID("_BaseColor");
+
     /// <summary>
     /// Creates a new stereonet line renderer, and adds it to the top of the stack
     /// so that it's the first one to be undone (nothing else changes) 
@@ -874,7 +876,7 @@ public class Stereonet : MonoBehaviour
     
     public void AddPoleFlag(Transform flag)
     {
-        flag.GetComponent<Flag>().flagMeshRenderer.materials[1].SetColor("_Color", stereonetColor);
+        flag.GetComponent<Flag>().flagMeshRenderer.materials[1].SetColor(_colorProperty, stereonetColor);
         flagsList.Add(flag);
     }
     
@@ -887,7 +889,7 @@ public class Stereonet : MonoBehaviour
         {
             foreach (var poleFlag in flagsList)
             {
-                poleFlag.GetComponent<Flag>().flagMeshRenderer.materials[1].SetColor("_Color", color);
+                poleFlag.GetComponent<Flag>().flagMeshRenderer.materials[1].SetColor(_colorProperty, color);
             }
         }
         
@@ -901,7 +903,7 @@ public class Stereonet : MonoBehaviour
             var childPoints = worldPlane.GetComponentsInChildren<MeshRenderer>();
             foreach (var childPoint in childPoints)
             {
-                childPoint.material.SetColor("_Color", color);;
+                childPoint.material.SetColor(_colorProperty, color);
             }
 
             var planeMeshRenderer = worldPlane.GetComponent<MeshRenderer>();
@@ -909,17 +911,17 @@ public class Stereonet : MonoBehaviour
             {
                 // This is a two-point plane
                 planeMeshRenderer = worldPlane.GetChild(0).GetComponent<MeshRenderer>();
-                planeMeshRenderer.material.SetColor("_Color", color);;
+                planeMeshRenderer.material.SetColor(_colorProperty, color);
             }
             else
             {
                 // This is a three-point plane
-                planeMeshRenderer.material.SetColor("_Color", color);;
+                planeMeshRenderer.material.SetColor(_colorProperty, color);
             }
         }
         foreach (var point in planePoints)
         {
-            point.GetComponent<MeshRenderer>().material.SetColor("_Color", color);;
+            point.GetComponent<MeshRenderer>().material.SetColor(_colorProperty, color);
         }
         foreach (var steronetPlane in stereonetPlanes)
         {
@@ -930,7 +932,7 @@ public class Stereonet : MonoBehaviour
                     var meshes = combinedPlane.GetComponentsInChildren<MeshRenderer>();
                     foreach (var mesh in meshes)
                     {
-                        mesh.material.SetColor("_Color", color);;
+                        mesh.material.SetColor(_colorProperty, color);
                     }
                 }
             }
@@ -939,18 +941,18 @@ public class Stereonet : MonoBehaviour
         // For line measurements
         foreach (var worldLine in worldLines)
         {
-            worldLine.GetComponent<LineRenderer>().material.SetColor("_Color", color);;
+            worldLine.GetComponent<LineRenderer>().material.SetColor(_colorProperty, color);
 
             // Change colors of their children
             for (int i = 0; i < worldLine.childCount; i++)
             {
-                worldLine.GetChild(i).GetComponent<MeshRenderer>().material.SetColor("_Color", color);;
+                worldLine.GetChild(i).GetComponent<MeshRenderer>().material.SetColor(_colorProperty, color);
             }
 
         }
         foreach (var worldLinearPoint in worldLinePoints)
         {
-            worldLinearPoint.GetComponent<MeshRenderer>().material.SetColor("_Color", color);;
+            worldLinearPoint.GetComponent<MeshRenderer>().material.SetColor(_colorProperty, color);
         }
         foreach (var stereonetPoint in stereonetLinearPoints)
         {
@@ -960,11 +962,11 @@ public class Stereonet : MonoBehaviour
             {
                 foreach (var combinedLine in piPlotLine.combinedWorldLines)
                 {
-                    combinedLine.GetComponent<LineRenderer>().material.SetColor("_Color", color);;
+                    combinedLine.GetComponent<LineRenderer>().material.SetColor(_colorProperty, color);
                     var meshes = combinedLine.GetComponentsInChildren<MeshRenderer>();
                     foreach (var mesh in meshes)
                     {
-                        mesh.material.SetColor("_Color", color);;
+                        mesh.material.SetColor(_colorProperty, color);
                     }
                 }
             }
