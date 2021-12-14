@@ -177,7 +177,7 @@ public class StereonetsController : MonoBehaviour
     {
         // Converts the latest point (which is currently a unique color) to be
         // the same material as the other points
-        currStereonet.SetPoleMeasurementAsStale();
+        currStereonet.SetLatestPointMeasurementAsStale();
 
         // Wait one frame to allow the stereonet to render
         yield return new WaitForEndOfFrame();

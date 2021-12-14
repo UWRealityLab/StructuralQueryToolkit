@@ -85,6 +85,6 @@ public class PlaneTwoPointerSlider : MonoBehaviour
         piPlotPlane.SetForward(plane.forward);
         LatestMeasurementUI.instance.SetPlaneMeasurementInformation(piPlotPlane.strike, piPlotPlane.dip);
         
-        StereonetCamera.instance.cam.Render();
+        StereonetCamera.instance.UpdateStereonet();
     }
 }

@@ -43,7 +43,7 @@ public class LinePlotting : PlayerTool
     public override void Undo()
     {
         StereonetsController.instance.UndoLine();
-        StereonetCamera.instance.cam.Render();
+        StereonetCamera.instance.UpdateStereonet();
     }
 
 
@@ -60,6 +60,6 @@ public class LinePlotting : PlayerTool
         linePoint.up = hit.normal; // This is not needed if the linePointPrefab is just a sphere
         stereonet.AddLinePoint(linePoint);
         
-        StereonetCamera.instance.cam.Render();
+        StereonetCamera.instance.UpdateStereonet();
     }
 }

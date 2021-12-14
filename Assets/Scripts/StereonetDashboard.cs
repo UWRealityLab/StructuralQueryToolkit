@@ -26,7 +26,7 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
     protected override void OnAddCard(Transform newCard)
     {
         stereonetController.CreateStereonet();
-        StereonetCamera.instance.cam.Render(); // Ensures that the card image will be a blank stereonet
+        StereonetCamera.instance.UpdateStereonet(); // Ensures that the card image will be a blank stereonet
 
         // Adding a fullscreen click card event
         EventTrigger fullscreenTapEventTrigger = newCard.GetComponent<StereonetCard>().fullscreenEventTrigger;
@@ -89,7 +89,7 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
     protected override void OnClosedDashboard()
     {
         CloseSwatch();
-        StereonetCamera.instance.cam.Render();
+        StereonetCamera.instance.UpdateStereonet();
     }
 
     public void ChangeSelectedCardColor(ColorSwatchButton colorButton)

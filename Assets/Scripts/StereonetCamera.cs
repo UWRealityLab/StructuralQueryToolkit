@@ -24,4 +24,15 @@ public class StereonetCamera : MonoBehaviour
         cam.enabled = !cam.enabled;
     }
 
+    public void UpdateStereonet()
+    {
+        StartCoroutine(UpdateStereonetCoroutine());
+    }
+
+    private IEnumerator UpdateStereonetCoroutine()
+    {
+        yield return new WaitForEndOfFrame();
+        cam.Render();
+    }
+
 }

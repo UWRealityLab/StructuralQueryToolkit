@@ -140,7 +140,7 @@ public class PolePlotting : PlayerTool
             }
         }
         
-        StereonetCamera.instance.cam.Render();
+        StereonetCamera.instance.UpdateStereonet();
     }
 
     Vector3 CalculateMeanVector(List<Vector3> normals)
@@ -159,7 +159,7 @@ public class PolePlotting : PlayerTool
     public override void Undo()
     {
         StereonetsController.instance.UndoPole();
-        StereonetCamera.instance.cam.Render();
+        StereonetCamera.instance.UpdateStereonet();
     }
 
     public void ClearMeasurements()

@@ -16,7 +16,6 @@ public class Stereonet : MonoBehaviour
     [SerializeField] Transform stereonetLinearParent;
     [SerializeField] Transform linearWorldLinesParent;
     [SerializeField] Transform polePointsParentObj;
-    private List<Transform> pointsList;
     [SerializeField] GameObject finalPointPrefab;
     [SerializeField] GameObject model;
     [SerializeField] GameObject specialPointPrefab;
@@ -24,7 +23,7 @@ public class Stereonet : MonoBehaviour
 
     int stereonetLayer;
 
-    private LinkedList<Vector3> points;
+    private LinkedList<PoleMeasurement> polePoints;
     private Transform finalPoint;
     [HideInInspector] public LineRenderer lineRenderer;
     private AvgStereonetPoleData data;
@@ -67,8 +66,8 @@ public class Stereonet : MonoBehaviour
     private void Awake()
     {
         stereonetColor = new Color32(252, 141, 82, 255);
-        
-        points = new LinkedList<Vector3>();
+
+        polePoints = new LinkedList<PoleMeasurement>();
         normals = new LinkedList<Vector3>();
         poleElevations = new List<float>();
 
@@ -92,7 +91,8 @@ public class Stereonet : MonoBehaviour
 
         for (int i = 0; i < NUM_INITIAL_POINTS; i++)
         {
-            points.AddFirst(new Vector3(0.0f, 0.0f, 0.0f));
+            //polePoints.AddFirst(new Vector3(0.0f, 0.0f, 0.0f));
+            polePoints.AddFirst(new PoleMeasurement(Vector3.zero, false));
         }
     }
 
@@ -141,10 +141,10 @@ public class Stereonet : MonoBehaviour
         List<Vector3> pointsList = new List<Vector3>();
 
         Vector3 sum = new Vector3(0.0f, 0.0f, 0.0f);
-        foreach (Vector3 pos in points)
+        foreach (var pole in polePoints)
         {
-            pointsList.Add(pos);
-            sum += pos;
+            pointsList.Add(pole.Position);
+            sum += pole.Position;
         }
 
         Vector3 centroid = sum * (1.0f / pointsList.Count);
@@ -153,9 +153,9 @@ public class Stereonet : MonoBehaviour
         float xx = 0.0f; float xy = 0.0f; float xz = 0.0f;
         float yy = 0.0f; float yz = 0.0f; float zz = 0.0f;
 
-        foreach (Vector3 pos in points)
+        foreach (var pole in polePoints)
         {
-            Vector3 r = pos - centroid;
+            Vector3 r = pole.Position - centroid;
             xx += r.x * r.x;
             xy += r.x * r.y;
             xz += r.x * r.z;
@@ -252,14 +252,12 @@ public class Stereonet : MonoBehaviour
         var dirNormal = isOverturnedBedding ? normal : -normal;
         var stereonetPointPosition = StereonetsController.instance.originTransform.position - dirNormal * 4.9f;
 
-        if (latestPoint != null)
-        {
-            latestPoint.GetComponent<MeshRenderer>().material = stalePointMaterial;
-        }
+        SetLatestPointMeasurementAsStale();
+
         latestPoint = Instantiate(isOverturnedBedding ? specialPointPrefab : pointPrefab, stereonetPointPosition, Quaternion.identity, polePointsParentObj).transform;
         
         flag.stereonetPoint = latestPoint;
-        points.AddFirst(stereonetPointPosition);
+        polePoints.AddFirst(new PoleMeasurement(stereonetPointPosition, isOverturnedBedding));
 
         if (StereonetCameraStack.instance)
         {
@@ -281,9 +279,10 @@ public class Stereonet : MonoBehaviour
         var stereonetPointPosition = StereonetsController.instance.originTransform.position - dirNormal * 4.9f;
 
         stereonetPoint.position = stereonetPointPosition;
+        
+        polePoints.AddLast(new PoleMeasurement(stereonetPointPosition, isOverturnedBedding));
+        polePoints.Remove(new PoleMeasurement(oldPos, stereonetPoint.transform.up.z > 0f)); // TODO
 
-        points.AddLast(stereonetPointPosition);
-        points.Remove(oldPos);
     }
 
     /// <summary>
@@ -299,15 +298,11 @@ public class Stereonet : MonoBehaviour
         var dirNormal = isOverturnedBedding ? normal : -normal;
         var stereonetPointPosition = StereonetsController.instance.originTransform.position - dirNormal * 4.9f;
 
-        if (latestPoint != null)
-        {
-            latestPoint.GetComponent<MeshRenderer>().material = stalePointMaterial;
-        }
+        SetLatestPointMeasurementAsStale();
         latestPoint = Instantiate(isOverturnedBedding ? specialPointPrefab : pointPrefab, stereonetPointPosition, Quaternion.identity, polePointsParentObj).transform;
         
-        
         flag.stereonetPoint = latestPoint;
-        points.AddFirst(stereonetPointPosition);
+        polePoints.AddFirst(new PoleMeasurement(stereonetPointPosition, isOverturnedBedding));
         poleElevations.Add(elevation);
 
         if (StereonetCameraStack.instance)
@@ -595,7 +590,7 @@ public class Stereonet : MonoBehaviour
         stereonetLinearPoints.AddFirst(stereonetPoint);
         numCombinedLines++;
         
-        StereonetCamera.instance.cam.Render();
+        StereonetCamera.instance.UpdateStereonet();
     }
 
     private int numCombinedPlanes = 0;
@@ -638,7 +633,7 @@ public class Stereonet : MonoBehaviour
         stereonetPlanes.AddFirst(piPlotPlane);
         numCombinedPlanes++;
         
-        StereonetCamera.instance.cam.Render();
+        StereonetCamera.instance.UpdateStereonet();
     }
 
     
@@ -669,7 +664,7 @@ public class Stereonet : MonoBehaviour
         Destroy(flagsList[flagsList.Count - 1].gameObject);
         flagsList.RemoveAt(flagsList.Count - 1);
         normals.RemoveFirst();
-        points.RemoveFirst();
+        polePoints.RemoveFirst();
         data.strikeDipPairs.RemoveFirst();
         data.trendPlungePairs.RemoveFirst();
         FitPlane();
@@ -843,12 +838,12 @@ public class Stereonet : MonoBehaviour
     // returns the actual number of points
     private int GetInflatedNumPoints()
     {
-        return points.Count;
+        return polePoints.Count;
     }
 
     public int GetNumPoints()
     {
-        return points.Count - NUM_INITIAL_POINTS;
+        return polePoints.Count - NUM_INITIAL_POINTS;
     }
 
     /// <summary>
@@ -1000,9 +995,9 @@ public class Stereonet : MonoBehaviour
         stereonetLinearParent.gameObject.SetActive(true);
     }
 
-    public void SetPoleMeasurementAsStale()
+    public void SetLatestPointMeasurementAsStale()
     {
-        if (latestPoint)
+        if (latestPoint && !polePoints.First.Value.IsOverturned)
         {
             latestPoint.GetComponent<MeshRenderer>().material = stalePointMaterial;
         }
