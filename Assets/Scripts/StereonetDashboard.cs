@@ -12,6 +12,8 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
     [SerializeField] private StereonetsController stereonetController;
     [SerializeField] private StereonetFullscreenManager fullscreenManager;
     [SerializeField] protected Animator colorSwatchAnimator;
+    
+    private static readonly int IsToggledTrigger = Animator.StringToHash("isToggled");
 
     protected override void OnAwake()
     {
@@ -43,7 +45,7 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
 
     public override void OnOpenDashboard()
     {
-        
+        StereonetsController.instance.UpdateStereonetDashboard();
     }
 
     protected override void OnSelectCard(Transform card, int cardIndex)
@@ -72,6 +74,12 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
         card.SetStereonetImage(newStereonetImage);
     }
 
+    public void UpdateCard(int index, Stereonet2D stereonet)
+    {
+        StereonetCard card = cards[index].GetComponent<StereonetCard>();
+        card.SetStereonet2DImage(stereonet);
+    }
+
     public void FullscreenCard()
     {
         CloseSwatch();
@@ -80,16 +88,28 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
         // Assign the current card's information to the fullscreenmanager
         StereonetCard card = selectedCard.GetComponent<StereonetCard>();
         Stereonet stereonet = stereonetController.GetStereonet(cards.IndexOf(selectedCard));
-        fullscreenManager.UpdateValues(card.GetImage(), card.GetTitle(), stereonet);
+        
+        fullscreenManager.OnCloseEvent.AddListener(() =>
+        {
+            card.SetStereonet2DImage(stereonet as Stereonet2D);
+            fullscreenManager.OnCloseEvent.RemoveAllListeners();
+        });
 
-        // TODO: only for rendering image with 2D values and not a camera screenshot
-        //fullscreenManager.SetStereonet(stereonet.GetTwoDInfo(), stereonet.GetTwoDLine(), stereonet.GetTwoDFinalPoint());
+        fullscreenManager.UpdateValues(card.GetTitle(), stereonet as Stereonet2D);
+        
+        //fullscreenManager.UpdateValues(card.GetImage(), card.GetTitle(), stereonet); // 3D
     }
+    
 
     protected override void OnClosedDashboard()
     {
         CloseSwatch();
-        StereonetCamera.instance.UpdateStereonet();
+        
+        var currStereonet = StereonetsController.instance.currStereonet as Stereonet2D;
+        currStereonet.MoveStereonetUI(StereonetCanvas.Instance.Stereonet2DContainer.transform);
+
+        // StereonetCamera.instance.UpdateStereonet(); // 3D
+
     }
 
     public void ChangeSelectedCardColor(ColorSwatchButton colorButton)
@@ -101,11 +121,11 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
 
     public void OpenSwatch()
     {
-        colorSwatchAnimator.SetBool("isToggled", true);
+        colorSwatchAnimator.SetBool(IsToggledTrigger, true);
     }
 
     public void CloseSwatch()
     {
-        colorSwatchAnimator.SetBool("isToggled", false);
+        colorSwatchAnimator.SetBool(IsToggledTrigger, false);
     }
 }

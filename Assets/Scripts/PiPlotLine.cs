@@ -8,16 +8,16 @@ using UnityEngine;
 /// </summary>
 public class PiPlotLine : Measurement
 {
+    public Vector3 normal;
     public float trend;
     public float plunge;
     public Queue<Transform> combinedWorldLines;
+    public Queue<StereonetPole3D> combinedStereonetLines3D;
     public Queue<PiPlotLine> combinedStereonetPoints;
 
     public void SetData(Vector3 normal)
     {
-        // Setting the forward is visually irrelevant since the object is a
-        // sphere, but it is used later when calculating the average trend and plunge
-        transform.forward = normal;
+        this.normal = normal;
 
         StereonetUtils.CalculateTrendAndPlunge(normal, out trend, out plunge);
     }
@@ -27,6 +27,7 @@ public class PiPlotLine : Measurement
         isCombined = true;
         combinedWorldLines = new Queue<Transform>();
         combinedStereonetPoints = new Queue<PiPlotLine>();
+        combinedStereonetLines3D = new Queue<StereonetPole3D>();
     }
 
     public void AddCombinedWorldLine(Transform plane)
@@ -51,8 +52,3 @@ public class PiPlotLine : Measurement
     }
 
 }
-
-
-/// Very poorly designed (a waste of memory since every stereonet linear point
-/// will have this component, and only the one being combined is using it).
-

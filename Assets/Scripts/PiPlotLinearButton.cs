@@ -31,7 +31,7 @@ public class PiPlotLinearButton : MonoBehaviour
             canToggleButton = false;
             image.color = disabledColor;
 
-            PolePlotting.instance.stereonet.CalculateAverageLine();
+            StereonetsController.instance.currStereonet.CalculateAverageLine();
         }
     }
 
@@ -40,7 +40,7 @@ public class PiPlotLinearButton : MonoBehaviour
     public void UpdateButton()
     {
         // lol
-        if (PolePlotting.instance.stereonet.GetNumLines() > 1)
+        if (StereonetsController.instance.currStereonet.GetNumLines() > 1)
         {
             canToggleButton = true;
             image.color = onColor;

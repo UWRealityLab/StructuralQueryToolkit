@@ -7,7 +7,7 @@ public class JetpackController : MonoBehaviour
 {
     public static JetpackController instance;
 
-    [SerializeField] Transform playerTransform;
+    private Transform playerTransform;
     float currYVelocity = 0f;
 
     private FPSController firstPersonController;
@@ -18,6 +18,7 @@ public class JetpackController : MonoBehaviour
     void Start()
     {
         instance = this;
+        playerTransform = GameController.instance.playerObj.transform;
         firstPersonController = playerTransform.GetComponent<FPSController>();
     }
 

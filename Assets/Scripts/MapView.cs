@@ -39,6 +39,7 @@ public class MapView : MonoBehaviour
 
     private void Start()
     {
+        playerSprite = GameController.instance.playerMapView.transform;
         playerSprite.localScale *= Settings.instance.ObjectScaleMultiplier;
         GameController.instance.switchToMapViewEvent.AddListener(() =>
         {
@@ -169,6 +170,11 @@ public class MapView : MonoBehaviour
     public void GoToMapView()
     {
         GameController.instance.SwitchToMapView(gameObject);
+    }
+
+    public void ExitMapView()
+    {
+        GameController.instance.ReturnToFPS();
     }
 
     public void ReturnToDefaultCameraPosition()

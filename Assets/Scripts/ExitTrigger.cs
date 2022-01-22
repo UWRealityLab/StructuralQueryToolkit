@@ -8,11 +8,10 @@ public class ExitTrigger : MonoBehaviour
 {
     float fadeTime = 1f;
     [SerializeField] Image bgImage;
-    [SerializeField] FirstPersonController player;
 
     private void OnTriggerEnter(Collider other)
     {
-        player.enabled = false;
+        //player.enabled = false;
 
         var loadOperation = SceneManager.LoadSceneAsync(0);
         loadOperation.allowSceneActivation = false;

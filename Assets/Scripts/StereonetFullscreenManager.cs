@@ -8,11 +8,13 @@ using TMPro;
 using System.Text;
 using Unity.Jobs;
 using UnityEditor;
+using UnityEngine.Events;
 
 public class StereonetFullscreenManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI titleText;
-    [SerializeField] RawImage stereonetImage;
+    [SerializeField] Transform stereonetImage2D;
+    [SerializeField] GameObject steroenetImage3D;
 
     [Header("Pole measurements data")]
     [SerializeField] TextMeshProUGUI avgPoleDataText;
@@ -33,6 +35,7 @@ public class StereonetFullscreenManager : MonoBehaviour
     private LinkedList<MeasurementsGroup> measurementGroups;
     
     private Stereonet activeStereonet;
+    [HideInInspector] public UnityEvent OnCloseEvent;
     
     // Stores all the string data to export into Stereonet Mobile Format
     private StringBuilder stereonetMobileFormatStringBuilder;
@@ -42,18 +45,13 @@ public class StereonetFullscreenManager : MonoBehaviour
         measurementGroups = new LinkedList<MeasurementsGroup>();
     }
 
-    public void UpdateValues(RawImage stereonetImg, string title, Stereonet stereonet)
+    public void UpdateValues(string title, Stereonet2D stereonet)
     {
-        stereonetImage.texture = stereonetImg.texture;
+        stereonet.MoveStereonetUI(stereonetImage2D);
         activeStereonet = stereonet;
 
-        if (string.IsNullOrWhiteSpace(title))
-        {
-            titleText.text = "Stereonet";
-        } else {
-            titleText.text = title;
-        }
-        
+        titleText.text = string.IsNullOrWhiteSpace(title) ? "Stereonet" : title;
+
         SetPoleData();
         SetPlaneData();
         SetLineationData();
@@ -78,7 +76,7 @@ public class StereonetFullscreenManager : MonoBehaviour
         var planeNode = activeStereonet.stereonetPlanes.First;
         while (planeNode != null)
         {
-            var piPlotPlane = planeNode.Value;
+            var piPlotPlane =  planeNode.Value;
             if (piPlotPlane.isCombined)
             {
                 // If the stereonet plane is a combined line, then create a new group
@@ -111,7 +109,7 @@ public class StereonetFullscreenManager : MonoBehaviour
             {
                 // Else get its strike/dip and append it to the 1st group
                 // and sum up the poles to later calculate the average strike/dip
-                defaultGroupAvgNormal += piPlotPlane.plane.forward;
+                defaultGroupAvgNormal += piPlotPlane.GetForwardDirection();
 
                 // For exporting
                 defaultGroup.strikeAndDipArr.Add((piPlotPlane.strike, piPlotPlane.dip));
@@ -271,6 +269,13 @@ public class StereonetFullscreenManager : MonoBehaviour
         return newMeasurementGroup;
     }
 
+    public void Close()
+    {
+        OnCloseEvent.Invoke();
+        Reset();
+        gameObject.SetActive(false);
+    }
+
     /// <summary>
     /// Clears everything 
     /// </summary>
@@ -406,7 +411,7 @@ public class StereonetFullscreenManager : MonoBehaviour
 
         // POLES (only has one group)
         var stereonetData = activeStereonet.GetAvgStereonetPoleData();
-        var elevationData = activeStereonet.GetPoleElevationData();
+        var elevationData = activeStereonet.poleElevations;
         outputStringBuilder.AppendLine($"---Poles to Planes w/ elevation---");
         if (stereonetData.strikeDipPairs.Count > 0)
         {
@@ -492,12 +497,9 @@ public class StereonetFullscreenManager : MonoBehaviour
             $"{index}\tP\t{groupName}	{000000000}	{strike}	{dip}	999	99		0		1:00:	1	1	2021	_	1	_	0	_	_	_	_	_");
     }
 
-    /**
-    [SerializeField] GameObject flatPointPrefab;
-    // TODO: if going with a 2D representation of the image, then use this
-    public void SetStereonet(Vector2[] points, Vector2[] linePoints, Vector2 finalPoint)
+    public void ToggleStereonetView()
     {
-        
+        stereonetImage2D.gameObject.SetActive(!stereonetImage2D.gameObject.activeSelf);
+        steroenetImage3D.SetActive(!steroenetImage3D.activeSelf);
     }
-    */
 }

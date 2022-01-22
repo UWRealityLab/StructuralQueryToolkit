@@ -24,9 +24,7 @@ public class PolePlotting : PlayerTool
         }
     }
 
-    [HideInInspector] public Stereonet stereonet;
-    
-    [SerializeField] bool attachFlagsToObject = false;
+    [SerializeField] public bool attachFlagsToObject = false;
     [SerializeField] GameObject flagPrefab;
     [SerializeField] GameObject piPlotButton;
 
@@ -69,14 +67,22 @@ public class PolePlotting : PlayerTool
         float elevation = hit.point.y;
         currNormals.Add(hit.normal);
 
+        var currStereonet = StereonetsController.instance.currStereonet;
+
         Transform flag = Instantiate(flagPrefab, hit.point, Quaternion.identity).transform;
-        flag.SetParent(attachFlagsToObject ? hit.transform : stereonet.whalebackFlagsParent, true);
-        stereonet.AddPoleFlag(flag);
+        if (attachFlagsToObject)
+        {
+            currStereonet.AddPoleFlag(flag);
+        }
+        else
+        {
+            currStereonet.AddPoleFlag(flag, hit.transform);
+        }
         flag.localScale = new Vector3(flag.localScale.x, flag.localScale.x, flag.localScale.x) * Settings.instance.ObjectScaleMultiplier;
         
         flag.up = hit.normal;
         var flagComponent = flag.transform.GetComponent<Flag>();
-        flagComponent.stereonet = stereonet;
+        flagComponent.stereonet = currStereonet;
         
         // Was a valid spot to place a flag, so play audio
         flagPlantAudio.Play();
@@ -121,18 +127,17 @@ public class PolePlotting : PlayerTool
             StereonetUtils.CalculateStrikeAndDip(meanVector, out float strike, out float dip);
             StereonetUtils.CalculateTrendAndPlunge(meanVector, out float trend, out float plunge);
             UpdateLatestMeasurementUI(strike, dip, elevation);
-            stereonet.AddStrikeAndDip(strike, dip);
-            stereonet.AddTrendPlunge(trend, plunge);
+            currStereonet.AddStrikeAndDip(strike, dip);
+            currStereonet.AddTrendPlunge(trend, plunge);
 
             if (Settings.instance.showElevationData)
             {
-                stereonet.AddPole(meanVector, elevation, flagComponent);
+                currStereonet.AddPole(meanVector, elevation, flagComponent);
             }
             else
             {
-                stereonet.AddPole(meanVector, flagComponent);
+                currStereonet.AddPole(meanVector, flagComponent);
             }
-            stereonet.normals.AddFirst(meanVector);
 
             if (PIPlotButton.instance != null)
             {
@@ -164,7 +169,7 @@ public class PolePlotting : PlayerTool
 
     public void ClearMeasurements()
     {
-        stereonet.ClearPoles();
+        StereonetsController.instance.currStereonet.ClearPoles();
     }
 
     // Calculates the strike and dip of the current measurement's mean vector

@@ -905,7 +905,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0d273739427578148aef03703ac97c69, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ac2a721da1f6cd6409d2e80e6a6f4bcc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -928,8 +928,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isToggled: 0
-  unToggledImaged: {fileID: 21300000, guid: 0d273739427578148aef03703ac97c69, type: 3}
-  toggledImage: {fileID: 21300000, guid: 868c419c5d8a82a46bca9fa0d40b1c72, type: 3}
+  unToggledImaged: {fileID: 21300000, guid: ac2a721da1f6cd6409d2e80e6a6f4bcc, type: 3}
+  toggledImage: {fileID: 21300000, guid: e9fcf58a421d60c4e91288d8b6945a32, type: 3}
 --- !u!1 &6291761026272885629
 GameObject:
   m_ObjectHideFlags: 0

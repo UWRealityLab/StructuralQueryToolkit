@@ -374,7 +374,8 @@ public class ToolManager : MonoBehaviour
                 return _instance;
             }
 
-            return FindObjectOfType<ToolManager>().GetComponent<ToolManager>();
+            var toolManager = FindObjectOfType<ToolManager>();
+            return toolManager != null ? toolManager.GetComponent<ToolManager>() : null;
         }
         set
         {

@@ -5,7 +5,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityStandardAssets.Characters.FirstPerson;
 
 public class GameController : MonoBehaviour
 {
@@ -50,12 +49,15 @@ public class GameController : MonoBehaviour
 
     private void Awake() {
         instance = this;
+        playerObj = FindObjectOfType<FPSController>().gameObject;
+        characterController = playerObj.GetComponent<CharacterController>();
+        firstPersonController = playerObj.GetComponent<FPSController>();
+        playerCamera = playerObj.GetComponentInChildren<Camera>().gameObject;
+        playerMapView = playerObj.GetComponentInChildren<SpriteRenderer>(true).gameObject;
     }
 
     private void Start() {
         CurrentCamera = Camera.main;
-        characterController = playerObj.GetComponent<CharacterController>();
-        firstPersonController = playerObj.GetComponent<FPSController>();
 
         if (cursor)
         {
@@ -83,6 +85,8 @@ public class GameController : MonoBehaviour
         activity.SetActive(true);
         playerMapView.SetActive(true);
 
+        characterController.enabled = false;
+        firstPersonController.enabled = false;
         playerCamera.SetActive(false);
         playerUI.SetActive(false);
         StereonetUI.SetActive(false);
@@ -97,6 +101,8 @@ public class GameController : MonoBehaviour
         playerUI.SetActive(true);
         playerCamera.SetActive(true);
         StereonetUI.SetActive(true);
+        characterController.enabled = true;
+        firstPersonController.enabled = true;
         returnToFPSEvent.Invoke();
     }
 

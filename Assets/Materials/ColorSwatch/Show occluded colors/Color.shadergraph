@@ -454,7 +454,7 @@
     "m_FragmentContext": {
         "m_Position": {
             "x": 1990.0,
-            "y": 352.0
+            "y": 353.0
         },
         "m_Blocks": [
             {
@@ -784,7 +784,7 @@
     },
     "m_Name": "Color",
     "m_DefaultReferenceName": "Color_E192FF5E",
-    "m_OverrideReferenceName": "_Color",
+    "m_OverrideReferenceName": "_BaseColor",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": true,
@@ -1169,10 +1169,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
+            "x": 2002.0,
+            "y": 428.0,
+            "width": 200.0,
+            "height": 41.0
         }
     },
     "m_Slots": [

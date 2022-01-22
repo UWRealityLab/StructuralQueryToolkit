@@ -49,11 +49,11 @@ public class LinePlotting : PlayerTool
 
     public override void UseTool(RaycastHit hit)
     {
-        var stereonet = PolePlotting.instance.stereonet;
+        var stereonet = StereonetsController.instance.currStereonet;
 
         flagPlantAudio.Play();
 
-        Transform linePoint = Instantiate(linePointPrefab, hit.point, Quaternion.identity, stereonet.pointPlanesParent).transform;
+        Transform linePoint = Instantiate(linePointPrefab, hit.point, Quaternion.identity).transform;
         linePoint.localScale *= Settings.instance.ObjectScaleMultiplier;
         
         //linePoint.position += hit.normal * 0.1f;

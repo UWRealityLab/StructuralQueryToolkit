@@ -35,7 +35,7 @@ public class PIPlotButton : MonoBehaviour
         {
             isToggled = !isToggled;
 
-            PolePlotting.instance.stereonet.SetLineRenderer(isToggled);
+            StereonetsController.instance.currStereonet.SetPoleLineRendererState(isToggled);
             StereonetsController.instance.currStereonet.isPiPlotEnabled = isToggled;
 
             if (isToggled)
@@ -55,7 +55,7 @@ public class PIPlotButton : MonoBehaviour
     public void UpdateButton()
     {
         // lol
-        if (PolePlotting.instance.stereonet.GetNumPoints() >= 3)
+        if (StereonetsController.instance.currStereonet.GetNumPoints() >= 3)
         {
             canEnablePiPlot = true;
             if (isToggled)

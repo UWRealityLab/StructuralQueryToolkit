@@ -35,7 +35,7 @@ public class PiPlotPlaneButton : MonoBehaviour
         if (canEnablePiPlot)
         {
             canEnablePiPlot = false;
-            PolePlotting.instance.stereonet.CalculateAveragePlane();
+            StereonetsController.instance.currStereonet.CalculateAveragePlane();
             image.color = offColor;
         }
     }
@@ -43,8 +43,7 @@ public class PiPlotPlaneButton : MonoBehaviour
     // An event would be better
     public void UpdateButton()
     {
-        // lol
-        if (PolePlotting.instance.stereonet.GetNumPlanes() > 1)
+        if (StereonetsController.instance.currStereonet.GetNumPlanes() > 1)
         {
             canEnablePiPlot = true;
             image.color = onColor;

@@ -9,10 +9,13 @@ using UnityEngine.UI;
 public class StereonetsController : MonoBehaviour
 {
     public static StereonetsController instance;
+
+    [Space(20f)]
+    
     [SerializeField] Camera stereonetCamera;
     [SerializeField] GameObject stereonetPrefab;
     [SerializeField] Transform stereonetsListParent;
-    List<Transform> stereonets;
+    private List<Transform> stereonets;
 
     [SerializeField] public Transform originTransform;
     [SerializeField] public Transform finalPlane;
@@ -21,15 +24,18 @@ public class StereonetsController : MonoBehaviour
 
     public Stereonet currStereonet;
 
-    // Very crude way of assigning IDs to stereonet
-    private bool[] availableIDs;
 
+    [Header("3D Stereonet")] 
+    [SerializeField] private GameObject stereonet3DImage;
+
+    [Header("2D Stereonet")] 
+    [SerializeField] private GameObject stereonet2DPrefab;
+    [SerializeField] private GameObject stereonetImage2D;
 
     private void Awake()
     {
         instance = this;
         stereonets = new List<Transform>();
-        availableIDs = new bool[6];
     }
 
     public void SelectStereonet(int index)
@@ -37,41 +43,29 @@ public class StereonetsController : MonoBehaviour
         if (currStereonet != null)
         {
             currStereonet.Hide();
-            //currStereonet.gameObject.SetActive(false);
         }
         
         currStereonet = stereonets[index].GetComponent<Stereonet>();
         AssignStereonet(currStereonet);
         currStereonet.Show();
-        //currStereonet.gameObject.SetActive(true);
 
         if (StereonetCameraStack.instance)
         {
             StereonetCameraStack.instance.SwitchStereonet(currStereonet.id);
         }
+        
+        StereonetCamera.instance.UpdateStereonet();
     }
 
     // Creates a new stereonet
     public void CreateStereonet()
     {
-        Transform stereonetTrans = Instantiate(stereonetPrefab, stereonetsListParent).transform;
+        var stereonetTrans = Instantiate(stereonet2DPrefab, stereonetsListParent).transform;
+        var newStereonet = stereonetTrans.GetComponent<Stereonet>();
         stereonets.Add(stereonetTrans);
-        Stereonet newStereonet = stereonetTrans.GetComponent<Stereonet>();
-
-        // assign open ID
-        for (int i = 0; i < availableIDs.Length; i++)
-        {
-            if (!availableIDs[i])
-            {
-                newStereonet.id = i;
-                availableIDs[i] = true;
-                break;
-            }
-        }
-
         AssignStereonet(newStereonet);
 
-        UpdateDashboard();
+        UpdateStereonetDashboard();
     }
 
     // Assigns the given stereonet to the given players' compass drawing in order to work
@@ -79,26 +73,23 @@ public class StereonetsController : MonoBehaviour
     {
         if (currStereonet != null)
         {
-            //currStereonet.gameObject.SetActive(false);
             currStereonet.Hide();
         }
-        PolePlotting.Instance.stereonet = stereonet;
         currStereonet = stereonet;
 
         
-
         if (PIPlotButton.instance)
         {
             if (currStereonet.GetNumPoints() < 3)
             {
                 PIPlotButton.instance.isToggled = false;
                 currStereonet.isPiPlotEnabled = false;
-                currStereonet.SetLineRenderer(false);
+                currStereonet.SetPoleLineRendererState(false);
             }
             else
             {
                 PIPlotButton.instance.isToggled = currStereonet.isPiPlotEnabled;
-                currStereonet.lineRenderer.enabled = currStereonet.isPiPlotEnabled;
+                currStereonet.SetPoleLineRendererState(currStereonet.isPiPlotEnabled);
             }
             PIPlotButton.instance.UpdateButton();
         }
@@ -120,7 +111,6 @@ public class StereonetsController : MonoBehaviour
         Transform stereonet = stereonets[index];
         stereonets.Remove(stereonet);
         Destroy(stereonet.gameObject);
-        availableIDs[stereonet.GetComponent<Stereonet>().id] = false;
 
         if (StereonetCameraStack.instance)
         {
@@ -133,11 +123,6 @@ public class StereonetsController : MonoBehaviour
         foreach (Transform stereonet in stereonets)
         {
             Destroy(stereonet.gameObject);
-        }
-
-        for (int i = 0; i < availableIDs.Length; i++)
-        {
-            availableIDs[i] = false;
         }
 
         stereonets.Clear();
@@ -163,22 +148,27 @@ public class StereonetsController : MonoBehaviour
         currStereonet.UndoPlane();
     }
 
-    public void UpdateDashboard()
-    {
-        StartCoroutine(UpdateDashboardCoroutine());
-    }
-
-
-    [SerializeField] Material poleBeddingMaterial;
-    [SerializeField] RawImage stereonetPlot;
-    // Updates the dashboard with the latest image of the stereonet
-    // Also updates the dashboard to contain the pole count of the current stereonet
-    IEnumerator UpdateDashboardCoroutine()
+    public void UpdateStereonetDashboard()
     {
         // Converts the latest point (which is currently a unique color) to be
         // the same material as the other points
         currStereonet.SetLatestPointMeasurementAsStale();
 
+        UpdateDashboard2D();
+    }
+
+    private void UpdateDashboard2D()
+    {
+        // Move the current stereonet's UI elements to the stereonet card and scale it appropriately
+        var currStereonet2D = currStereonet as Stereonet2D;
+        StereonetDashboard.instance.UpdateCard(stereonets.IndexOf(currStereonet.transform), currStereonet2D);
+    }
+
+    [SerializeField] RawImage stereonetPlot;
+    // Updates the dashboard with the latest image of the stereonet
+    // Also updates the dashboard to contain the pole count of the current stereonet
+    IEnumerator UpdateDashboardCoroutine()
+    {
         // Wait one frame to allow the stereonet to render
         yield return new WaitForEndOfFrame();
 
@@ -224,6 +214,20 @@ public class StereonetsController : MonoBehaviour
         return stereonets[index].GetComponent<Stereonet>();
     }
 
+    /// <summary>
+    /// Toggles between showing the 3D and 2D versions of the stereonet on the stereonet card
+    /// </summary>
+    public void ToggleStereonetMode()
+    {
+        stereonet3DImage.SetActive(!stereonet3DImage.activeSelf);
+        stereonetImage2D.SetActive(!stereonetImage2D.activeSelf);
+    }
 
-
+    public void RotateStereonet()
+    {
+        currStereonet.RotateModel();
+        stereonetCamera.Render();
+    }
+    
+    
 }

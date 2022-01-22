@@ -65,7 +65,7 @@ public class PlaneTwoPointerSlider : MonoBehaviour
     {
         // This assumes that the 2-point measurement will be the latest measurement the player makes
         gameObject.SetActive(false);
-        StereonetsController.instance.Undo();
+        PlanePlotting.instance.Undo();
     }
 
     private void Hide()

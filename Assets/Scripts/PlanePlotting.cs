@@ -71,7 +71,7 @@ public class PlanePlotting : PlayerTool
 
         flagPlantAudio.Play();
 
-        Transform planePoint = Instantiate(planePointPrefab, hit.point, Quaternion.identity, stereonet.pointPlanesParent).transform;
+        Transform planePoint = Instantiate(planePointPrefab, hit.point, Quaternion.identity).transform;
         planePoint.localScale *= Settings.instance.ObjectScaleMultiplier;
         planePoint.up = hit.normal;
         

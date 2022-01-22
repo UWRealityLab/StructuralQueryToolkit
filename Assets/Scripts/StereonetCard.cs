@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ using UnityEngine.EventSystems;
 public class StereonetCard : MonoBehaviour, IDashboardCard
 {
     [SerializeField] RawImage stereonetImage;
+    [SerializeField] RectTransform stereonetImage2D;
     [SerializeField] Image descriptionCardImage;
     [SerializeField] TMP_InputField titleInputField;
     [SerializeField] public EventTrigger fullscreenEventTrigger;
@@ -15,6 +17,11 @@ public class StereonetCard : MonoBehaviour, IDashboardCard
     [SerializeField] Image editImage;
     [SerializeField] Image colorImage;
     [SerializeField] Image selectedIconImage;
+
+    private void Awake()
+    {
+        
+    }
 
     public RawImage GetImage()
     {
@@ -28,7 +35,16 @@ public class StereonetCard : MonoBehaviour, IDashboardCard
 
     public void SetStereonetImage(Texture newImage)
     {
+        stereonetImage2D.gameObject.SetActive(false);
+        
         stereonetImage.texture = newImage;
+    }
+
+    public void SetStereonet2DImage(Stereonet2D stereonet)
+    {
+        stereonetImage.enabled = false;
+        
+        stereonet.MoveStereonetUI(stereonetImage2D);
     }
 
     public void SetColor(Color color)
