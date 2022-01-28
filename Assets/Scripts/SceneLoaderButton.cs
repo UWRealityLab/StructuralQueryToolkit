@@ -7,8 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoaderButton : MonoBehaviour
 {
-    
-    [SerializeField] private string sceneName;
+    private string sceneName;
     
     #if UNITY_EDITOR
     public SceneAsset scene;
@@ -22,7 +21,6 @@ public class SceneLoaderButton : MonoBehaviour
     }
     #endif
 
-    
     public void PlayScene()
     {
         MainMenu.instance.PlayScene(sceneName);
