@@ -63,11 +63,6 @@ public class GameController : MonoBehaviour
         {
             Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
         }
-
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
-        {
-            Application.targetFrameRate = 60;
-        }        
     }
 
     public void SwitchToActivity(GameObject activity) {
