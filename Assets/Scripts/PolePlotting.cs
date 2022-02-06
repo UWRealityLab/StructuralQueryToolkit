@@ -70,7 +70,7 @@ public class PolePlotting : PlayerTool
         var currStereonet = StereonetsController.instance.currStereonet;
 
         Transform flag = Instantiate(flagPrefab, hit.point, Quaternion.identity).transform;
-        if (attachFlagsToObject)
+        if (!attachFlagsToObject)
         {
             currStereonet.AddPoleFlag(flag);
         }

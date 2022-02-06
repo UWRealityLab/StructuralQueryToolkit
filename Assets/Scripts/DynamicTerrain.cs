@@ -3,20 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider)), DisallowMultipleComponent]
 public class DynamicTerrain : MonoBehaviour
 {
-    private void Update()
+    private Flag[] _flags;
+
+    private void Awake()
     {
-        UpdateStereonet();
+        _flags = Array.Empty<Flag>();
     }
 
     public void UpdateStereonet()
     {
-        var children = GetComponentsInChildren<Flag>(true);
-
-        foreach (var measurement in children)
+        foreach (var measurement in _flags)
         {
             measurement.UpdateStereonet();
         }
+    }
+
+    private void OnValidate()
+    {
+        transform.tag = "Terrain";
+    }
+
+    private void OnTransformChildrenChanged()
+    {
+        _flags = GetComponentsInChildren<Flag>(true);
     }
 }

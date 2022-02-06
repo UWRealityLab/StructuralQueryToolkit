@@ -12,7 +12,7 @@ public abstract class Stereonet : MonoBehaviour
     
     protected Color stereonetColor;
 
-    protected const int NUM_INITIAL_POINTS = 5; // Points to add to the middle of the stereonet to have better line fitting (for pole plotting)
+    protected const int NUM_INITIAL_POINTS = 0; // Points to add to the middle of the stereonet to have better line fitting (for pole plotting)
 
     // Used to store the default measurement groups' names 
     [HideInInspector] public Measurement defaultPlaneMeasurement;
@@ -40,7 +40,7 @@ public abstract class Stereonet : MonoBehaviour
     public abstract void AddPoleFlag(Transform flag, Transform hitTransform);
     public abstract void ChangeFlagsMaterial(Color colorButtonColor);
     public abstract AvgStereonetPoleData GetAvgStereonetPoleData();
-    public abstract void ChangePoleData(Vector3 transformUp, Transform stereonetPoint);
+    public abstract void ChangePoleData(Flag flag);
 
 
     // Line
@@ -90,7 +90,7 @@ public abstract class Stereonet : MonoBehaviour
 
         for (int i = 0; i < NUM_INITIAL_POINTS; i++)
         {
-            polePoints.AddFirst(new PoleMeasurement(Vector3.zero, Vector3.zero, false, null));
+            polePoints.AddFirst(new PoleMeasurement(Vector3.zero, false, null));
         }
 
         defaultPlaneMeasurement = new PiPlotPlane3D();

@@ -23,6 +23,8 @@ public class PopupUIShower : MonoBehaviour
     private bool isMouseOver = false;
     
     private Material mat;
+    private static readonly int _showTrigger = Animator.StringToHash("showTrigger");
+    private static readonly int _exitTrigger = Animator.StringToHash("exitTrigger");
 
     private void Awake()
     {
@@ -47,7 +49,6 @@ public class PopupUIShower : MonoBehaviour
             PrefabUtility.UnpackPrefabInstance(gameObject, PrefabUnpackMode.Completely, InteractionMode.AutomatedAction);
         }
 #endif
-
     }
 
     private void OnMouseOver()
@@ -75,7 +76,7 @@ public class PopupUIShower : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (!isTransitioning)
+        if (!isTransitioning && !UICanvas.activeSelf)
         {
             StartCoroutine(ShowCoroutine());
         }
@@ -83,7 +84,7 @@ public class PopupUIShower : MonoBehaviour
     IEnumerator ShowCoroutine()
     {
         UICanvas.SetActive(true);
-        UIAnimator.SetTrigger("showTrigger");
+        UIAnimator.SetTrigger(_showTrigger);
         if (DisablePlayer)
         {
             GameController.instance.DisablePlayer();
@@ -96,7 +97,7 @@ public class PopupUIShower : MonoBehaviour
     public void Exit() => StartCoroutine(ExitCoroutine());
     IEnumerator ExitCoroutine()
     {
-        UIAnimator.SetTrigger("exitTrigger");
+        UIAnimator.SetTrigger(_exitTrigger);
         if (DisablePlayer)
         {
             GameController.instance.EnablePlayer();

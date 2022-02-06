@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
+using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Single;
+using MathNet.Numerics.Statistics;
 using Gradient = UnityEngine.Gradient;
 
 
@@ -77,6 +81,7 @@ public class Stereonet2D : Stereonet
         {
             hasChanged = false;
             FitPlane();
+            StereonetCamera.instance.UpdateStereonet();
         }
     }
 
@@ -105,74 +110,44 @@ public class Stereonet2D : Stereonet
             PIPlotButton.instance.isToggled = false;
         }
     }
+    
+    // TODO move
+    public static Matrix<float> GetCovarianceMatrix(Matrix<float> matrix)
+    {
+        var columnAverages = matrix.ColumnSums() / matrix.RowCount;
+        var centeredColumns = matrix.EnumerateColumns().Zip(columnAverages, (col, avg) => col - avg);
+        var centered = DenseMatrix.OfColumnVectors(centeredColumns);
+        var normalizationFactor = matrix.RowCount == 1 ? 1 : matrix.RowCount - 1;
+        return centered.TransposeThisAndMultiply(centered) / normalizationFactor;
+    }
 
     private void FitPlane()
     {
         // Only fit the plane if the user has 3 measurements or more
-        if (GetNumPoints() < 3)
+        if (polePoints.Count < 3)
         {
             return;
         }
 
-        List<Vector3> pointsList = new List<Vector3>();
-
-        Vector3 sum = new Vector3(0.0f, 0.0f, 0.0f);
-        foreach (var pole in polePoints)
-        {
-            pointsList.Add(pole.Position);
-            sum += pole.Position;
-        }
-
-        Vector3 centroid = sum * (1.0f / pointsList.Count);
-
-        //Calculate determinants from matrix components
-        float xx = 0.0f; float xy = 0.0f; float xz = 0.0f;
-        float yy = 0.0f; float yz = 0.0f; float zz = 0.0f;
-
-        foreach (var pole in polePoints)
-        {
-            Vector3 r = pole.Position - centroid;
-            xx += r.x * r.x;
-            xy += r.x * r.y;
-            xz += r.x * r.z;
-            yy += r.y * r.y;
-            yz += r.y * r.z;
-            zz += r.z * r.z;
-        }
-
-        float det_x = yy * zz - yz * yz;
-        float det_y = xx * zz - xz * xz;
-        float det_z = xx * yy - xy * xy;
-
-        float det_max = Mathf.Max(det_x, det_y, det_z);
-        Vector3 dir = new Vector3(0.0f, 0.0f, 0.0f);
-        if (det_max == det_x)
-        {
-            dir.x = det_x;
-            dir.y = xz * yz - xy * zz;
-            dir.z = xy * yz - xz * yy;
-        }
-        else if (det_max == det_y)
-        {
-            dir.x = xz * yz - xy * zz;
-            dir.y = det_y;
-            dir.z = xy * xz - yz * xx;
-        }
-        else
-        {
-            dir.x = xy * yz - xz * yy;
-            dir.y = xy * xz - yz * xx;
-            dir.z = det_z;
-        }
-        Vector3 normal = -dir.normalized;
-        StereonetsController.instance.finalPlane.forward = normal;
+        var poleStrikeDips = new Vector2[polePoints.Count];
         
+        var idx = 0;
+        foreach (var pole in polePoints)
+        {
+            StereonetUtils.CalculateStrikeAndDip(pole.Normal, out var strike, out var dip);
+            poleStrikeDips[idx++] = new Vector2(strike, dip);
+        }
+
+        TwoDimensionalStereonetUtils.GetFoldAxis(poleStrikeDips, out var foldAxisStrike, out var foldAxisDip, out var normal);
+        StereonetUtils.CalculateTrendAndPlunge(foldAxisStrike, foldAxisDip, out var trend, out var plunge);
+
         // 2D
-        foldAxisPolePoint.anchoredPosition = TwoDimensionalStereonetUtils.GetPolePosition(STEREONET_IMAGE_RADIUS, normal);
-        var linePoints = TwoDimensionalStereonetUtils.GetPlaneLinePoints(STEREONET_IMAGE_RADIUS, normal, NUM_CURVE_POINTS);
+        foldAxisPolePoint.anchoredPosition = TwoDimensionalStereonetUtils.GetPolePosition(STEREONET_IMAGE_RADIUS, trend, plunge);
+        var linePoints = TwoDimensionalStereonetUtils.GetPlaneLinePoints(STEREONET_IMAGE_RADIUS, foldAxisStrike, foldAxisDip, NUM_CURVE_POINTS);
         polePlotLineLineRenderer.Points = linePoints;
         
         // 3D
+        normal = new Vector3(-normal.y, normal.x, -normal.z);
         var normal3d = modelTransform.TransformDirection(normal);
         foldAxisPlane3D.rotation = Quaternion.LookRotation(normal3d, modelTransform.up);
         foldAxisPole3D.SetNormal(normal.y > 0f ? normal : -normal);
@@ -192,45 +167,43 @@ public class Stereonet2D : Stereonet
         latestPolePoint.GetComponent<RawImage>().color = isOverturnedBedding ? overturnedPoleColor : latestPoleColor;
         latestPolePoint.anchoredPosition = TwoDimensionalStereonetUtils.GetPolePosition(STEREONET_IMAGE_RADIUS, dirNormal);
         
-        flag.stereonetPoint = latestPolePoint;
-        var stereonet3DPointPosition = StereonetsController.instance.originTransform.position - dirNormal * 4.9f;
-        polePoints.AddFirst(new PoleMeasurement(stereonet3DPointPosition, dirNormal, isOverturnedBedding, latestPolePoint.gameObject));
-
-        if (StereonetCameraStack.instance)
-        {
-            StereonetCameraStack.instance.CreatePoint(-normal);
-        }
-
+        var poleMeasurement = new PoleMeasurement(dirNormal, isOverturnedBedding, latestPolePoint.gameObject);
+        polePoints.AddFirst(poleMeasurement);
+        
         // 3D
-        var normal3d = modelTransform.TransformDirection(dirNormal);
         var pole3D = Instantiate(polePrefab3D, Vector3.zero, Quaternion.identity, measurementsTransform3D).GetComponent<StereonetPole3D>();
-        pole3D.SetNormal(normal3d);
+        pole3D.transform.localRotation = Quaternion.identity;
+        pole3D.SetNormal(dirNormal);
         pole3D.SetColor(isOverturnedBedding ? overturnedPoleColor : poleColor3D);
         poles3D.AddFirst(pole3D);
+        
+        // Section for dynamic updates in the terrain
+        flag.stereonet = this;
+        flag.PoleMeasurement = poleMeasurement;
+        flag.StereonetPole2D = latestPolePoint;
+        flag.StereonetPole3D = pole3D;
         
         UpdatePolePlottingState();
         FitPlane();
     }
 
     private bool hasChanged = false;
-    public override void ChangePoleData(Vector3 flagUp, Transform stereonetPoint)
+    public override void ChangePoleData(Flag flag)
     {
         hasChanged = true;
-        var oldPos = stereonetPoint.position;
+        
+        var normal = flag.transform.up;
+        var dirNormal = normal.y > 0f ? normal : -normal;
+        
+        // Update pole measurement (later used for calculating fold axis)
+        flag.PoleMeasurement.Normal = dirNormal;
 
-        var normal = flagUp;
-        var isOverturnedBedding = normal.y > 0f;
-        var dirNormal = isOverturnedBedding ? normal : -normal;
+        // Update 2D stereonet position
         var stereonetPointPosition = TwoDimensionalStereonetUtils.GetPolePosition(STEREONET_IMAGE_RADIUS, dirNormal);
+        flag.StereonetPole2D.anchoredPosition = stereonetPointPosition;
 
-        stereonetPoint.position = stereonetPointPosition;
-        
-        polePoints.AddLast(new PoleMeasurement(stereonetPointPosition, dirNormal, isOverturnedBedding, stereonetPoint.gameObject));
-        polePoints.Remove(new PoleMeasurement(oldPos, dirNormal, stereonetPoint.transform.up.z > 0f, stereonetPoint.gameObject)); // TODO
-        
-        
-        // TODO not work done for 3D stereoent
-
+        // Update 3D stereonet position
+        flag.StereonetPole3D.SetNormal(normal);
     }
 
     /// <summary>
@@ -767,8 +740,7 @@ public class Stereonet2D : Stereonet
     public override void AddPoleFlag(Transform flag, Transform hitTransform)
     {
         flag.SetParent(hitTransform.transform, true);
-        flag.GetComponent<Flag>().flagMeshRenderer.materials[1].SetColor(_colorProperty, stereonetColor);
-        flagsList.Add(flag);
+        AddPoleFlag(flag);
     }
     
     public override void ChangeFlagsMaterial(Color color)

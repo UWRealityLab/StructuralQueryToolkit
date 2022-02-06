@@ -1,15 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 public class StereonetUtils
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="vector"></param>
-    /// <param name="strike"></param>
-    /// <param name="dip"></param>
     public static void CalculateStrikeAndDip(Vector3 vector, out float strike, out float dip)
     {
         float trend;
@@ -57,18 +52,15 @@ public class StereonetUtils
 
         trend = (Mathf.Atan2(vector.x, vector.z) * 180 / Mathf.PI);
 
-        if (trend < 0f)
-        {
-            trend += 180;
-        }
-
-        if (vector.x > 0f)
-        {
-            trend += 180;
-        }
+        trend += 180;
 
         // Plunge
         plunge = (Mathf.Asin(vector.y) * 180 / Mathf.PI);
+    }
 
+    public static void CalculateTrendAndPlunge(float strike, float dip, out float trend, out float plunge)
+    {
+        trend = strike - 90f;
+        plunge = 90f - dip;
     }
 }

@@ -1,6 +1,8 @@
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class Stereonet3D : Stereonet
@@ -82,95 +84,7 @@ public class Stereonet3D : Stereonet
 
     private void FitPlane()
     {
-        // Only fit the plane if the user has 3 measurements or more
-        if (GetNumPoints() < 3)
-        {
-            return;
-        }
-
-        List<Vector3> pointsList = new List<Vector3>();
-
-        Vector3 sum = new Vector3(0.0f, 0.0f, 0.0f);
-        foreach (var pole in polePoints)
-        {
-            pointsList.Add(pole.Position);
-            sum += pole.Position;
-        }
-
-        Vector3 centroid = sum * (1.0f / pointsList.Count);
-
-        //Calculate determinants from matrix components
-        float xx = 0.0f; float xy = 0.0f; float xz = 0.0f;
-        float yy = 0.0f; float yz = 0.0f; float zz = 0.0f;
-
-        foreach (var pole in polePoints)
-        {
-            Vector3 r = pole.Position - centroid;
-            xx += r.x * r.x;
-            xy += r.x * r.y;
-            xz += r.x * r.z;
-            yy += r.y * r.y;
-            yz += r.y * r.z;
-            zz += r.z * r.z;
-        }
-
-        float det_x = yy * zz - yz * yz;
-        float det_y = xx * zz - xz * xz;
-        float det_z = xx * yy - xy * xy;
-
-        float det_max = Mathf.Max(det_x, det_y, det_z);
-        Vector3 dir = new Vector3(0.0f, 0.0f, 0.0f);
-        if (det_max == det_x)
-        {
-            dir.x = det_x;
-            dir.y = xz * yz - xy * zz;
-            dir.z = xy * yz - xz * yy;
-        }
-        else if (det_max == det_y)
-        {
-            dir.x = xz * yz - xy * zz;
-            dir.y = det_y;
-            dir.z = xy * xz - yz * xx;
-        }
-        else
-        {
-            dir.x = xy * yz - xz * yy;
-            dir.y = xy * xz - yz * xx;
-            dir.z = det_z;
-        }
-        Vector3 normal = -dir.normalized;
-        StereonetsController.instance.finalPlane.forward = normal;
-
-        var finalPlane = StereonetsController.instance.finalPlane;
-        var finalPlaneLeftCorner = StereonetsController.instance.finalPlaneLeftCorner;
-        var finalPlaneRightCorner = StereonetsController.instance.finalPlaneRightCorner;
-        
-        var isOverTurned = normal.y > 0f; 
-        finalPoint.position = StereonetsController.instance.originTransform.position + (isOverTurned ? (-normal * 5f) : (normal * 5f));
-
-        int iters = 50;
-        lineRenderer.positionCount = 0;
-        for (int i = 0; i < iters; i++)
-        {
-            Vector3 pos = Vector3.Lerp(finalPlaneLeftCorner.position, finalPlaneRightCorner.position, Mathf.SmoothStep(0f, 1f, (float)i / (iters - 1)));
-
-            /*
-            var stereonetPointPosition = pos - StereonetsController.singleton.finalPlane.up * 10f;
-            lineRenderer.SetPosition(lineRenderer.positionCount - 1, new Vector3(stereonetPointPosition.x, stereonetPointPosition.y + 0.01f, stereonetPointPosition.z)); // Offset in Y to account for z fighting
-            */
-
-            var hits = Physics.RaycastAll(pos, -finalPlane.up, 100f, ~stereonetLayer);
-            foreach (RaycastHit hit in hits)
-            {
-                lineRenderer.positionCount++;
-                lineRenderer.SetPosition(lineRenderer.positionCount - 1, new Vector3(hit.point.x, hit.point.y + 0.1f, hit.point.z)); // Offset in Y to account for z fighting
-            }
-        }
-        // For the two edges of the line renderer
-        var planeSideDir = (finalPlaneLeftCorner.position - finalPlaneRightCorner.position).normalized;
-        lineRenderer.SetPosition(0, transform.position + planeSideDir * 4.9f);
-        lineRenderer.SetPosition(lineRenderer.positionCount - 1, transform.position - planeSideDir * 4.9f);
-
+        throw new RowNotInTableException();
     }
 
     private Vector3[] GenerateStereonetLine(Vector3 planeDown, Vector3 leftCorner, Vector3 rightCorner)
@@ -206,8 +120,8 @@ public class Stereonet3D : Stereonet
 
         latestPoint = Instantiate(isOverturnedBedding ? specialPointPrefab : pointPrefab, stereonetPointPosition, Quaternion.identity, polePointsParentObj).transform;
         
-        flag.stereonetPoint = latestPoint;
-        polePoints.AddFirst(new PoleMeasurement(stereonetPointPosition, dirNormal, isOverturnedBedding, latestPoint.gameObject));
+        //flag.stereonetPoint = latestPoint;
+        polePoints.AddFirst(new PoleMeasurement(dirNormal, isOverturnedBedding, latestPoint.gameObject));
 
         if (StereonetCameraStack.instance)
         {
@@ -220,21 +134,9 @@ public class Stereonet3D : Stereonet
     }
 
     private bool hasChanged = false;
-    public override void ChangePoleData(Vector3 flagUp, Transform stereonetPoint)
+    public override void ChangePoleData(Flag flas)
     {
-        hasChanged = true;
-        var oldPos = stereonetPoint.position;
-
-        var normal = flagUp;
-        var isOverturnedBedding = normal.y > 0f;
-        var dirNormal = isOverturnedBedding ? normal : -normal;
-        var stereonetPointPosition = StereonetsController.instance.originTransform.position - dirNormal * 4.9f;
-
-        stereonetPoint.position = stereonetPointPosition;
-        
-        polePoints.AddLast(new PoleMeasurement(stereonetPointPosition, dirNormal, isOverturnedBedding, stereonetPoint.gameObject));
-        polePoints.Remove(new PoleMeasurement(oldPos, dirNormal, stereonetPoint.transform.up.z > 0f, stereonetPoint.gameObject)); // TODO
-
+        throw new NotImplementedException();
     }
 
     /// <summary>

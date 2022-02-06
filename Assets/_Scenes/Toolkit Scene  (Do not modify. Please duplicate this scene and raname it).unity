@@ -30268,6 +30268,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3e2b1aad3e949864a87585b91e31fbbb, type: 2}
+    - target: {fileID: 3770331946862636989, guid: 21b60540b1c7388459be0474eba3fea6,
+        type: 3}
+      propertyPath: m_TagString
+      value: Terrain
+      objectReference: {fileID: 0}
     - target: {fileID: 5455259254549946949, guid: 21b60540b1c7388459be0474eba3fea6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -30968,7 +30973,7 @@ MonoBehaviour:
   BlocksStereonetUI: 0
   ToolButton: {fileID: 0}
   UserInterfaceObjects: []
-  attachFlagsToObject: 0
+  attachFlagsToObject: 1
   flagPrefab: {fileID: 4807927630178183305, guid: e2b8852e097cc4d1e9f956db45ccb96e,
     type: 3}
   piPlotButton: {fileID: 8547452194740021157}
@@ -42901,7 +42906,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2120770063645632516}
   m_HandleRect: {fileID: 2492469250501447422}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -51288,7 +51293,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5643280127451896694}
   m_HandleRect: {fileID: 5643280127451896695}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -61540,7 +61545,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9150192631029538451}
   m_HandleRect: {fileID: 9150192631029538450}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
