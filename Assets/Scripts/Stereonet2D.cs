@@ -151,6 +151,10 @@ public class Stereonet2D : Stereonet
         var normal3d = modelTransform.TransformDirection(normal);
         foldAxisPlane3D.rotation = Quaternion.LookRotation(normal3d, modelTransform.up);
         foldAxisPole3D.SetNormal(normal.y > 0f ? normal : -normal);
+
+
+        avgStereonetPoleData.avgPolePlunge = plunge;
+        avgStereonetPoleData.avgPoleTrend = trend;
     }
     
     // Draws a point in the 3D stereonet
@@ -687,9 +691,6 @@ public class Stereonet2D : Stereonet
             avgStereonetPoleData.Clear();
             return avgStereonetPoleData;
         }
-        
-        Vector3 planeVector = StereonetsController.instance.finalPlane.forward;
-        StereonetUtils.CalculateTrendAndPlunge(planeVector, out avgStereonetPoleData.avgPoleTrend, out avgStereonetPoleData.avgPolePlunge);
 
         return avgStereonetPoleData;
     }

@@ -1605,7 +1605,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 052e9acd9e1da0a40bf2c67ddf561e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scene: {fileID: 102900000, guid: 5df27123b24cc4a6a82212e0da8c4004, type: 3}
+  sceneName: Toolkit Scene  (Do not modify. Please duplicate this scene and raname
+    it)
+  UseSceneIndex: 0
+  SceneIndex: -1
+  scene: {fileID: 102900000, guid: 3f7b7aad81b5e4b3aaf3d5d66de3ec90, type: 3}
 --- !u!95 &1061029719
 Animator:
   serializedVersion: 3
