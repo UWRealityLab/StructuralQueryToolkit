@@ -28208,7 +28208,7 @@ GameObject:
   - component: {fileID: 1832901969}
   m_Layer: 5
   m_Name: Tooltip Canvas
-  m_TagString: EditorOnly
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31667,9 +31667,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2099643220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e24edb1e0408479aabee4aab0833870, type: 3}
+  m_Script: {fileID: 11500000, guid: b11f396b1c57b4592977860267c97a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pauseCanvas: {fileID: 1457241763}
+  playerController: {fileID: 2012881948}
 --- !u!222 &2099643224
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33338,6 +33340,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570788169869494581, guid: 6706f1beeec2db145bdea2fb7c028e50,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.8039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 570788169869494581, guid: 6706f1beeec2db145bdea2fb7c028e50,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 570788169869494581, guid: 6706f1beeec2db145bdea2fb7c028e50,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2470460567282796096, guid: 6706f1beeec2db145bdea2fb7c028e50,
         type: 3}
@@ -42906,7 +42923,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2120770063645632516}
   m_HandleRect: {fileID: 2492469250501447422}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -43677,7 +43694,7 @@ PrefabInstance:
     - target: {fileID: 4005238096427108918, guid: f2486bbe1bda14f7098d15e0964a495f,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -24.999756
+      value: -24.999634
       objectReference: {fileID: 0}
     - target: {fileID: 5545398398803656332, guid: f2486bbe1bda14f7098d15e0964a495f,
         type: 3}
@@ -51293,7 +51310,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5643280127451896694}
   m_HandleRect: {fileID: 5643280127451896695}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -61545,7 +61562,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 9150192631029538451}
   m_HandleRect: {fileID: 9150192631029538450}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
