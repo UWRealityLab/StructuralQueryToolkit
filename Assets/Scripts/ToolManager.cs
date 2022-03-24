@@ -199,7 +199,7 @@ public abstract class PlayerTool : MonoBehaviour
 
     private const int LEFT_MOUSE_POINTER = -1;
 
-    protected bool CannotUseTool()
+    protected static bool CannotUseTool()
     {
 #if UNITY_EDITOR
         if (!Application.isPlaying)
@@ -214,7 +214,7 @@ public abstract class PlayerTool : MonoBehaviour
         
         //print(EventSystem.current.IsPointerOverGameObject(LEFT_MOUSE_POINTER) + " " + EventSystem.current.IsPointerOverGameObject(0) + " " + EventSystem.current.IsPointerOverGameObject(1) + " " + EventSystem.current.IsPointerOverGameObject(2));
         
-        return !isToggled || Input.touchCount >= 2 || EventSystem.current.IsPointerOverGameObject(LEFT_MOUSE_POINTER) || uiObjects.Count > 0 || EventSystem.current.IsPointerOverGameObject(1) || EventSystem.current.IsPointerOverGameObject(0);
+        return Input.touchCount >= 2 || EventSystem.current.IsPointerOverGameObject(LEFT_MOUSE_POINTER) || uiObjects.Count > 0 || EventSystem.current.IsPointerOverGameObject(1) || EventSystem.current.IsPointerOverGameObject(0);
     }
 
     public void CheckCanUseTool()
@@ -226,7 +226,7 @@ public abstract class PlayerTool : MonoBehaviour
         }
         #endif
         
-        if (CannotUseTool())
+        if (!isToggled || CannotUseTool())
         {
             return;
         }

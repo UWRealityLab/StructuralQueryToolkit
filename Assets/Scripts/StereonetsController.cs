@@ -16,15 +16,12 @@ public class StereonetsController : MonoBehaviour
     [SerializeField] GameObject stereonetPrefab;
     [SerializeField] Transform stereonetsListParent;
     private List<Transform> stereonets;
-
+    
     [SerializeField] public Transform originTransform;
     [SerializeField] public Transform finalPlane;
-    [SerializeField] public Transform finalPlaneLeftCorner;
-    [SerializeField] public Transform finalPlaneRightCorner;
 
     public Stereonet currStereonet;
-
-
+    
     [Header("3D Stereonet")] 
     [SerializeField] private GameObject stereonet3DImage;
 
@@ -153,16 +150,8 @@ public class StereonetsController : MonoBehaviour
         // Converts the latest point (which is currently a unique color) to be
         // the same material as the other points
         currStereonet.SetLatestPointMeasurementAsStale();
-
-        UpdateDashboard2D();
     }
-
-    private void UpdateDashboard2D()
-    {
-        // Move the current stereonet's UI elements to the stereonet card and scale it appropriately
-        var currStereonet2D = currStereonet as Stereonet2D;
-        StereonetDashboard.instance.UpdateCard(stereonets.IndexOf(currStereonet.transform), currStereonet2D);
-    }
+    
 
     [SerializeField] RawImage stereonetPlot;
     // Updates the dashboard with the latest image of the stereonet

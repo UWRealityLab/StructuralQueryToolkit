@@ -15,7 +15,7 @@ public class RulerDashboard : DashboardUI
     {
     }
 
-    protected override void OnAddCard(Transform newCard)
+    protected override void OnAddCard(Transform newCardTrans)
     {
         RulerPlotting.Instance.NewRuler();
     }

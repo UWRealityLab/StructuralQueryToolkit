@@ -12,6 +12,8 @@ using UnityEngine.Events;
 
 public class StereonetFullscreenManager : MonoBehaviour
 {
+    public static StereonetFullscreenManager Instance;
+    
     [SerializeField] TextMeshProUGUI titleText;
     [SerializeField] Transform stereonetImage2D;
     [SerializeField] GameObject steroenetImage3D;
@@ -42,6 +44,7 @@ public class StereonetFullscreenManager : MonoBehaviour
 
     void Awake()
     {
+        Instance = this;
         measurementGroups = new LinkedList<MeasurementsGroup>();
     }
 

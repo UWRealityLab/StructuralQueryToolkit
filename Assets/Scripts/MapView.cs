@@ -9,7 +9,8 @@ public class MapView : MonoBehaviour
 {
     public static MapView instance;
     public Camera mapViewCamera;
-    [SerializeField] private Transform playerSprite;
+    private Transform playerSprite;
+    public int CameraFrameRate = 30;
     [SerializeField] private Canvas mapViewCanvas;
     [SerializeField] private GameObject ResetButton;
 
@@ -35,6 +36,8 @@ public class MapView : MonoBehaviour
         defaultCamSize = mapViewCamera.orthographicSize;
 
         zoomIncrement = ZoomSensitivity;
+        
+        
     }
 
     private void Start()
@@ -43,17 +46,20 @@ public class MapView : MonoBehaviour
         playerSprite.localScale *= Settings.instance.ObjectScaleMultiplier;
         GameController.instance.switchToMapViewEvent.AddListener(() =>
         {
-            mapViewCamera.enabled = true;
+            mapViewCanvas.gameObject.SetActive(true);
             GameController.CurrentCamera = mapViewCamera;
             isInMapView = true;
+            InvokeRepeating(nameof(RenderMapCamera), 0f, 1f / CameraFrameRate);
         });
         GameController.instance.returnToFPSEvent.AddListener(() =>
         {
-            mapViewCamera.enabled = false;
+            mapViewCanvas.gameObject.SetActive(false);
             GameController.CurrentCamera = Camera.main;
             isInMapView = false;
+            CancelInvoke(nameof(RenderMapCamera));
         });
         
+
         gameObject.SetActive(false);
 
     }
@@ -102,6 +108,11 @@ public class MapView : MonoBehaviour
                 ResetButton.SetActive(Math.Abs(mapViewCamera.orthographicSize - defaultCamSize) > float.Epsilon || mapViewCamera.transform.position != defaultCamPos);
             }
         }
+    }
+
+    private void RenderMapCamera()
+    {
+        mapViewCamera.Render();
     }
 
     private const float MOBILE_MODIFIER = 0.1f;
@@ -175,6 +186,18 @@ public class MapView : MonoBehaviour
     public void ExitMapView()
     {
         GameController.instance.ReturnToFPS();
+    }
+
+    public void ToggleMapView()
+    {
+        if (gameObject.activeSelf)
+        {
+            GameController.instance.ReturnToFPS();
+        }
+        else
+        {
+            GameController.instance.SwitchToMapView(gameObject);
+        }
     }
 
     public void ReturnToDefaultCameraPosition()

@@ -68,8 +68,11 @@ public class Stereonet2D : Stereonet
         base.Start();
         
         // Move the UI elements to the stereonet dashboard
-        MoveStereonetUI(StereonetCanvas.Instance.Stereonet2DContainer.transform);
-        
+        if (!GameController.instance.IsVR)
+        {
+            MoveStereonetUI(StereonetCanvas.Instance.Stereonet2DContainer.transform);
+        }
+
         poles3D = new LinkedList<StereonetPole3D>();
         lineationPoles3D = new LinkedList<StereonetPole3D>();
         planes3D = new LinkedList<StereonetPlane3D>();
@@ -94,7 +97,39 @@ public class Stereonet2D : Stereonet
                 Destroy(flag.gameObject);
             }
         }
-        
+
+        foreach (var plane in worldPlanes)
+        {
+            if (plane)
+            {
+                Destroy(plane.gameObject);
+            }
+        }
+
+        foreach (var planePoint in planePoints)
+        {
+            if (planePoint)
+            {
+                Destroy(planePoint.gameObject);
+            }
+        }
+
+        foreach (var line in worldLines)
+        {
+            if (line)
+            {
+                Destroy(line.gameObject);
+            }
+        }
+
+        foreach (var linePoint in worldLinePoints)
+        {
+            if (linePoint)
+            {
+                Destroy(linePoint.gameObject);
+            }
+        }
+
         Destroy(StereonetUIContainer);
     }
     
@@ -107,7 +142,10 @@ public class Stereonet2D : Stereonet
             foldAxisPlane3D.gameObject.SetActive(false);
             foldAxisPole3D.gameObject.SetActive(false);
             isPiPlotEnabled = false;
-            PIPlotButton.instance.isToggled = false;
+            if (PIPlotButton.instance)
+            {
+                PIPlotButton.instance.isToggled = false;
+            }
         }
     }
     
@@ -151,6 +189,9 @@ public class Stereonet2D : Stereonet
         var normal3d = modelTransform.TransformDirection(normal);
         foldAxisPlane3D.rotation = Quaternion.LookRotation(normal3d, modelTransform.up);
         foldAxisPole3D.SetNormal(normal.y > 0f ? normal : -normal);
+        
+        avgStereonetPoleData.avgPolePlunge = plunge;
+        avgStereonetPoleData.avgPoleTrend = trend;
     }
     
     // Draws a point in the 3D stereonet
@@ -172,9 +213,10 @@ public class Stereonet2D : Stereonet
         
         // 3D
         var pole3D = Instantiate(polePrefab3D, Vector3.zero, Quaternion.identity, measurementsTransform3D).GetComponent<StereonetPole3D>();
+        pole3D.transform.localPosition = Vector3.zero;
         pole3D.transform.localRotation = Quaternion.identity;
         pole3D.SetNormal(dirNormal);
-        pole3D.SetColor(isOverturnedBedding ? overturnedPoleColor : poleColor3D);
+        pole3D.SetColor(isOverturnedBedding && !GameController.instance.IsVR ? overturnedPoleColor : poleColor3D);
         poles3D.AddFirst(pole3D);
         
         // Section for dynamic updates in the terrain
@@ -218,15 +260,23 @@ public class Stereonet2D : Stereonet
 
     public override void AddPlanePointThreePoint(Transform point)
     {
-        point.parent = measurementsParent;
+        point.parent = GameController.instance.IsVR ? null : measurementsParent;
         planePoints.AddFirst(point);
         
         point.transform.GetComponent<MeshRenderer>().material.SetColor(_colorProperty, stereonetColor);
 
         if (planePoints.Count == 3)
         {
+            GameObject worldPlane;
             // Create gameobject prefab
-            var worldPlane = Instantiate(planeWorldPrefab, measurementsParent);
+            if (GameController.instance.IsVR)
+            {
+                worldPlane = Instantiate(planeWorldPrefab);
+            }
+            else
+            {
+                worldPlane = Instantiate(planeWorldPrefab, measurementsParent);
+            }
             worldPlane.transform.position = Vector3.zero;
             var stereonetPlane2D = Instantiate(lineRendererPrefab, StereonetUIContainer); // The 2D line renderer
             var piPlotPlane = stereonetPlane2D.AddComponent<PiPlotPlane2D>();
@@ -282,7 +332,7 @@ public class Stereonet2D : Stereonet
 
     public override void AddPlanePointTwoPoint(Transform point)
     {
-        point.parent = measurementsParent;
+        point.parent = GameController.instance.IsVR ? null : measurementsParent;
         planePoints.AddFirst(point);
 
         point.transform.GetComponent<MeshRenderer>().material.SetColor(_colorProperty, stereonetColor);
@@ -290,7 +340,15 @@ public class Stereonet2D : Stereonet
         if (planePoints.Count == 2)
         {
             // Create gameobject prefab
-            var worldPlaneParent = Instantiate(planeWorldTwoPointPrefab, measurementsParent); // Contains the plane and the two points
+            GameObject worldPlaneParent;
+            if (GameController.instance.IsVR)
+            {
+                worldPlaneParent = Instantiate(planeWorldTwoPointPrefab); // Contains the plane and the two points
+            }
+            else
+            {
+                worldPlaneParent = Instantiate(planeWorldTwoPointPrefab, measurementsParent); // Contains the plane and the two points
+            }
             var worldPlane = worldPlaneParent.transform.GetChild(0);
             worldPlane.position = Vector3.zero;
             var stereonetPlane = Instantiate(lineRendererPrefab, StereonetUIContainer); // Essentially the line renderer
@@ -348,7 +406,7 @@ public class Stereonet2D : Stereonet
     // Draws a point in the stereonet (for the line measurements)
     public override void AddLinePoint(Transform point)
     {
-        point.parent = measurementsParent;
+        point.parent = GameController.instance.IsVR ? null : measurementsParent;
         worldLinePoints.AddFirst(point);
         
         point.transform.GetComponent<MeshRenderer>().material.SetColor(_colorProperty, stereonetColor);
@@ -356,7 +414,7 @@ public class Stereonet2D : Stereonet
         if (worldLinePoints.Count == 2)
         {
             // Create gameobject prefab, and set its line renderer to connect the two points
-            var lineGameObject = Instantiate(linearLinePrefab, measurementsParent);
+            var lineGameObject = Instantiate(linearLinePrefab, GameController.instance.IsVR ? null : measurementsParent);
 
             // Get normal of the 2 points, which is the plane forward
             var a = worldLinePoints.First.Value;
@@ -387,12 +445,13 @@ public class Stereonet2D : Stereonet
             worldLines.AddFirst(lineGameObject.transform);
             
             // 3D
-            var normal3d = modelTransform.TransformDirection(normal);
+            //var normal3d = modelTransform.TransformDirection(normal);
             var stereonetLineationPole3D = Instantiate(polePrefab3D, Vector3.zero, Quaternion.identity, measurementsTransform3D).GetComponent<StereonetPole3D>();
-            stereonetLineationPole3D.SetNormal(-normal3d);
+            stereonetLineationPole3D.transform.localPosition = Vector3.zero;
+            stereonetLineationPole3D.transform.localRotation = Quaternion.identity;
+            stereonetLineationPole3D.SetNormal(-normal);
             stereonetLineationPole3D.SetColor(lineationPoleColor3D);
             lineationPoles3D.AddFirst(stereonetLineationPole3D);
-            
 
             PiPlotLinearButton.instance.UpdateButton();
             UpdateLatestMeasurementUILinear(normal);
@@ -862,10 +921,9 @@ public class Stereonet2D : Stereonet
         
         StereonetUIContainer.SetParent(newParent);
         StereonetUIContainer.transform.localScale = Vector3.one * parentRect.width / 400f; // Scale accordingly to the new container
+        StereonetUIContainer.localPosition = Vector3.zero;
         StereonetUIContainer.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     }
-
-
 
     /// <summary>
     /// Rotates the 3D stereonet model
@@ -877,4 +935,18 @@ public class Stereonet2D : Stereonet
         modelTransform.Rotate(Vector3.right, delta.x, Space.World);
         modelTransform.Rotate(Vector3.up, -delta.y);
     }
+    
+    
+    #region VR
+
+    [Header("VR")] 
+    public Camera stereonetCamera;
+    
+    public override void RenderCamera()
+    {
+        stereonetCamera.Render();
+    }
+    
+    #endregion
+    
 }

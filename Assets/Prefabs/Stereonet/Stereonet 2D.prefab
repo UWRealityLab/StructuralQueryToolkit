@@ -5386,6 +5386,7 @@ MonoBehaviour:
     type: 3}
   planePrefab3D: {fileID: 1015061622133011445, guid: 6f6c5b8c3ce5442e3aea65fc2583e610,
     type: 3}
+  stereonetCamera: {fileID: 0}
 --- !u!1 &6272557687211198857
 GameObject:
   m_ObjectHideFlags: 0

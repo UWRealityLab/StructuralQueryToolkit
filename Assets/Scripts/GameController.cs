@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
+using Unity.XR.CoreUtils;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class GameController : MonoBehaviour
 {
-
     public Texture2D cursor;
 
     private static GameController _instance;
@@ -21,7 +22,8 @@ public class GameController : MonoBehaviour
                 return _instance;
             }
 
-            return FindObjectOfType<GameController>().GetComponent<GameController>();
+            _instance = FindObjectOfType<GameController>();
+            return _instance;
         }
         set
         {
@@ -36,28 +38,26 @@ public class GameController : MonoBehaviour
     public GameObject playerObj;
     public GameObject playerUI;
     public GameObject StereonetUI;
-    public GameObject playerCamera;
     public GameObject playerMapView;
 
     GameObject currActivity;
 
-    private CharacterController characterController;
-    private FPSController firstPersonController;
 
     public UnityEvent switchToMapViewEvent;
     public UnityEvent returnToFPSEvent;
 
+    public bool IsVR;
+
     private void Awake() {
         instance = this;
-        playerObj = FindObjectOfType<FPSController>().gameObject;
-        characterController = playerObj.GetComponent<CharacterController>();
-        firstPersonController = playerObj.GetComponent<FPSController>();
-        playerCamera = playerObj.GetComponentInChildren<Camera>().gameObject;
         playerMapView = playerObj.GetComponentInChildren<SpriteRenderer>(true).gameObject;
     }
 
     private void Start() {
         CurrentCamera = Camera.main;
+        var test = FindObjectOfType<XROrigin>(true);
+        IsVR = test != null;
+        //print(IsVR);
 
         if (cursor)
         {
@@ -80,9 +80,6 @@ public class GameController : MonoBehaviour
         activity.SetActive(true);
         playerMapView.SetActive(true);
 
-        characterController.enabled = false;
-        firstPersonController.enabled = false;
-        playerCamera.SetActive(false);
         playerUI.SetActive(false);
         StereonetUI.SetActive(false);
    
@@ -94,10 +91,7 @@ public class GameController : MonoBehaviour
         currActivity.SetActive(false);
         playerMapView.SetActive(false);
         playerUI.SetActive(true);
-        playerCamera.SetActive(true);
         StereonetUI.SetActive(true);
-        characterController.enabled = true;
-        firstPersonController.enabled = true;
         returnToFPSEvent.Invoke();
     }
 
@@ -114,19 +108,15 @@ public class GameController : MonoBehaviour
 
     public void EnablePlayer()
     {
-        characterController.enabled = true;
-        firstPersonController.enabled = true;
     }
 
     public void DisablePlayer()
     {
-        characterController.enabled = false;
-        firstPersonController.enabled = false;
     }
 
     public bool IsPlayerEnabled()
     {
-        return characterController.enabled;
+        return false;
     }
 }
 

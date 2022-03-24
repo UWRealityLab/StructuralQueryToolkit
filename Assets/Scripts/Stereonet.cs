@@ -71,6 +71,9 @@ public abstract class Stereonet : MonoBehaviour
     
     // 3D representation
     public abstract void RotateModel();
+    
+    // VR 
+    public abstract void RenderCamera();
 
     protected virtual void Awake()
     {

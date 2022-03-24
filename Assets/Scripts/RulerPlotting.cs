@@ -77,7 +77,7 @@ public class RulerPlotting : PlayerTool
 
     private void Update()
     {
-        if (CannotUseTool())
+        if (!isToggled || CannotUseTool())
         {
             return;
         }
