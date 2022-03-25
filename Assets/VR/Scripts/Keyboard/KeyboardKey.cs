@@ -1,18 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 using UnityEditor;
+using UnityEngine.UI;
 
 [ExecuteInEditMode]
 public class KeyboardKey : MonoBehaviour
 {
-
-
     public bool isSpecialKey = false;
     //[DrawIf("isSpecialKey", true, DrawIfAttribute.DisablingType.DontDraw)]
     public UnityEvent pressEvent;
+
+    private Button _button;
 
     private TextMeshProUGUI text;
 
@@ -26,42 +28,63 @@ public class KeyboardKey : MonoBehaviour
     public string upperCaseKey;
 
     private Animator animator;
+    private static readonly int _isHovered = Animator.StringToHash("isHovered");
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        animator = GetComponent<Animator>();
-        text = GetComponentInChildren<TextMeshProUGUI>();
+        _button = GetComponent<Button>();
+        _button.onClick.AddListener(() =>
+        {
+            pressEvent.Invoke();
+            KeyboardController.instance.Write(this);
+        });
     }
 
-    // Update is called once per frame
-    void Update() {
+    private void OnValidate()
+    {
+        animator ??= GetComponent<Animator>();
 
-    #if UNITY_EDITOR
-/*        if (!isSpecialKey) {
-            text = GetComponentInChildren<TextMeshProUGUI>();
-            text.text = transform.gameObject.name.ToLower();
-            lowerCaseKey = transform.gameObject.name.ToLower();
-            upperCaseKey = transform.gameObject.name.ToUpper();
-        }*/
-#endif
+        if (!isSpecialKey)
+        {
+            text ??= GetComponentInChildren<TextMeshProUGUI>();
+            lowerCaseKey = gameObject.name;
+            upperCaseKey = lowerCaseKey.ToUpper();
+            text.text = lowerCaseKey;
+        }
     }
 
-    public void SetText(string s) {
-        text.text = s;
+    public void ToLowerCase()
+    {
+        if (!isSpecialKey && text != null)
+        {
+            text.text = lowerCaseKey;
+        }
+    }
+
+    public void ToUpperCase()
+    {
+        if (!isSpecialKey && hasUppercase)
+        {
+            text.text = upperCaseKey;
+        }
     }
 
     public void WriteToText() {
-        KeyboardController.instance.Write(text.text);
+        KeyboardController.instance.Write(this);
+    }
+    
+    public void WriteToText(string str)
+    {
+        KeyboardController.instance.Write(str);
     }
 
+
     public void Hover() {
-        animator.SetBool("isToggled", true);
+        animator.SetBool(_isHovered, true);
     }
 
     public void EndHover() {
-        animator.SetBool("isToggled", false);
+        animator.SetBool(_isHovered, false);
     }
-
 }
 

@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using MathNet.Numerics.IntegralTransforms;
 using UnityEngine;
 using TMPro;
 using UnityEditor;
@@ -8,35 +10,68 @@ public class KeyboardController : MonoBehaviour
 {
     public static KeyboardController instance;
 
-    public TMP_InputField inputBox;
+    [SerializeField] private TMP_InputField inputBox;
 
-    private Animator animator;
+    [SerializeField] private Animator animator;
     private bool isUpperCase = false;
     private KeyboardKey[] keys;
 
-    public KeyboardHand leftHand;
-    public KeyboardHand rightHand;
+    private bool _isToggled = false;
+    private static readonly int _isToggledAnimParam = Animator.StringToHash("isToggled");
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         instance = this;
-        animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
         keys = GetComponentsInChildren<KeyboardKey>();
+
+        // Naive way of getting every input field to the keyboard
+        var inputFields = FindObjectsOfType<TMP_InputField>(true);
+        foreach (var inputField in inputFields)
+        {
+            inputField.onSelect.AddListener(str =>
+            {
+                inputBox = inputField;
+                OpenKeyboard();
+            });
+        }
+        
+        StereonetDashboard.instance.OnAddStereonetCard.AddListener(card =>
+        {
+            card.titleInputField.onSelect.AddListener(str =>
+            {
+                inputBox = card.titleInputField;
+                OpenKeyboard();
+            });
+        });
+
+        StereonetFullscreenManager.Instance.OnAddMeasurementGroup.AddListener(measurementsGroup =>
+        {
+            measurementsGroup.groupNameText.onSelect.AddListener(str =>
+            {
+                inputBox = measurementsGroup.groupNameText;
+                OpenKeyboard();
+            });
+        });
+
+        gameObject.SetActive(false);
+
     }
 
-    /*private void OnEnable() {
-        leftHand.enabled = true;
-        rightHand.enabled = true;
+    public void Write(KeyboardKey key)
+    {
+        if (!key.isSpecialKey)
+        {
+            inputBox.text += isUpperCase && key.hasUppercase ? key.upperCaseKey : key.lowerCaseKey;
+        }
     }
 
-    private void OnDisable() {
-        leftHand.enabled = false;
-        rightHand.enabled = false;
-    }*/
-
-    public void Write(string s) {
-        inputBox.text += s;
+    public void Write(string str)
+    {
+        inputBox.text += str;
     }
 
     public void MoveLeft() {
@@ -49,7 +84,6 @@ public class KeyboardController : MonoBehaviour
 
     public void Backspace() {
         inputBox.text = inputBox.text.Substring(0, inputBox.text.Length - 1);
-
     }
 
     public void Enter() {
@@ -58,23 +92,44 @@ public class KeyboardController : MonoBehaviour
         CloseKeyboard();
     }
 
-    public void CloseKeyboard() {
-        animator.SetBool("isToggled", false);
-        leftHand.enabled = false;
-        rightHand.enabled = false;
+    public void OpenKeyboard()
+    {
+        gameObject.SetActive(true);
+        _isToggled = true;
+        animator.SetBool(_isToggledAnimParam, true);
+    }
+    
+    public void CloseKeyboard()
+    {
+        _isToggled = false;
+        animator.SetBool(_isToggledAnimParam, false);
     }
 
-    public void ToggleCase() {
-
+    public void ToggleCase() 
+    {
+        isUpperCase = !isUpperCase;
         foreach (var key in keys) {
-            if (!key.isSpecialKey && key.hasUppercase) {
-                if (isUpperCase) {
-                    key.SetText(key.lowerCaseKey);
-                } else {
-                    key.SetText(key.upperCaseKey);
-                }
+            if (isUpperCase)
+            {
+                key.ToUpperCase();
+            }
+            else
+            {
+                key.ToLowerCase();
             }
         }
-        isUpperCase = !isUpperCase;
+    }
+    
+    public void ToggleKeyboard()
+    {
+        _isToggled = !_isToggled;
+        if (_isToggled)
+        {
+            OpenKeyboard();
+        }
+        else
+        {
+            CloseKeyboard();
+        }
     }
 }

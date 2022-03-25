@@ -4,7 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/VR/_Scenes/VR Toolkit Scene  (Do not modify. Please duplicate this
+      scene and raname it).unity
+    guid: 3f7b7aad81b5e4b3aaf3d5d66de3ec90
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 2a4bb8eea058e6740a4939d7cb656e5c,
       type: 2}

@@ -1,7 +1,4 @@
-﻿using ICSharpCode.NRefactory.PrettyPrinter;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [CustomPropertyDrawer(typeof(DrawIfAttribute))]

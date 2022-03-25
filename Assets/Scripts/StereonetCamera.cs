@@ -46,7 +46,7 @@ public class StereonetCamera : MonoBehaviour
 
     private void Render()
     {
-        if (!GameController.instance.IsVR)
+        if (Application.isPlaying && !GameController.instance.IsVR)
         {
             cam.Render();
         }

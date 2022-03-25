@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEditor;
 #if UNITY_EDITOR
-using UnityEditor.Experimental.SceneManagement;
+
 #endif
 using UnityEngine;
 using UnityEngine.Events;
@@ -130,7 +130,7 @@ public abstract class PlayerTool : MonoBehaviour
 
         if (BlocksStereonetUI)
         {
-            StereonetPlayerUIController.instance.HideStereonetUI();
+            //StereonetPlayerUIController.instance.HideStereonetUI();
         }
     }
     
@@ -334,7 +334,7 @@ public abstract class PlayerTool : MonoBehaviour
             ToolButton.gameObject.SetActive(true);
         }
         
-        var prefabStage = PrefabStageUtility.GetCurrentPrefabStage();
+        var prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
         if (prefabStage != null)
         {
             // If prefab stage is not null, then we are in prefab edit mode, so we do NOT want to move the button yet

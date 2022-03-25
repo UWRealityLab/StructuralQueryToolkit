@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour
                 return _instance;
             }
 
-            _instance = FindObjectOfType<GameController>();
+            _instance = FindObjectOfType<GameController>(true);
             return _instance;
         }
         set

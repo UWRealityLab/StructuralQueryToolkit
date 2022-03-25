@@ -13,6 +13,7 @@ public class StereonetMeasuringTool : MonoBehaviour
         Pole,
         Line,
         Plane,
+        Ruler,
         None
     }
 
@@ -33,10 +34,16 @@ public class StereonetMeasuringTool : MonoBehaviour
         _grabInteractable.hoverEntered.AddListener(null);
     }
 
+    private void Start()
+    {
+        _previewMeasurementUI.SetActive(false);
+    }
+
     private void Update()
     {
         var ray = new Ray(Pointer.position, Pointer.forward);
-        _lineRenderer.SetPosition(1, Physics.Raycast(ray, out var hit) ? Pointer.InverseTransformPoint(hit.point) : Vector3.zero);
+        var isHit = Physics.Raycast(ray, out var hit);
+        _lineRenderer.SetPosition(1, isHit ? Pointer.InverseTransformPoint(hit.point) : Vector3.zero);
     }
 
     public void SetMeasurementType(StereonetMeasurementType type)
@@ -45,15 +52,38 @@ public class StereonetMeasuringTool : MonoBehaviour
     }
     public void ActivatePoleMeasurement()
     {
+        if (_stereonetMeasurementType == StereonetMeasurementType.Pole)
+        {
+            ClearMeasurementType();
+        }
         _stereonetMeasurementType = StereonetMeasurementType.Pole;
     }
     public void ActivateLineMeasurement()
     {
+        if (_stereonetMeasurementType == StereonetMeasurementType.Line)
+        {
+            ClearMeasurementType();
+        }
+
         _stereonetMeasurementType = StereonetMeasurementType.Line;
     }
     public void ActivatePlaneMeasurement()
     {
+        if (_stereonetMeasurementType == StereonetMeasurementType.Plane)
+        {
+            ClearMeasurementType();
+        }
+
         _stereonetMeasurementType = StereonetMeasurementType.Plane;
+    }
+    public void ActivateRulerPlotting()
+    {
+        if (_stereonetMeasurementType == StereonetMeasurementType.Ruler)
+        {
+            ClearMeasurementType();
+        }
+
+        _stereonetMeasurementType = StereonetMeasurementType.Ruler;
     }
 
     public void ClearMeasurementType()
@@ -95,6 +125,9 @@ public class StereonetMeasuringTool : MonoBehaviour
                     break;
                 case StereonetMeasurementType.Plane:
                     PlanePlotting.instance.UseTool(hit);
+                    break;
+                case StereonetMeasurementType.Ruler:
+                    RulerPlotting.instance.UseTool(hit);
                     break;
                 default:
                     break;

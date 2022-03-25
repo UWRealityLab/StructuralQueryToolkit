@@ -5,13 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class StereonetCard : MonoBehaviour, IDashboardCard
 {
     [SerializeField] RawImage stereonetImage;
     [SerializeField] RectTransform stereonetImage2D;
     [SerializeField] Image descriptionCardImage;
-    [SerializeField] TMP_InputField titleInputField;
+    public TMP_InputField titleInputField;
     [SerializeField] public EventTrigger fullscreenEventTrigger;
     [SerializeField] Image fullscreenImage;
     [SerializeField] Image editImage;

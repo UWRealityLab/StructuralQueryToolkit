@@ -12,7 +12,25 @@ using UnityEngine.Events;
 
 public class StereonetFullscreenManager : MonoBehaviour
 {
-    public static StereonetFullscreenManager Instance;
+    private static StereonetFullscreenManager _instance;
+
+    public static StereonetFullscreenManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<StereonetFullscreenManager>(true);
+            }
+            return _instance;
+        }
+        private set
+        {
+            _instance = value;
+        }
+    }
+
+    public UnityEvent<MeasurementsGroup> OnAddMeasurementGroup;
     
     [SerializeField] TextMeshProUGUI titleText;
     [SerializeField] Transform stereonetImage2D;
@@ -251,6 +269,9 @@ public class StereonetFullscreenManager : MonoBehaviour
         measurementGroups.AddLast(newMeasurementGroup);
         newMeasurementGroup.measurement = measurement;
         newMeasurementGroup.SetGroupTitleText(measurement.measurementName);
+
+        OnAddMeasurementGroup.Invoke(newMeasurementGroup);
+        
         return newMeasurementGroup;
     }
     
@@ -260,6 +281,9 @@ public class StereonetFullscreenManager : MonoBehaviour
         measurementGroups.AddLast(newMeasurementGroup);
         newMeasurementGroup.measurement = measurement;
         newMeasurementGroup.SetGroupTitleText(measurement.measurementName);
+        
+        OnAddMeasurementGroup.Invoke(newMeasurementGroup);
+
         return newMeasurementGroup;
     }
 
@@ -269,6 +293,9 @@ public class StereonetFullscreenManager : MonoBehaviour
         measurementGroups.AddLast(newMeasurementGroup);
         newMeasurementGroup.measurement = measurement;
         newMeasurementGroup.SetGroupTitleText(measurement.measurementName);
+        
+        OnAddMeasurementGroup.Invoke(newMeasurementGroup);
+
         return newMeasurementGroup;
     }
 

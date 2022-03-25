@@ -77,7 +77,7 @@ public class RulerPlotting : PlayerTool
 
     private void Update()
     {
-        if (!isToggled || CannotUseTool())
+        if (GameController.instance.IsVR || !isToggled || CannotUseTool())
         {
             return;
         }

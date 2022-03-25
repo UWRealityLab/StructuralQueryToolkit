@@ -10,7 +10,8 @@ public class TeleportRay : MonoBehaviour
     [SerializeField] TeleportationProvider provider = null;
 
     private XRRayInteractor _rayInteractor;
-    
+
+    public bool _isToggled = true;
 
     void Awake()
     {
@@ -19,22 +20,27 @@ public class TeleportRay : MonoBehaviour
 
     public void Toggle()
     {
-        _rayInteractor.enabled = !_rayInteractor.enabled;
+        _isToggled = !_isToggled;
     }
 
-    public void Activate()
+    public void SetState(bool state)
     {
-        _rayInteractor.enabled = true;
+        _isToggled = state;
+    }
+ 
+    public void StartTeleportRay()
+    {
+        _rayInteractor.enabled = _isToggled;
     }
 
-    public void Deactivate()
+    public void EndTeleportRay()
     {
         _rayInteractor.enabled = false;
     }
 
     public void TryTeleport()
     {
-        if (_rayInteractor.TryGetCurrent3DRaycastHit(out var hit) && hit.transform.GetComponent<TeleportationArea>())
+        if (_isToggled && _rayInteractor.TryGetCurrent3DRaycastHit(out var hit) && hit.transform.GetComponent<TeleportationArea>())
         {
             var request = new TeleportRequest()
             {

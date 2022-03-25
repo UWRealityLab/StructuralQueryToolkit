@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -96,7 +97,7 @@ public class LatestMeasurementUI : MonoBehaviour
         }
 
         infoText.text = strBuilder.ToString();
-
+        print(infoText.text);
     }
 
     // Called when a new stereonet is selected
@@ -104,13 +105,5 @@ public class LatestMeasurementUI : MonoBehaviour
     // Called for delete all TODO
     public void Clear()
     {
-        if (ToolManager.instance.activeTool)
-        {
-            // TODO
-        }
-        else
-        {
-            infoText.text = "";
-        }
     }
 }

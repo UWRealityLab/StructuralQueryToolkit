@@ -8,29 +8,22 @@ public class FacePlayer : MonoBehaviour
     public bool flip = false;
     public Transform player;
 
+    private static readonly float LookAtFrameRate = 30f;
+
     private void Start()
     {
         if (player == null)
         {
-            player = ToolManager.instance.transform; // lol
+            player = Camera.main.transform; // lol
         }
         
-        //InvokeRepeating(nameof(LookAtPlayer), 0f, 0.025f);
-    }
-
-    private void FixedUpdate()
-    {
-        LookAtPlayer();
+        InvokeRepeating(nameof(LookAtPlayer), 0f, 1f / LookAtFrameRate);
     }
 
     private void LookAtPlayer()
     {
         transform.LookAt(player.position);
-
-        if (flip)
-        {
-            transform.forward = -transform.forward;
-        }
+        transform.forward = flip ? -transform.forward : transform.forward;
     }
 
     public void ChangePlayer(Transform trans)

@@ -36,8 +36,6 @@ public class MapView : MonoBehaviour
         defaultCamSize = mapViewCamera.orthographicSize;
 
         zoomIncrement = ZoomSensitivity;
-        
-        
     }
 
     private void Start()

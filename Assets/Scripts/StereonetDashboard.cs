@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.IO;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
 {
     public static StereonetDashboard instance;
+
+    public UnityEvent<StereonetCard> OnAddStereonetCard;
 
     [SerializeField] private StereonetsController stereonetController;
     [SerializeField] private StereonetFullscreenManager fullscreenManager;
@@ -47,6 +50,7 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
         {
             newCard.SetStereonet2DImage(stereonetController.currStereonet as Stereonet2D);
         }
+        OnAddStereonetCard.Invoke(newCard);
     }
 
     public override void OnOpenDashboard()

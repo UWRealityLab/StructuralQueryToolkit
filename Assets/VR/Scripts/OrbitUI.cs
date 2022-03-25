@@ -52,6 +52,8 @@ public class OrbitUI : MonoBehaviour
     private IEnumerator LerpToTargetPosition() {
         isTransitioning = true;
         
+        // TODO switch to local position 
+        
         var forward = new Vector3(_latestForwardDir.x, 0f, _latestForwardDir.y).normalized;
         targetPos = PlayerTrans.position + forward * Offset;
         targetPos.y = transform.position.y;
@@ -64,6 +66,7 @@ public class OrbitUI : MonoBehaviour
             transform.LookAt(PlayerTrans.position);
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y , 0f);
             transform.forward = -transform.forward;
+            transform.localPosition = new Vector3(transform.localPosition.x, 0f, transform.localPosition.z);
 
             yield return new WaitForEndOfFrame();
         }
@@ -71,6 +74,7 @@ public class OrbitUI : MonoBehaviour
         transform.LookAt(PlayerTrans.position);
         transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
         transform.forward = -transform.forward;
+        transform.localPosition = new Vector3(transform.localPosition.x, 0f, transform.localPosition.z);
 
         isTransitioning = false;
     }
