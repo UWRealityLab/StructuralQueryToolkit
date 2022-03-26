@@ -37,7 +37,6 @@ public class LatestMeasurementUI : MonoBehaviour
         {
             infoText.text = "Strike:\nDip:";
         }
-        infoText.ForceMeshUpdate(true);
     }
 
     public void ShowPlaneMeasurement()
