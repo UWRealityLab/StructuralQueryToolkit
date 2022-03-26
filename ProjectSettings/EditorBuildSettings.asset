@@ -6,7 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-<<<<<<< Updated upstream
     path: Assets/VR/_Scenes/VR Toolkit Scene  (Do not modify. Please duplicate this
       scene and raname it).unity
     guid: 3f7b7aad81b5e4b3aaf3d5d66de3ec90
@@ -19,9 +18,3 @@ EditorBuildSettings:
       type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 8583d21deb3f9aa4eba1b8230f366b91,
       type: 2}
-=======
-    path: Assets/Scenes/SampleScene.unity
-    guid: d1c3109bdb54ad54c8a2b2838528e640
-  m_configObjects:
-    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: c0915c15e0fcf7147818fc28b60be23d, type: 2}
->>>>>>> Stashed changes
