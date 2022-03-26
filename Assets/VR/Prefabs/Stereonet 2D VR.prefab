@@ -100,8 +100,7 @@ MonoBehaviour:
   m_text: S
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
-  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae,
-    type: 2}
+  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1129,8 +1128,7 @@ MonoBehaviour:
   m_text: E
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
-  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae,
-    type: 2}
+  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1723,18 +1721,13 @@ MonoBehaviour:
   defaultPlaneMeasurement: {fileID: 0}
   defaultLineationMeasurement: {fileID: 0}
   isPiPlotEnabled: 0
-  linearLinePrefab: {fileID: 3786722690349564717, guid: d2c39207ba5284642be52d7936ccde43,
-    type: 3}
-  planeWorldPrefab: {fileID: 7426821145522886296, guid: 112017a36b1b24f4185ceb87cd9733d7,
-    type: 3}
-  planeWorldTwoPointPrefab: {fileID: 8710104672084639662, guid: c26e190cffa124613ac1f0b52759b5d7,
-    type: 3}
+  linearLinePrefab: {fileID: 3786722690349564717, guid: d2c39207ba5284642be52d7936ccde43, type: 3}
+  planeWorldPrefab: {fileID: 7426821145522886296, guid: 112017a36b1b24f4185ceb87cd9733d7, type: 3}
+  planeWorldTwoPointPrefab: {fileID: 8710104672084639662, guid: c26e190cffa124613ac1f0b52759b5d7, type: 3}
   measurementsParent: {fileID: 4292583824444115080}
   StereonetUIContainer: {fileID: 2289084046350725012}
-  PoleImagePrefab: {fileID: 1921353587652425008, guid: d88209cb7ac8d4799aa4aec6d01ee221,
-    type: 3}
-  lineRendererPrefab: {fileID: 6717037197375190088, guid: 4e84b1e8648a5441cb643bc5c8bf31ae,
-    type: 3}
+  PoleImagePrefab: {fileID: 1921353587652425008, guid: d88209cb7ac8d4799aa4aec6d01ee221, type: 3}
+  lineRendererPrefab: {fileID: 6717037197375190088, guid: 4e84b1e8648a5441cb643bc5c8bf31ae, type: 3}
   foldAxisPolePoint: {fileID: 3002131346952753188}
   polePlotLineLineRenderer: {fileID: 2943690158824915639}
   poleBeddingColor: {r: 0, g: 0, b: 0, a: 1}
@@ -1753,10 +1746,8 @@ MonoBehaviour:
   planeColor3D: {r: 0, g: 0.8627451, b: 1, a: 0.5019608}
   groupedLineMeasurementsColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
   groupedPlaneMeasurementsColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.2}
-  polePrefab3D: {fileID: 1015061622133011445, guid: 40369857a8ee5c549b07031940ff7dd3,
-    type: 3}
-  planePrefab3D: {fileID: 1015061622133011445, guid: 7a357016e84a9b44c9f28304a421f4a7,
-    type: 3}
+  polePrefab3D: {fileID: 1015061622133011445, guid: 40369857a8ee5c549b07031940ff7dd3, type: 3}
+  planePrefab3D: {fileID: 1015061622133011445, guid: 7a357016e84a9b44c9f28304a421f4a7, type: 3}
   stereonetCamera: {fileID: 1485037011933656344}
 --- !u!1 &6273148300449813149
 GameObject:
@@ -1874,8 +1865,7 @@ MonoBehaviour:
   m_text: N
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
-  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae,
-    type: 2}
+  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2173,8 +2163,7 @@ MonoBehaviour:
   m_text: W
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
-  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae,
-    type: 2}
+  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
