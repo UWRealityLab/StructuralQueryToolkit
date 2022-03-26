@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream:Assets/XRI/Settings/Resources.meta
 guid: 84cdf7a262deaeb4fb93fa99b74cdaee
+=======
+guid: b793c5e432391e74caf259e1d8bb7791
+>>>>>>> Stashed changes:Assets/com.unity.uiextensions/Runtime/Resources.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

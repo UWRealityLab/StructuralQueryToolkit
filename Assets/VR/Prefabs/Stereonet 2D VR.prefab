@@ -100,8 +100,12 @@ MonoBehaviour:
   m_text: S
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
+<<<<<<< Updated upstream
   m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae,
     type: 2}
+=======
+  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
+>>>>>>> Stashed changes
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -277,7 +281,11 @@ LineRenderer:
   - {x: 1, y: 0, z: 0}
   - {x: 0.99720377, y: 0, z: 0.0747301}
   - {x: 0.9888308, y: 0, z: 0.14904228}
+<<<<<<< Updated upstream
   - {x: 0.9749279, y: 0, z: 0.22252095}
+=======
+  - {x: 0.9749279, y: 0, z: 0.22252093}
+>>>>>>> Stashed changes
   - {x: 0.9555728, y: 0, z: 0.2947552}
   - {x: 0.93087375, y: 0, z: 0.36534104}
   - {x: 0.90096885, y: 0, z: 0.43388376}
@@ -285,17 +293,26 @@ LineRenderer:
   - {x: 0.82623875, y: 0, z: 0.5633201}
   - {x: 0.78183144, y: 0, z: 0.62348986}
   - {x: 0.73305184, y: 0, z: 0.6801728}
+<<<<<<< Updated upstream
   - {x: 0.6801727, y: 0, z: 0.7330519}
   - {x: 0.62348974, y: 0, z: 0.7818315}
   - {x: 0.56332, y: 0, z: 0.8262388}
   - {x: 0.49999997, y: 0, z: 0.86602545}
   - {x: 0.43388364, y: 0, z: 0.9009689}
+=======
+  - {x: 0.68017274, y: 0, z: 0.7330519}
+  - {x: 0.6234898, y: 0, z: 0.7818315}
+  - {x: 0.56332004, y: 0, z: 0.8262388}
+  - {x: 0.49999997, y: 0, z: 0.86602545}
+  - {x: 0.43388376, y: 0, z: 0.90096885}
+>>>>>>> Stashed changes
   - {x: 0.36534098, y: 0, z: 0.93087375}
   - {x: 0.29475516, y: 0, z: 0.9555728}
   - {x: 0.22252086, y: 0, z: 0.9749279}
   - {x: 0.14904225, y: 0, z: 0.9888308}
   - {x: 0.07473, y: 0, z: 0.9972038}
   - {x: -0.00000004371139, y: 0, z: 1}
+<<<<<<< Updated upstream
   - {x: -0.07473021, y: 0, z: 0.99720377}
   - {x: -0.14904232, y: 0, z: 0.9888308}
   - {x: -0.22252107, y: 0, z: 0.9749279}
@@ -306,6 +323,18 @@ LineRenderer:
   - {x: -0.56332004, y: 0, z: 0.82623875}
   - {x: -0.62349, y: 0, z: 0.7818314}
   - {x: -0.6801727, y: 0, z: 0.73305196}
+=======
+  - {x: -0.07473009, y: 0, z: 0.9972038}
+  - {x: -0.14904232, y: 0, z: 0.9888308}
+  - {x: -0.22252095, y: 0, z: 0.9749279}
+  - {x: -0.29475525, y: 0, z: 0.9555728}
+  - {x: -0.36534107, y: 0, z: 0.93087375}
+  - {x: -0.43388385, y: 0, z: 0.90096885}
+  - {x: -0.50000006, y: 0, z: 0.8660254}
+  - {x: -0.56332004, y: 0, z: 0.82623875}
+  - {x: -0.6234898, y: 0, z: 0.7818315}
+  - {x: -0.68017286, y: 0, z: 0.7330518}
+>>>>>>> Stashed changes
   - {x: -0.73305196, y: 0, z: 0.6801727}
   - {x: -0.7818315, y: 0, z: 0.62348974}
   - {x: -0.82623875, y: 0, z: 0.56332004}
@@ -315,6 +344,7 @@ LineRenderer:
   - {x: -0.95557284, y: 0, z: 0.29475513}
   - {x: -0.9749279, y: 0, z: 0.22252093}
   - {x: -0.98883086, y: 0, z: 0.14904208}
+<<<<<<< Updated upstream
   - {x: -0.99720377, y: 0, z: 0.074730195}
   - {x: -1, y: 0, z: -0.00000008742278}
   - {x: -0.99720377, y: 0, z: -0.07473037}
@@ -327,10 +357,25 @@ LineRenderer:
   - {x: -0.8262387, y: 0, z: -0.5633202}
   - {x: -0.7818314, y: 0, z: -0.6234899}
   - {x: -0.73305166, y: 0, z: -0.680173}
+=======
+  - {x: -0.9972038, y: 0, z: 0.07472996}
+  - {x: -1, y: 0, z: -0.00000008742278}
+  - {x: -0.99720377, y: 0, z: -0.074730136}
+  - {x: -0.9888308, y: 0, z: -0.14904225}
+  - {x: -0.97492784, y: 0, z: -0.22252111}
+  - {x: -0.9555728, y: 0, z: -0.2947553}
+  - {x: -0.9308737, y: 0, z: -0.3653411}
+  - {x: -0.90096885, y: 0, z: -0.43388376}
+  - {x: -0.86602527, y: 0, z: -0.5000002}
+  - {x: -0.8262387, y: 0, z: -0.5633202}
+  - {x: -0.7818314, y: 0, z: -0.6234899}
+  - {x: -0.73305184, y: 0, z: -0.6801728}
+>>>>>>> Stashed changes
   - {x: -0.68017274, y: 0, z: -0.7330519}
   - {x: -0.6234896, y: 0, z: -0.7818316}
   - {x: -0.5633201, y: 0, z: -0.82623875}
   - {x: -0.4999999, y: 0, z: -0.86602545}
+<<<<<<< Updated upstream
   - {x: -0.4338839, y: 0, z: -0.9009688}
   - {x: -0.365341, y: 0, z: -0.93087375}
   - {x: -0.29475498, y: 0, z: -0.95557284}
@@ -340,6 +385,17 @@ LineRenderer:
   - {x: 0.000000011924881, y: 0, z: -1}
   - {x: 0.07473029, y: 0, z: -0.99720377}
   - {x: 0.14904265, y: 0, z: -0.98883075}
+=======
+  - {x: -0.43388346, y: 0, z: -0.900969}
+  - {x: -0.365341, y: 0, z: -0.93087375}
+  - {x: -0.29475498, y: 0, z: -0.95557284}
+  - {x: -0.222521, y: 0, z: -0.9749279}
+  - {x: -0.14904216, y: 0, z: -0.98883086}
+  - {x: -0.07472979, y: 0, z: -0.9972038}
+  - {x: 0.000000011924881, y: 0, z: -1}
+  - {x: 0.07473029, y: 0, z: -0.99720377}
+  - {x: 0.14904217, y: 0, z: -0.98883086}
+>>>>>>> Stashed changes
   - {x: 0.22252104, y: 0, z: -0.9749279}
   - {x: 0.29475546, y: 0, z: -0.9555727}
   - {x: 0.36534104, y: 0, z: -0.93087375}
@@ -347,16 +403,26 @@ LineRenderer:
   - {x: 0.4999999, y: 0, z: -0.86602545}
   - {x: 0.56332016, y: 0, z: -0.8262387}
   - {x: 0.62349004, y: 0, z: -0.7818313}
+<<<<<<< Updated upstream
   - {x: 0.6801731, y: 0, z: -0.73305154}
   - {x: 0.733052, y: 0, z: -0.6801726}
   - {x: 0.78183144, y: 0, z: -0.62348986}
+=======
+  - {x: 0.68017274, y: 0, z: -0.7330519}
+  - {x: 0.733052, y: 0, z: -0.6801726}
+  - {x: 0.78183174, y: 0, z: -0.6234895}
+>>>>>>> Stashed changes
   - {x: 0.8262388, y: 0, z: -0.56332}
   - {x: 0.86602557, y: 0, z: -0.49999976}
   - {x: 0.90096885, y: 0, z: -0.43388376}
   - {x: 0.9308738, y: 0, z: -0.36534086}
   - {x: 0.9555729, y: 0, z: -0.29475483}
   - {x: 0.9749279, y: 0, z: -0.22252086}
+<<<<<<< Updated upstream
   - {x: 0.9888308, y: 0, z: -0.14904247}
+=======
+  - {x: 0.98883086, y: 0, z: -0.149042}
+>>>>>>> Stashed changes
   - {x: 0.99720377, y: 0, z: -0.074730106}
   - {x: 1, y: 0, z: 0.00000017484555}
   m_Parameters:
@@ -1129,8 +1195,12 @@ MonoBehaviour:
   m_text: E
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
+<<<<<<< Updated upstream
   m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae,
     type: 2}
+=======
+  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
+>>>>>>> Stashed changes
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1723,6 +1793,7 @@ MonoBehaviour:
   defaultPlaneMeasurement: {fileID: 0}
   defaultLineationMeasurement: {fileID: 0}
   isPiPlotEnabled: 0
+<<<<<<< Updated upstream
   linearLinePrefab: {fileID: 3786722690349564717, guid: d2c39207ba5284642be52d7936ccde43,
     type: 3}
   planeWorldPrefab: {fileID: 7426821145522886296, guid: 112017a36b1b24f4185ceb87cd9733d7,
@@ -1735,6 +1806,15 @@ MonoBehaviour:
     type: 3}
   lineRendererPrefab: {fileID: 6717037197375190088, guid: 4e84b1e8648a5441cb643bc5c8bf31ae,
     type: 3}
+=======
+  linearLinePrefab: {fileID: 3786722690349564717, guid: d2c39207ba5284642be52d7936ccde43, type: 3}
+  planeWorldPrefab: {fileID: 7426821145522886296, guid: 112017a36b1b24f4185ceb87cd9733d7, type: 3}
+  planeWorldTwoPointPrefab: {fileID: 8710104672084639662, guid: c26e190cffa124613ac1f0b52759b5d7, type: 3}
+  measurementsParent: {fileID: 4292583824444115080}
+  StereonetUIContainer: {fileID: 2289084046350725012}
+  PoleImagePrefab: {fileID: 1921353587652425008, guid: d88209cb7ac8d4799aa4aec6d01ee221, type: 3}
+  lineRendererPrefab: {fileID: 6717037197375190088, guid: 4e84b1e8648a5441cb643bc5c8bf31ae, type: 3}
+>>>>>>> Stashed changes
   foldAxisPolePoint: {fileID: 3002131346952753188}
   polePlotLineLineRenderer: {fileID: 2943690158824915639}
   poleBeddingColor: {r: 0, g: 0, b: 0, a: 1}
@@ -1753,10 +1833,15 @@ MonoBehaviour:
   planeColor3D: {r: 0, g: 0.8627451, b: 1, a: 0.5019608}
   groupedLineMeasurementsColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
   groupedPlaneMeasurementsColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.2}
+<<<<<<< Updated upstream
   polePrefab3D: {fileID: 1015061622133011445, guid: 40369857a8ee5c549b07031940ff7dd3,
     type: 3}
   planePrefab3D: {fileID: 1015061622133011445, guid: 7a357016e84a9b44c9f28304a421f4a7,
     type: 3}
+=======
+  polePrefab3D: {fileID: 1015061622133011445, guid: 40369857a8ee5c549b07031940ff7dd3, type: 3}
+  planePrefab3D: {fileID: 1015061622133011445, guid: 7a357016e84a9b44c9f28304a421f4a7, type: 3}
+>>>>>>> Stashed changes
   stereonetCamera: {fileID: 1485037011933656344}
 --- !u!1 &6273148300449813149
 GameObject:
@@ -1874,8 +1959,12 @@ MonoBehaviour:
   m_text: N
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
+<<<<<<< Updated upstream
   m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae,
     type: 2}
+=======
+  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
+>>>>>>> Stashed changes
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2173,8 +2262,12 @@ MonoBehaviour:
   m_text: W
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
+<<<<<<< Updated upstream
   m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae,
     type: 2}
+=======
+  m_sharedMaterial: {fileID: 1577431775993719506, guid: 5f0e18b1c060e493f8273b391d4c27ae, type: 2}
+>>>>>>> Stashed changes
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
