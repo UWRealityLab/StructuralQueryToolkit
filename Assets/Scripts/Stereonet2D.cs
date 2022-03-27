@@ -747,9 +747,6 @@ public class Stereonet2D : Stereonet
             return avgStereonetPoleData;
         }
         
-        Vector3 planeVector = StereonetsController.instance.finalPlane.forward;
-        StereonetUtils.CalculateTrendAndPlunge(planeVector, out avgStereonetPoleData.avgPoleTrend, out avgStereonetPoleData.avgPolePlunge);
-
         return avgStereonetPoleData;
     }
     

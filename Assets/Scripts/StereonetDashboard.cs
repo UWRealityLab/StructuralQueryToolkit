@@ -31,7 +31,11 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
     protected override void OnAddCard(Transform newCardTrans)
     {
         stereonetController.CreateStereonet();
-        StereonetCamera.instance.UpdateStereonetImmediate(); // Ensures that the card image will be a blank stereonet
+
+        if (StereonetCamera.instance)
+        {
+            StereonetCamera.instance.UpdateStereonetImmediate(); // Ensures that the card image will be a blank stereonet
+        }
 
         // Adding a fullscreen click card event
         var newCard = newCardTrans.GetComponent<StereonetCard>();

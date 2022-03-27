@@ -55,9 +55,7 @@ public class GameController : MonoBehaviour
 
     private void Start() {
         CurrentCamera = Camera.main;
-        var test = FindObjectOfType<XROrigin>(true);
-        IsVR = test != null;
-        //print(IsVR);
+        IsVR = FindObjectOfType<XROrigin>(true) != null;
 
         if (cursor)
         {
@@ -84,7 +82,11 @@ public class GameController : MonoBehaviour
         StereonetUI.SetActive(false);
    
         switchToMapViewEvent.Invoke();
-        ToolManager.instance.DisableActiveTool();
+
+        if (!IsVR)
+        {
+            ToolManager.instance.DisableActiveTool();
+        }
     }
 
     public void ReturnToFPS() {
