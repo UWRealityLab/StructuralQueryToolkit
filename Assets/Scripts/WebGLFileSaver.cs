@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.InteropServices;
 
+#if !UNITY_ANDROID
+
 public class WebGLFileSaver
 {
 
@@ -65,3 +67,5 @@ public class WebGLFileSaver
         return UNITY_IS_SUPPORTED();
     }
 }
+
+#endif

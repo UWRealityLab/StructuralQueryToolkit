@@ -67,11 +67,21 @@ public class KeyboardController : MonoBehaviour
         {
             inputBox.text += isUpperCase && key.hasUppercase ? key.upperCaseKey : key.lowerCaseKey;
         }
+
+        if (isUpperCase)
+        {
+            ToggleCase();
+        }
     }
 
     public void Write(string str)
     {
         inputBox.text += str;
+        
+        if (isUpperCase)
+        {
+            ToggleCase();
+        }
     }
 
     public void MoveLeft() {

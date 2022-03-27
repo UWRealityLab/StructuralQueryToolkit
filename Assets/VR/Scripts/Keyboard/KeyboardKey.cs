@@ -5,10 +5,12 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 using UnityEditor;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.XR.Interaction.Toolkit;
 
 [ExecuteInEditMode]
-public class KeyboardKey : MonoBehaviour
+public class KeyboardKey : XRSimpleInteractable, IPointerDownHandler
 {
     public bool isSpecialKey = false;
     //[DrawIf("isSpecialKey", true, DrawIfAttribute.DisablingType.DontDraw)]
@@ -33,11 +35,6 @@ public class KeyboardKey : MonoBehaviour
     private void Awake()
     {
         _button = GetComponent<Button>();
-        _button.onClick.AddListener(() =>
-        {
-            pressEvent.Invoke();
-            KeyboardController.instance.Write(this);
-        });
     }
 
     private void OnValidate()
@@ -78,6 +75,10 @@ public class KeyboardKey : MonoBehaviour
         KeyboardController.instance.Write(str);
     }
 
+    protected override void OnHoverEntered(HoverEnterEventArgs args)
+    {
+    }
+
 
     public void Hover() {
         animator.SetBool(_isHovered, true);
@@ -85,6 +86,16 @@ public class KeyboardKey : MonoBehaviour
 
     public void EndHover() {
         animator.SetBool(_isHovered, false);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        pressEvent.Invoke();
+
+        if (!isSpecialKey)
+        {
+            KeyboardController.instance.Write(this);
+        }
     }
 }
 

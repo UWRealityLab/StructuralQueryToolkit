@@ -11,6 +11,6 @@ public class CompassHandlerVR : MonoBehaviour {
 
     public void ChangeToNorth() {
         transform.rotation = Quaternion.Euler(0, Input.compass.magneticHeading, 0);
-        transform.localRotation = Quaternion.Euler(0, -transform.localRotation.eulerAngles.y, 0);
+        transform.localRotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, 0);
     }
 }

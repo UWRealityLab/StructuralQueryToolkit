@@ -388,11 +388,13 @@ public class StereonetFullscreenManager : MonoBehaviour
 
         Debug.Log(stereonetMobileFormatStringBuilder.ToString());
 
+#if !UNITY_ANDROID
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
             WebGLFileSaver.SaveFile(stereonetMobileFormatStringBuilder.ToString(),$"{titleText.text}.txt");
         }
-
+#endif
+        
         GUIUtility.systemCopyBuffer = stereonetMobileFormatStringBuilder.ToString();
 
     }
@@ -491,10 +493,12 @@ public class StereonetFullscreenManager : MonoBehaviour
         
         Debug.Log(outputStringBuilder.ToString());
 
+#if !UNITY_ANDROID
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
             WebGLFileSaver.SaveFile(outputStringBuilder.ToString(),$"{titleText.text}.txt");
         }
+#endif
 
         GUIUtility.systemCopyBuffer = outputStringBuilder.ToString();
     }

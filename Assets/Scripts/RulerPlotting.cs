@@ -72,7 +72,8 @@ public class RulerPlotting : PlayerTool
         {
             rulers = new List<RulerMeasurement>();
         }
-        rulers.Add(ruler); 
+        rulers.Add(ruler);
+        _activeRuler = ruler;
     }
 
     private void Update()
@@ -157,11 +158,19 @@ public class RulerPlotting : PlayerTool
     public void HideAll()
     {
         
+        foreach (var ruler in rulers)
+        {
+            ruler.SetVisibilityState(false);
+        }
     }
 
     public void ShowAll()
     {
-        
+        foreach (var ruler in rulers)
+        {
+            ruler.SetVisibilityState(true);
+        }
+
     }
 
     public void SetRulerVisibility(int index, bool state)

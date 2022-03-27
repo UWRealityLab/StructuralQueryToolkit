@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,17 @@ public class VRSnapTool : MonoBehaviour
 
     private bool _isSnapping = false;
     private Coroutine _snapCoroutine;
-    
+
+    private Transform _parentTrans;
+
+    private void Awake()
+    {
+        SetSnapTransformToCurrent();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        SetSnapTransformToCurrent();
     }
 
     public void SetSnapTransformToCurrent()
@@ -28,6 +35,7 @@ public class VRSnapTool : MonoBehaviour
         }
         else
         {
+            _parentTrans = transform.parent;
             _snapPos = transform.localPosition;
             _snapRot = transform.localRotation;
         }
@@ -40,6 +48,17 @@ public class VRSnapTool : MonoBehaviour
             _snapCoroutine = StartCoroutine(SnapCoroutine());
         }
     }
+
+    private void OnEnable()
+    {
+        if (_snapTransform == null)
+        {
+            transform.parent = _parentTrans;
+            transform.localPosition = _snapPos;
+            transform.localRotation = _snapRot;
+        }
+    }
+
 
     public void Deactivate()
     {

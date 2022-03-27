@@ -79,7 +79,7 @@ LineRenderer:
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -220,8 +220,7 @@ MonoBehaviour:
   m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cc23e802b001a4347b20e6d3ec1e2a44, type: 2}
-  m_sharedMaterial: {fileID: -9112778463029432634, guid: cc23e802b001a4347b20e6d3ec1e2a44,
-    type: 2}
+  m_sharedMaterial: {fileID: -9112778463029432634, guid: cc23e802b001a4347b20e6d3ec1e2a44, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

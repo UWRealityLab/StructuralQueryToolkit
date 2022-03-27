@@ -104,10 +104,12 @@ public class TopoProfileFullscreenManager : MonoBehaviour
     
     public void ExportGraphToTxt()
     {
+#if !UNITY_ANDROID
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
             WebGLFileSaver.SaveFile(xGraphDataText.text,$"{titleText.text}.txt");
         }
+#endif
 
         GUIUtility.systemCopyBuffer = xGraphDataText.text;
         
@@ -153,10 +155,14 @@ public class TopoProfileFullscreenManager : MonoBehaviour
         // Ending
         outputStrBuilder.Append("</svg>");
         
+#if !UNITY_ANDROID
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {
             WebGLFileSaver.SaveFile(outputStrBuilder.ToString(),$"{titleText.text}.xml");
         }
+#endif
+
+        
         GUIUtility.systemCopyBuffer = outputStrBuilder.ToString();
         downloadPopupIndicator.ShowPopup();
     }
