@@ -5,39 +5,41 @@ using UnityEngine;
 
 public class TooltipSystem : MonoBehaviour
 {
-    public static TooltipSystem instance;
+    private static TooltipSystem instance;
+
+    public static TooltipSystem Instance
+    {
+        get
+        {
+            if (!instance)
+            {
+                instance = FindObjectOfType<TooltipSystem>();
+            }
+            return instance; 
+        }
+    }
+    
     public float HoverTime = 1f;
 
     [SerializeField] private TooltipUI tooltipUI;
     
-    private static Canvas _canvas;
+    private Canvas _canvas;
 
     private void Awake()
     {
         instance = this;
         _canvas = GetComponent<Canvas>();
     }
-
-
-    public static void Show(Vector2 position, Vector2 offset, string header = "", string description = "")
+    
+    public void Show(Vector2 position, Vector2 offset, string header = "", string description = "")
     {
-        if (!instance)
-        {
-            return;
-        }
-        
-        instance.tooltipUI.gameObject.SetActive(true);
-        instance.tooltipUI.SetText(header, description, position + (offset * _canvas.renderingDisplaySize));
+        tooltipUI.gameObject.SetActive(true);
+        tooltipUI.SetText(header, description, position + (offset * _canvas.renderingDisplaySize));
     }
 
-    public static void Hide()
+    public void Hide()
     {
-        if (!instance)
-        {
-            return;
-        }
-
-        instance.tooltipUI.gameObject.SetActive(false);
+        tooltipUI.gameObject.SetActive(false);
     }
     
 }

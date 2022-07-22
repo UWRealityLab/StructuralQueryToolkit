@@ -5,11 +5,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[ExecuteInEditMode]
 public class TooltipUI : MonoBehaviour
 {
     
-    private RectTransform _RectTransform;
+    private RectTransform _rectTransform;
     [SerializeField] private TextMeshProUGUI HeaderText;
     [SerializeField] private TextMeshProUGUI DescriptionText;
     [SerializeField] private LayoutElement tooltipLayoutElement;
@@ -18,7 +17,7 @@ public class TooltipUI : MonoBehaviour
 
     private void Awake()
     {
-        _RectTransform = GetComponent<RectTransform>();
+        _rectTransform = GetComponent<RectTransform>();
     }
     
     public void SetText(string header, string description, Vector2 position)
@@ -44,7 +43,7 @@ public class TooltipUI : MonoBehaviour
         }
         
         UpdateUISize();
-        _RectTransform.position = position;
+        _rectTransform.position = position;
     }
 
     private void UpdateUISize()
