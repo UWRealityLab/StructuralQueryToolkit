@@ -1,14 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Net.Security;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Text;
 using Unity.Jobs;
 using UnityEditor;
+using UnityEngine.Assertions;
 using UnityEngine.Events;
+using UnityEngine.Experimental.Rendering;
+using UnityEngine.Rendering;
 
 public class StereonetFullscreenManager : MonoBehaviour
 {
@@ -52,32 +62,48 @@ public class StereonetFullscreenManager : MonoBehaviour
     [SerializeField] LayoutRebuild layoutRebuild;
 
     // Storing references to created groups to clear later
-    private LinkedList<MeasurementsGroup> measurementGroups;
+    public LinkedList<MeasurementsGroup> MeasurementGroups;
     
-    private Stereonet activeStereonet;
+    private Stereonet _activeStereonet;
     [HideInInspector] public UnityEvent OnCloseEvent;
     
-    // Stores all the string data to export into Stereonet Mobile Format
-    private StringBuilder stereonetMobileFormatStringBuilder;
-
+    [Header("Email Exporting")]
+    [SerializeField] private TMP_InputField _emailToInputText;
+    [SerializeField] private TMP_InputField _stereonetDescriptionInputText;
+    [SerializeField] private RenderTexture _mapViewRT;
+    
+    
     void Awake()
     {
         Instance = this;
-        measurementGroups = new LinkedList<MeasurementsGroup>();
+        MeasurementGroups = new LinkedList<MeasurementsGroup>();
     }
 
-    public void UpdateValues(string title, Stereonet2D stereonet)
+    public void UpdateValues(string title, Stereonet2D stereonet, bool updateLayout = true)
     {
-        stereonet.MoveStereonetUI(stereonetImage2D);
-        activeStereonet = stereonet;
+        Reset();
+        
+        if (updateLayout)
+        {
+            stereonet.MoveStereonetUI(stereonetImage2D);
 
-        titleText.text = string.IsNullOrWhiteSpace(title) ? "Stereonet" : title;
+            titleText.text = string.IsNullOrWhiteSpace(title) ? "Stereonet" : title;
+
+            if (_stereonetDescriptionInputText != null)
+            {
+                _stereonetDescriptionInputText.text = stereonet.descriptionText;
+            }
+        }
+        _activeStereonet = stereonet;
 
         SetPoleData();
         SetPlaneData();
         SetLineationData();
 
-        layoutRebuild.RebuildLayout();
+        if (updateLayout)
+        {
+            layoutRebuild.RebuildLayout();
+        }
     }
     
     /// <summary>
@@ -87,22 +113,22 @@ public class StereonetFullscreenManager : MonoBehaviour
     public void SetPlaneData()
     {
         // By default, there will always be one group for the non-combined data points
-        var defaultGroup = CreatePlaneMeasurementGroupUI(planeGroupPrefab, planeGroupParent, activeStereonet.defaultPlaneMeasurement);
-
+        var defaultGroup = CreateMeasurementGroupUI<PlaneMeasurementGroup>(planeGroupPrefab, planeGroupParent, _activeStereonet.defaultPlaneMeasurement);
+        
         StringBuilder defaultGroupStrBuilder = new StringBuilder();
 
         Vector3 defaultGroupAvgNormal = Vector3.zero;
         int numNonCombinedPlanes = 0;
 
-        var planeNode = activeStereonet.stereonetPlanes.First;
+        var planeNode = _activeStereonet.stereonetPlanes.First;
         while (planeNode != null)
         {
             var piPlotPlane =  planeNode.Value;
             if (piPlotPlane.isCombined)
             {
                 // If the stereonet plane is a combined line, then create a new group
-                var newPlaneGroup = CreatePlaneMeasurementGroupUI(planeGroupPrefab, planeGroupParent, piPlotPlane);
-
+                var newPlaneGroup = CreateMeasurementGroupUI<PlaneMeasurementGroup>(planeGroupPrefab, planeGroupParent, piPlotPlane);
+                
                 float currGroupAvgStrike = 0f;
                 float currGroupAvgDip = 0f;
                 StringBuilder strBuilder = new StringBuilder(); // String the list of measurements
@@ -116,10 +142,9 @@ public class StereonetFullscreenManager : MonoBehaviour
                 
                 // For exporting
                 var strikeDipArr = piPlotPlane.combinedPlaneLines.ToArray();
-                newPlaneGroup.strikeAndDipArr = new List<(float, float)>();
                 for (int i = 0; i < strikeDipArr.Length; i++)
                 {
-                    newPlaneGroup.strikeAndDipArr.Add((strikeDipArr[i].strike, strikeDipArr[i].dip));
+                    newPlaneGroup.StrikeAndDipArr.Add((strikeDipArr[i].strike, strikeDipArr[i].dip));
                 }
                 
                 currGroupAvgStrike /= piPlotPlane.combinedPlaneLines.Count;
@@ -133,7 +158,7 @@ public class StereonetFullscreenManager : MonoBehaviour
                 defaultGroupAvgNormal += piPlotPlane.GetForwardDirection();
 
                 // For exporting
-                defaultGroup.strikeAndDipArr.Add((piPlotPlane.strike, piPlotPlane.dip));
+                defaultGroup.StrikeAndDipArr.Add((piPlotPlane.strike, piPlotPlane.dip));
                 //RegisterPlaneMeasurement(numNonCombinedPlanes, defaultGroup.groupNameText.text, piPlotPlane.strike, piPlotPlane.dip);
 
                 numNonCombinedPlanes++;
@@ -165,7 +190,7 @@ public class StereonetFullscreenManager : MonoBehaviour
     {
         // Writing to Pole Field Measurements
         StringBuilder strBuilder = new StringBuilder();
-        var stereonetData = activeStereonet.GetAvgStereonetPoleData();
+        var stereonetData = _activeStereonet.GetAvgStereonetPoleData();
         foreach (var pair in stereonetData.strikeDipPairs)
         {
             strBuilder.AppendFormat("{0},{1}\t", Mathf.Round(pair.Item1).ToString("000"), Mathf.Round(pair.Item2).ToString("00"));
@@ -176,6 +201,7 @@ public class StereonetFullscreenManager : MonoBehaviour
         strBuilder.Clear();
         if (stereonetData.strikeDipPairs.Count > 0)
         {
+            Assert.IsTrue(stereonetData.avgPoleTrend > 0f && stereonetData.avgPolePlunge >= 0f);
             strBuilder.AppendFormat("Pi-Plot Trend, Plunge: {0}, {1}", Mathf.Round(stereonetData.avgPoleTrend), Mathf.Round(stereonetData.avgPolePlunge));
         }
         else
@@ -189,14 +215,14 @@ public class StereonetFullscreenManager : MonoBehaviour
     {
         // By default, there will always be one group for the non-combined
         // data points
-        var defaultGroup = CreateLineMeasurementGroupUI(lineationGroupPrefab, lineationGroupParent, activeStereonet.defaultLineationMeasurement);
+        var defaultGroup = CreateMeasurementGroupUI<LineMeasurementGroup>(lineationGroupPrefab, lineationGroupParent, _activeStereonet.defaultLineationMeasurement);
 
         StringBuilder defaultGroupStrBuilder = new StringBuilder();
 
         Vector3 defaultGroupAvgNormal = Vector3.zero;
         int numNonCombinedLines = 0;
 
-        var lineNode = activeStereonet.stereonetLinearPoints.First;
+        var lineNode = _activeStereonet.stereonetLinearPoints.First;
         int defaultGroupSize = 0;
 
         while (lineNode != null)
@@ -205,7 +231,7 @@ public class StereonetFullscreenManager : MonoBehaviour
             if (piPlotLine.isCombined)
             {
                 // If the stereonet plane is a combined line, then create a new group
-                var newLineationGroup = CreateLineMeasurementGroupUI(lineationGroupPrefab, lineationGroupParent, piPlotLine);
+                var newLineationGroup = CreateMeasurementGroupUI<LineMeasurementGroup>(lineationGroupPrefab, lineationGroupParent, piPlotLine);
 
                 float currGroupTrend = 0f;
                 float currGroupPlunge = 0f;
@@ -222,7 +248,7 @@ public class StereonetFullscreenManager : MonoBehaviour
                 var trendAndPlungeArr = piPlotLine.combinedStereonetPoints.ToArray();
                 for (int i = 0; i < trendAndPlungeArr.Length; i++)
                 {
-                    newLineationGroup.trendAndPlungeArr.Add((trendAndPlungeArr[i].trend, trendAndPlungeArr[i].plunge));
+                    newLineationGroup.TrendAndPlungeArr.Add((trendAndPlungeArr[i].trend, trendAndPlungeArr[i].plunge));
                 }
                 
                 currGroupTrend /= piPlotLine.combinedStereonetPoints.Count;
@@ -237,7 +263,7 @@ public class StereonetFullscreenManager : MonoBehaviour
                 numNonCombinedLines++;
                 
                 // For exporting
-                defaultGroup.trendAndPlungeArr.Add((piPlotLine.trend, piPlotLine.plunge));
+                defaultGroup.TrendAndPlungeArr.Add((piPlotLine.trend, piPlotLine.plunge));
 
                 defaultGroupStrBuilder.AppendFormat("{0},<space=5>{1}\t", piPlotLine.trend.ToString("000"), piPlotLine.plunge.ToString("00"));
             }
@@ -262,35 +288,11 @@ public class StereonetFullscreenManager : MonoBehaviour
             defaultGroup.avgDataText.text = "Average Trend and Plunge: 0, 0";
         }
     }
-
-    private PlaneMeasurementGroup CreatePlaneMeasurementGroupUI(GameObject groupPrefab, Transform groupParent, Measurement measurement)
-    {
-        var newMeasurementGroup = Instantiate(groupPrefab, groupParent).GetComponent<PlaneMeasurementGroup>();
-        measurementGroups.AddLast(newMeasurementGroup);
-        newMeasurementGroup.measurement = measurement;
-        newMeasurementGroup.SetGroupTitleText(measurement.measurementName);
-
-        OnAddMeasurementGroup.Invoke(newMeasurementGroup);
-        
-        return newMeasurementGroup;
-    }
     
-    private LineMeasurementGroup CreateLineMeasurementGroupUI(GameObject groupPrefab, Transform groupParent, Measurement measurement)
+    private T CreateMeasurementGroupUI<T>(GameObject groupPrefab, Transform groupParent, Measurement measurement) where T : MeasurementsGroup
     {
-        var newMeasurementGroup = Instantiate(groupPrefab, groupParent).GetComponent<LineMeasurementGroup>();
-        measurementGroups.AddLast(newMeasurementGroup);
-        newMeasurementGroup.measurement = measurement;
-        newMeasurementGroup.SetGroupTitleText(measurement.measurementName);
-        
-        OnAddMeasurementGroup.Invoke(newMeasurementGroup);
-
-        return newMeasurementGroup;
-    }
-
-    private MeasurementsGroup CreateMeasurementGroupUI(GameObject groupPrefab, Transform groupParent, Measurement measurement)
-    {
-        var newMeasurementGroup = Instantiate(groupPrefab, groupParent).GetComponent<MeasurementsGroup>();
-        measurementGroups.AddLast(newMeasurementGroup);
+        var newMeasurementGroup = Instantiate(groupPrefab, groupParent).GetComponent<T>();
+        MeasurementGroups.AddLast(newMeasurementGroup);
         newMeasurementGroup.measurement = measurement;
         newMeasurementGroup.SetGroupTitleText(measurement.measurementName);
         
@@ -311,28 +313,44 @@ public class StereonetFullscreenManager : MonoBehaviour
     /// </summary>
     public void Reset()
     {
-        foreach (var group in measurementGroups)
+        foreach (var group in MeasurementGroups)
         {
             Destroy(group.gameObject);
         }
-        measurementGroups.Clear();
+        MeasurementGroups.Clear();
     }
     
     private const string STEREONET_MOBILE_FORMAT_HEADER = "No.	Type	Structure	Color	Trd/Strk	Plg/Dip	Longitude	Latitude	Horiz ± m	Elevation	Elev ± m	Time	Day	Month	Year	Notes	Checked	Strabo Type	Strabo Quality	Strabo Plane Detail	Strabo Plane Addl Detail	Plane Thickness	Plane Length	Geologist";
     public void ExportToStereonetMobileFormat()
     {
 
+        var output = GetStereonetMobileFormatText();
+        Debug.Log(output);
+
+#if !UNITY_ANDROID
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            WebGLFileSaver.SaveFile(output,$"{titleText.text}.txt");
+        }
+#endif
+        
+        GUIUtility.systemCopyBuffer = output;
+
+    }
+
+    private string GetStereonetMobileFormatText()
+    {
         // TODO redundant calculations
-        stereonetMobileFormatStringBuilder = new StringBuilder();
+        var stereonetMobileFormatStringBuilder = new StringBuilder();
         stereonetMobileFormatStringBuilder.AppendLine(STEREONET_MOBILE_FORMAT_HEADER);
         
         // Poles (only has one group)
-        var stereonetData = activeStereonet.GetAvgStereonetPoleData();
+        var stereonetData = _activeStereonet.GetAvgStereonetPoleData();
         var curr = stereonetData.trendPlungePairs.First;
         for (int i = 0; i < stereonetData.trendPlungePairs.Count; i++)
         {
             var pair = curr.Value;
-            RegisterPointOrLineMeasurement(i, "Poles Dataset", pair.Item1, pair.Item2);
+            RegisterPointOrLineMeasurement(stereonetMobileFormatStringBuilder, i, "Poles Dataset", pair.Item1, pair.Item2);
             curr = curr.Next;
         }
 
@@ -340,11 +358,11 @@ public class StereonetFullscreenManager : MonoBehaviour
         // Lines and Planes
         int numUnnamedPlaneGroups = 0;
         int numUnnamedLineGroups = 0;
-        foreach (var group in measurementGroups)
+        foreach (var group in MeasurementGroups)
         {
             if (group.GetType() == typeof(LineMeasurementGroup))
             {
-                var measurements = ((LineMeasurementGroup) group).trendAndPlungeArr;
+                var measurements = ((LineMeasurementGroup) group).TrendAndPlungeArr;
                 if (measurements.Count == 0)
                 {
                     continue;
@@ -357,12 +375,12 @@ public class StereonetFullscreenManager : MonoBehaviour
                 for (int i = 0; i < measurements.Count; i++)
                 {
                     var measurement = measurements[i];
-                    RegisterPointOrLineMeasurement(i, groupName, measurement.Item1, measurement.Item2);
+                    RegisterPointOrLineMeasurement(stereonetMobileFormatStringBuilder, i, groupName, measurement.Item1, measurement.Item2);
                 }
             }
             else if (group.GetType() == typeof(PlaneMeasurementGroup))
             {
-                var measurements = ((PlaneMeasurementGroup) group).strikeAndDipArr;
+                var measurements = ((PlaneMeasurementGroup) group).StrikeAndDipArr;
                 if (measurements.Count == 0)
                 {
                     continue;
@@ -377,7 +395,7 @@ public class StereonetFullscreenManager : MonoBehaviour
                 for (int i = 0; i < measurements.Count; i++)
                 {
                     var measurement = measurements[i];
-                    RegisterPlaneMeasurement(i, groupName, measurement.Item1, measurement.Item2);
+                    RegisterPlaneMeasurement(stereonetMobileFormatStringBuilder, i, groupName, measurement.Item1, measurement.Item2);
                 }
             }
             else
@@ -386,41 +404,119 @@ public class StereonetFullscreenManager : MonoBehaviour
             }
         }
 
-        Debug.Log(stereonetMobileFormatStringBuilder.ToString());
-
-#if !UNITY_ANDROID
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
-        {
-            WebGLFileSaver.SaveFile(stereonetMobileFormatStringBuilder.ToString(),$"{titleText.text}.txt");
-        }
-#endif
-        
-        GUIUtility.systemCopyBuffer = stereonetMobileFormatStringBuilder.ToString();
-
+        return stereonetMobileFormatStringBuilder.ToString();
     }
-
+    
     /// <summary>
     /// Exports to a custom designed text file for the selected stereonet
     /// </summary>
     public void ExportToListFormat()
     {
-        // TODO
+        var str = GetListFormatText(_activeStereonet);
+        Debug.Log(str);
+
+        var mapTex = GetMapTex();
+
+#if !UNITY_ANDROID
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            WebGLFileSaver.SaveFile(str,$"{titleText.text}.txt");
+        }
+#else
+        print($"{Application.persistentDataPath}");
+        File.WriteAllBytes($"{Application.persistentDataPath}/{titleText.text}.png", mapTex.EncodeToPNG());
+        File.WriteAllBytes($"{Application.persistentDataPath}/{titleText.text}.txt", Encoding.UTF8.GetBytes(str));
+        
+        //File.WriteAllBytes($"/storage/emulated/0/Download/testWrite.png", mapTex.EncodeToPNG());
+#endif
+
+        GUIUtility.systemCopyBuffer = str;
+
+        //StartCoroutine(ExportToListFormatCo());
+    }
+
+    public void DownloadToListFormat(Stereonet stereonet)
+    {
+        var str = GetListFormatText(stereonet);
+
+
+#if !UNITY_ANDROID
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            WebGLFileSaver.SaveFile(str,$"{titleText.text}.txt");
+        }
+#else
+        print($"{Application.persistentDataPath}");
+        File.WriteAllBytes($"{Application.persistentDataPath}/{stereonet.id}_{titleText.text}.txt", Encoding.UTF8.GetBytes(str));
+        
+        //File.WriteAllBytes($"/storage/emulated/0/Download/testWrite.png", mapTex.EncodeToPNG());
+#endif
+
+    }
+
+    public void DownloadMap()
+    {
+#if UNITY_ANDROID
+        var mapTex = GetMapTex();
+        File.WriteAllBytes($"{Application.persistentDataPath}/map.png", mapTex.EncodeToPNG());
+#endif
+    }
+    
+    private IEnumerator DownloadToListFormat()
+    {
+        yield return new WaitForEndOfFrame();
+        var str = GetListFormatText(_activeStereonet);
+        Debug.Log(str);
+
+        var mapTex = GetMapTex();
+
+#if !UNITY_ANDROID
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            WebGLFileSaver.SaveFile(str,$"{titleText.text}.txt");
+        }
+#else
+        print($"{Application.persistentDataPath}");
+        File.WriteAllBytes($"{Application.persistentDataPath}/{titleText.text}.png", mapTex.EncodeToPNG());
+        File.WriteAllBytes($"{Application.persistentDataPath}/{titleText.text}.txt", Encoding.UTF8.GetBytes(str));
+        
+        //File.WriteAllBytes($"/storage/emulated/0/Download/testWrite.png", mapTex.EncodeToPNG());
+#endif
+
+        GUIUtility.systemCopyBuffer = str;
+    }
+
+    private Texture2D GetMapTex()
+    {
+        RenderTexture.active = _mapViewRT;
+        var mapTex = new Texture2D(_mapViewRT.width, _mapViewRT.height, TextureFormat.RGBAFloat, false);
+        mapTex.ReadPixels(new Rect(0, 0, _mapViewRT.width, _mapViewRT.height), 0, 0);
+        
+        //Graphics.CopyTexture(_mapViewRT, mapTex);
+        
+        mapTex.Apply();
+
+        return mapTex;
+    }
+
+    private string GetListFormatText(Stereonet stereonet)
+    {
         var outputStringBuilder = new StringBuilder();
         
-        var stereonetName = activeStereonet.name.Equals("") ? activeStereonet.name : "Stereonet";
+        var stereonetName = stereonet.name.Equals("") ? $"{stereonet.id}: {stereonet.name}" : $"{stereonet.id}: Stereonet";
         outputStringBuilder.AppendLine($"Stereonet: {stereonetName}\n");
         
         // PLANES
         outputStringBuilder.Append("---Planes---");
         int numUnnamedPlaneGroups = 1;
-        foreach (var group in measurementGroups)
+        foreach (var group in MeasurementGroups)
         {
             if (group.GetType() == typeof(PlaneMeasurementGroup))
             {
                 outputStringBuilder.AppendLine();
                 
                 var planeGroup = ((PlaneMeasurementGroup) group);
-                var measurements = planeGroup.strikeAndDipArr;
+                var measurements = planeGroup.StrikeAndDipArr;
                 var (avgStrike, avgDip) = planeGroup.AverageStrikeAndDip();
                 if (measurements.Count == 0)
                 {
@@ -442,8 +538,8 @@ public class StereonetFullscreenManager : MonoBehaviour
         outputStringBuilder.AppendLine();
 
         // POLES (only has one group)
-        var stereonetData = activeStereonet.GetAvgStereonetPoleData();
-        var elevationData = activeStereonet.poleElevations;
+        var stereonetData = _activeStereonet.GetAvgStereonetPoleData();
+        var elevationData = _activeStereonet.poleElevations;
         outputStringBuilder.AppendLine($"---Poles to Planes w/ elevation---");
         if (stereonetData.strikeDipPairs.Count > 0)
         {
@@ -464,14 +560,14 @@ public class StereonetFullscreenManager : MonoBehaviour
         // LINEATIONS
         outputStringBuilder.Append("---Lineations---");
         int numUnnamedLineGroups = 1;
-        foreach (var group in measurementGroups)
+        foreach (var group in MeasurementGroups)
         {
             if (group.GetType() == typeof(LineMeasurementGroup))
             {
                 outputStringBuilder.AppendLine();
                 
                 var lineGroup = ((LineMeasurementGroup) group);
-                var measurements = lineGroup.trendAndPlungeArr;
+                var measurements = lineGroup.TrendAndPlungeArr;
                 var (avgTrend, avgPlunge) = lineGroup.AverageTrendAndPlunge();
                 if (measurements.Count == 0)
                 {
@@ -490,50 +586,128 @@ public class StereonetFullscreenManager : MonoBehaviour
                 }
             }
         }
+
+        return outputStringBuilder.ToString();
+    }
+    
+    public void InitializeMap()
+    {
+        MapView.instance.mapViewCamera.Render();
+    }
+
+    public void SendEmail()
+    {
+        var mapTex = GetMapTex();
         
-        Debug.Log(outputStringBuilder.ToString());
+        var fromEmailAddress = new MailAddress("virtualfieldgeology@gmail.com");
+        var toEmailAddress = new MailAddress(string.IsNullOrEmpty(_emailToInputText.text) ? "virtualfieldgeology@gmail.com" : _emailToInputText.text);
+        var mailMessage = new MailMessage(fromEmailAddress, toEmailAddress);
+        mailMessage.Subject = titleText.text;
+        mailMessage.Body = GetListFormatText(_activeStereonet);
 
-#if !UNITY_ANDROID
-        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        var mapBytes = mapTex.EncodeToPNG();
+        var memoryStream = new MemoryStream(mapBytes);
+        var mapAttachment = new Attachment(memoryStream, "Map.png");
+        mailMessage.Attachments.Add(mapAttachment);
+
+        var smtpClient = new SmtpClient("smtp.gmail.com");
+        smtpClient.Timeout = 10000;
+        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        smtpClient.UseDefaultCredentials = false;
+        smtpClient.Port = 587;
+
+        smtpClient.Credentials = new NetworkCredential("virtualfieldgeology@gmail.com", "whaleback123");
+        smtpClient.EnableSsl = true;
+        ServicePointManager.ServerCertificateValidationCallback = delegate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
         {
-            WebGLFileSaver.SaveFile(outputStringBuilder.ToString(),$"{titleText.text}.txt");
-        }
-#endif
+            return true;
+        };
+        smtpClient.SendCompleted += (sender, args) =>
+        {
+            
+        };
 
-        GUIUtility.systemCopyBuffer = outputStringBuilder.ToString();
+        mailMessage.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+        smtpClient.SendMailAsync(mailMessage);
+        
+        
+        //StartCoroutine(SendEmailCo());
+    }
+
+    private IEnumerator SendEmailCo()
+    {
+        yield return new WaitForEndOfFrame();
+
+        var mapTex = GetMapTex();
+        
+        var fromEmailAddress = new MailAddress("virtualfieldgeology@gmail.com");
+        var toEmailAddress = new MailAddress(string.IsNullOrEmpty(_emailToInputText.text) ? "jackymooc@gmail.com" : _emailToInputText.text);
+        var mailMessage = new MailMessage(fromEmailAddress, toEmailAddress);
+        mailMessage.Subject = titleText.text;
+        mailMessage.Body = GetListFormatText(_activeStereonet);
+
+        var mapBytes = mapTex.EncodeToPNG();
+        var memoryStream = new MemoryStream(mapBytes);
+        var mapAttachment = new Attachment(memoryStream, "Map.png");
+        mailMessage.Attachments.Add(mapAttachment);
+
+        var smtpClient = new SmtpClient("smtp.gmail.com");
+        smtpClient.Timeout = 10000;
+        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        smtpClient.UseDefaultCredentials = false;
+        smtpClient.Port = 587;
+
+        smtpClient.Credentials = new NetworkCredential("virtualfieldgeology@gmail.com", "whaleback123");
+        smtpClient.EnableSsl = true;
+        ServicePointManager.ServerCertificateValidationCallback = delegate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors errors)
+        {
+            return true;
+        };
+        smtpClient.SendCompleted += (sender, args) =>
+        {
+            
+        };
+
+        mailMessage.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+        smtpClient.SendMailAsync(mailMessage);
+
+
     }
 
     /// <summary>
     /// Registers point or line measurement to be later exported into Stereonet Mobile Format
     /// </summary>
-    private void RegisterPointOrLineMeasurement(int index, string groupName, float trend, float plunge)
+    private void RegisterPointOrLineMeasurement(StringBuilder strBuilder, int index, string groupName, float trend, float plunge)
     {
         if (groupName.Equals(""))
         {
             groupName = "Default Lines Dataset";
         }
         
-        stereonetMobileFormatStringBuilder.AppendLine(
-            $"{index}\tL\t{groupName}	{000000000}	{trend}	{plunge}	999	99		0		1:00:	1	1	2021	_	1	_	0	_	_	_	_	_");
+        strBuilder.AppendLine($"{index}\tL\t{groupName}	{000000000}	{trend}	{plunge}	999	99		0		1:00:	1	1	2021	_	1	_	0	_	_	_	_	_");
     }
     
     /// <summary>
     /// Registers plane measurement to be later exported into Stereonet Mobile Format
     /// </summary>
-    private void RegisterPlaneMeasurement(int index, string groupName, float strike, float dip)
+    private void RegisterPlaneMeasurement(StringBuilder strBuilder, int index, string groupName, float strike, float dip)
     {
         if (groupName.Equals(""))
         {
             groupName = "Default Planes Dataset";
         }
 
-        stereonetMobileFormatStringBuilder.AppendLine(
-            $"{index}\tP\t{groupName}	{000000000}	{strike}	{dip}	999	99		0		1:00:	1	1	2021	_	1	_	0	_	_	_	_	_");
+        strBuilder.AppendLine($"{index}\tP\t{groupName}	{000000000}	{strike}	{dip}	999	99		0		1:00:	1	1	2021	_	1	_	0	_	_	_	_	_");
     }
 
     public void ToggleStereonetView()
     {
         stereonetImage2D.gameObject.SetActive(!stereonetImage2D.gameObject.activeSelf);
         steroenetImage3D.SetActive(!steroenetImage3D.activeSelf);
+    }
+    
+    public void UpdateStereonetDescription(TMP_InputField inputField)
+    {
+        _activeStereonet.SetDescriptionText(inputField.text);
     }
 }

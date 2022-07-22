@@ -3,17 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Terrain
+  - Sketch Line
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Hidden to main camera
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Rotatable Object
+  - Map View
+  - Rock Models
   - 
   - 
   - 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI.Extensions;
 using Gradient = UnityEngine.Gradient;
 
@@ -17,6 +18,11 @@ public abstract class Stereonet : MonoBehaviour
     // Used to store the default measurement groups' names 
     [HideInInspector] public Measurement defaultPlaneMeasurement;
     [HideInInspector] public Measurement defaultLineationMeasurement;
+    
+    public string descriptionText;
+
+    public UnityEvent<Stereonet> OnStereonetUpdate;
+    public UnityEvent<Stereonet> OnStereonetDestroy;
 
     public abstract void Show();
     public abstract void Hide();
@@ -67,17 +73,26 @@ public abstract class Stereonet : MonoBehaviour
     public abstract int GetNumLines();
     public abstract void CalculateAveragePlane();
     public abstract int GetNumPlanes();
+    public abstract Vector3 CalculateCentroid();
     
     
     // 3D representation
     public abstract void RotateModel();
     
+    public void SetDescriptionText(string text)
+    {
+        descriptionText = text;
+    }
+
     // VR 
     public abstract void RenderCamera();
 
     protected virtual void Awake()
     {
         stereonetColor = new Color32(252, 141, 82, 255);
+
+        OnStereonetUpdate = new UnityEvent<Stereonet>();
+        OnStereonetDestroy = new UnityEvent<Stereonet>();
 
         polePoints = new LinkedList<PoleMeasurement>();
         poleElevations = new List<float>();
@@ -108,6 +123,12 @@ public abstract class Stereonet : MonoBehaviour
     {
         
     }
+    
+    protected virtual void OnDestroy()
+    {
+        OnStereonetDestroy?.Invoke(this);
+    }
+
 }
 
 public struct AvgStereonetPoleData

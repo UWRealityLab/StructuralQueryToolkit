@@ -8,10 +8,10 @@ public class VRSnapTool : MonoBehaviour
 
     [SerializeField] private Transform _snapTransform;
     
-    private Vector3 _snapPos;
-    private Quaternion _snapRot;
+    [SerializeField] private Vector3 _localSnapPos;
+    private Quaternion _localSnapRot;
 
-    private bool _isSnapping = false;
+    [SerializeField] private bool _isSnapping = false;
     private Coroutine _snapCoroutine;
 
     private Transform _parentTrans;
@@ -21,23 +21,18 @@ public class VRSnapTool : MonoBehaviour
         SetSnapTransformToCurrent();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     public void SetSnapTransformToCurrent()
     {
         if (_snapTransform != null)
         {
-            _snapPos = _snapTransform.localPosition;
-            _snapRot = _snapTransform.localRotation;
+            _localSnapPos = _snapTransform.localPosition;
+            _localSnapRot = _snapTransform.localRotation;
         }
         else
         {
             _parentTrans = transform.parent;
-            _snapPos = transform.localPosition;
-            _snapRot = transform.localRotation;
+            _localSnapPos = transform.localPosition;
+            _localSnapRot = transform.localRotation;
         }
     }
 
@@ -54,11 +49,10 @@ public class VRSnapTool : MonoBehaviour
         if (_snapTransform == null)
         {
             transform.parent = _parentTrans;
-            transform.localPosition = _snapPos;
-            transform.localRotation = _snapRot;
+            transform.localPosition = _localSnapPos;
+            transform.localRotation = _localSnapRot;
         }
     }
-
 
     public void Deactivate()
     {
@@ -79,13 +73,13 @@ public class VRSnapTool : MonoBehaviour
         while (timeLeft > 0f)
         {
             timeLeft -= Time.deltaTime;
-            transform.localPosition = Vector3.Lerp(transform.localPosition, _snapPos, 0.3f);
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, _snapRot, 0.3f);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, _localSnapPos, 0.3f);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, _localSnapRot, 0.3f);
             yield return new WaitForEndOfFrame();
         }
 
-        transform.localPosition = _snapPos;
-        transform.localRotation = _snapRot;
+        transform.localPosition = _localSnapPos;
+        transform.localRotation = _localSnapRot;
 
         _isSnapping = false;
     }

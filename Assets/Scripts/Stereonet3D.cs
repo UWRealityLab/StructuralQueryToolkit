@@ -648,6 +648,11 @@ public class Stereonet3D : Stereonet
         return stereonetPlanes.Count - numCombinedPlanes;
     }
 
+    public override Vector3 CalculateCentroid()
+    {
+        throw new NotImplementedException();
+    }
+
     public int GetNumPlanePoints()
     {
         return planePoints.Count;

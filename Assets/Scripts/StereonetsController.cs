@@ -15,7 +15,7 @@ public class StereonetsController : MonoBehaviour
     [SerializeField] Camera stereonetCamera;
     [SerializeField] GameObject stereonetPrefab;
     [SerializeField] Transform stereonetsListParent;
-    private List<Transform> stereonets;
+    public List<Stereonet> stereonets;
     
     [SerializeField] public Transform originTransform;
     [SerializeField] public Transform finalPlane;
@@ -29,10 +29,15 @@ public class StereonetsController : MonoBehaviour
     [SerializeField] private GameObject stereonet2DPrefab;
     [SerializeField] private GameObject stereonetImage2D;
 
+    private int _numStereonetsCreated = 0;
+
+    public UnityEvent<Stereonet> OnStereonetCreated;
+
     private void Awake()
     {
         instance = this;
-        stereonets = new List<Transform>();
+        stereonets = new List<Stereonet>();
+        OnStereonetCreated = new UnityEvent<Stereonet>();
     }
 
     public void SelectStereonet(int index)
@@ -42,7 +47,7 @@ public class StereonetsController : MonoBehaviour
             currStereonet.Hide();
         }
         
-        currStereonet = stereonets[index].GetComponent<Stereonet>();
+        currStereonet = stereonets[index];
         AssignStereonet(currStereonet);
         currStereonet.Show();
 
@@ -55,14 +60,20 @@ public class StereonetsController : MonoBehaviour
     }
 
     // Creates a new stereonet
-    public void CreateStereonet()
+    public Stereonet CreateStereonet()
     {
+        _numStereonetsCreated++;
         var stereonetTrans = Instantiate(stereonet2DPrefab, stereonetsListParent).transform;
         var newStereonet = stereonetTrans.GetComponent<Stereonet>();
-        stereonets.Add(stereonetTrans);
+        newStereonet.id = _numStereonetsCreated;
+        stereonets.Add(newStereonet);
         AssignStereonet(newStereonet);
 
         UpdateStereonetDashboard();
+        
+        OnStereonetCreated.Invoke(newStereonet);
+
+        return newStereonet;
     }
 
     // Assigns the given stereonet to the given players' compass drawing in order to work
@@ -105,7 +116,7 @@ public class StereonetsController : MonoBehaviour
 
     public void Delete(int index)
     {
-        Transform stereonet = stereonets[index];
+        var stereonet = stereonets[index];
         stereonets.Remove(stereonet);
         Destroy(stereonet.gameObject);
 
@@ -117,7 +128,8 @@ public class StereonetsController : MonoBehaviour
 
     public void RemoveAll()
     {
-        foreach (Transform stereonet in stereonets)
+        _numStereonetsCreated = 0;
+        foreach (var stereonet in stereonets)
         {
             Destroy(stereonet.gameObject);
         }
@@ -195,7 +207,7 @@ public class StereonetsController : MonoBehaviour
             Graphics.CopyTexture(stereonetPlot.mainTexture, stereonetTexture);
         }
 
-        StereonetDashboard.instance.UpdateCard(stereonets.IndexOf(currStereonet.transform), stereonetTexture);
+        StereonetDashboard.instance.UpdateCard(stereonets.IndexOf(currStereonet), stereonetTexture);
     }
 
     public Stereonet GetStereonet(int index)

@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-[RequireComponent(typeof(CanvasRenderer))]
+[RequireComponent(typeof(CanvasGroup))]
 public class DownloadPopupIndicator : MonoBehaviour
 {
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text bodyText;
     
-    private CanvasGroup canvasRenderer;
+    private CanvasGroup _canvasGroup;
 
     private const float GRACE_TIME = 0.5f;
     private const float POPUP_TIME = 1f;
@@ -19,7 +19,7 @@ public class DownloadPopupIndicator : MonoBehaviour
 
     private void Awake()
     {
-        canvasRenderer = GetComponent<CanvasGroup>();
+        _canvasGroup = GetComponent<CanvasGroup>();
     }
 
     public void SetText(string title, string body)
@@ -41,7 +41,7 @@ public class DownloadPopupIndicator : MonoBehaviour
 
     private IEnumerator ShowPopupCoroutine()
     {
-        canvasRenderer.alpha = 1f;
+        _canvasGroup.alpha = 1f;
 
         var timeLeft = GRACE_TIME;
         while (timeLeft > 0f)
@@ -54,11 +54,11 @@ public class DownloadPopupIndicator : MonoBehaviour
         while (timeLeft > 0f)
         {
             timeLeft -= Time.deltaTime;
-            canvasRenderer.alpha = (timeLeft / POPUP_TIME);
+            _canvasGroup.alpha = (timeLeft / POPUP_TIME);
             yield return new WaitForEndOfFrame();
         }
         
-        canvasRenderer.alpha = 0f;
+        _canvasGroup.alpha = 0f;
 
         showPopupCoroutine = null;
     }
@@ -66,6 +66,6 @@ public class DownloadPopupIndicator : MonoBehaviour
     private void OnDisable()
     {
         StopAllCoroutines();
-        canvasRenderer.alpha = 0f;
+        _canvasGroup.alpha = 0f;
     }
 }

@@ -15,16 +15,16 @@ MonoBehaviour:
   version: 6
 --- !u!21 &2100000
 Material:
-  serializedVersion: 7
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Stereonet Tool
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ShaderKeywords: _SPECULARHIGHLIGHTS_OFF
+  m_ValidKeywords:
+  - _SPECULARHIGHLIGHTS_OFF
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -32,7 +32,6 @@ Material:
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses: []
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -161,7 +160,7 @@ Material:
     - Color_32a8475d806d40eda091c3a01740a64f: {r: 1, g: 1, b: 1, a: 0}
     - Color_4b29cb86cb50421eaf0c6cc1e3c2857f: {r: 1, g: 1, b: 1, a: 0}
     - _BaseColor: {r: 0.21960786, g: 0.21960786, b: 0.21176472, a: 1}
-    - _Color: {r: 0.21960783, g: 0.21960783, b: 0.2117647, a: 1}
+    - _Color: {r: 0.21960786, g: 0.21960786, b: 0.21176472, a: 1}
     - _EmissionColor: {r: 0.023261342, g: 0.0064763986, b: 0.0019494471, a: 1}
     - _MyColor: {r: 0.87058824, g: 0.87058824, b: 0.87058824, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}

@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.XR.Interaction.Toolkit;
+using Unity.XR.Oculus;
 
 public class GameController : MonoBehaviour
 {
@@ -35,6 +35,8 @@ public class GameController : MonoBehaviour
     public static Camera CurrentCamera;
 
     // Define cameras and canvases
+    public CharacterController CharacterController;
+    public FPSController FPSController;
     public GameObject playerObj;
     public GameObject playerUI;
     public GameObject StereonetUI;
@@ -51,16 +53,24 @@ public class GameController : MonoBehaviour
     private void Awake() {
         instance = this;
         playerMapView = playerObj.GetComponentInChildren<SpriteRenderer>(true).gameObject;
+        IsVR = FindObjectOfType<XROrigin>(true) != null;
     }
 
     private void Start() {
         CurrentCamera = Camera.main;
-        IsVR = FindObjectOfType<XROrigin>(true) != null;
 
         if (cursor)
         {
             Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
         }
+
+        #if UNITY_ANDROID
+        if (IsVR)
+        {
+            Utils.EnableDynamicFFR(true);
+            Utils.SetFoveationLevel(3);
+        }
+        #endif
     }
 
     public void SwitchToActivity(GameObject activity) {
@@ -110,10 +120,14 @@ public class GameController : MonoBehaviour
 
     public void EnablePlayer()
     {
+        CharacterController.enabled = true;
+        FPSController.enabled = true;
     }
 
     public void DisablePlayer()
     {
+        CharacterController.enabled = false;
+        FPSController.enabled = false;
     }
 
     public bool IsPlayerEnabled()

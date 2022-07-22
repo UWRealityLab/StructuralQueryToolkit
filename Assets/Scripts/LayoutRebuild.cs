@@ -27,8 +27,10 @@ public class LayoutRebuild : MonoBehaviour
     }
 
     public void RebuildLayout() {
-        StartCoroutine(RebuildLayoutCo());
-
+        if (gameObject.activeSelf && rectTransform && rectTransform.gameObject.activeSelf)
+        {
+            StartCoroutine(RebuildLayoutCo());
+        }
     }
 
     private IEnumerator RebuildLayoutCo()

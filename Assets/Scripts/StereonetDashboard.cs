@@ -30,7 +30,7 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
     // Adds a new stereonet to the world and to the UI
     protected override void OnAddCard(Transform newCardTrans)
     {
-        stereonetController.CreateStereonet();
+        var stereonet = stereonetController.CreateStereonet();
 
         if (StereonetCamera.instance)
         {
@@ -39,6 +39,7 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
 
         // Adding a fullscreen click card event
         var newCard = newCardTrans.GetComponent<StereonetCard>();
+        newCard.SetID(stereonet.id);
         EventTrigger fullscreenTapEventTrigger = newCard.fullscreenEventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry = new EventTrigger.Entry();
@@ -64,6 +65,12 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
         if (GameController.instance.IsVR)
         {
             gameObject.SetActive(!fullscreenManager.gameObject.activeSelf);
+        }
+        else
+        {
+            var currStereonet = StereonetsController.instance.currStereonet as Stereonet2D;
+            var test = selectedCard.GetComponent<StereonetCard>();
+            test.SetStereonet2DImage(currStereonet);
         }
     }
 
@@ -141,5 +148,13 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
     public void CloseSwatch()
     {
         colorSwatchAnimator.SetBool(IsToggledTrigger, false);
+    }
+    
+    [ContextMenu("Download All")]
+    public void DownloadAllStereonets()
+    {
+        var stereonets = StereonetsController.instance.stereonets;
+        StereonetExportUtils.DownloadToListFormat(stereonets);
+        fullscreenManager.DownloadMap();
     }
 }

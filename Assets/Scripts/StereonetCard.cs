@@ -18,10 +18,16 @@ public class StereonetCard : MonoBehaviour, IDashboardCard
     [SerializeField] Image editImage;
     [SerializeField] Image colorImage;
     [SerializeField] Image selectedIconImage;
+    [SerializeField] TMP_Text idText;
 
     private void Awake()
     {
         
+    }
+
+    public void SetID(int id)
+    {
+        idText.text = $"#{id}";
     }
 
     public RawImage GetImage()

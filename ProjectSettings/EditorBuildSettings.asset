@@ -6,6 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Scenes/Toolkit Scene  (Do not modify. Please duplicate this scene
+      and raname it) 1.unity
+    guid: 3c066bcadc3c5a84b894f45eaa611f0b
+  - enabled: 0
+    path: Assets/_Ophiolite/Ophiolite VR.unity
+    guid: bf7e760aa8d2b3c4bb34ccf61291f5be
+  - enabled: 0
+    path: Assets/VR/_Scenes/VR Menu Template (Do not modify. Please duplicate this
+      scene and raname it).unity
+    guid: b41b8db86c55fad43856b2193e0c23cf
+  - enabled: 0
     path: Assets/VR/_Scenes/VR Toolkit Scene  (Do not modify. Please duplicate this
       scene and raname it).unity
     guid: 3f7b7aad81b5e4b3aaf3d5d66de3ec90

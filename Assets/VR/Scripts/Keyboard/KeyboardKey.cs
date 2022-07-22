@@ -37,6 +37,18 @@ public class KeyboardKey : XRSimpleInteractable, IPointerDownHandler
         _button = GetComponent<Button>();
     }
 
+    private void Start()
+    {
+        if (!isSpecialKey)
+        {
+            text ??= GetComponentInChildren<TextMeshProUGUI>();
+            lowerCaseKey = gameObject.name;
+            upperCaseKey = lowerCaseKey.ToUpper();
+            text.text = lowerCaseKey;
+        }
+
+    }
+
     private void OnValidate()
     {
         animator ??= GetComponent<Animator>();

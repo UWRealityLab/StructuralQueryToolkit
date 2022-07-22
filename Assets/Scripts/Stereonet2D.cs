@@ -63,6 +63,15 @@ public class Stereonet2D : Stereonet
     private LinkedList<StereonetPole3D> lineationPoles3D;
     private LinkedList<StereonetPlane3D> planes3D;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        poles3D = new LinkedList<StereonetPole3D>();
+        lineationPoles3D = new LinkedList<StereonetPole3D>();
+        planes3D = new LinkedList<StereonetPlane3D>();
+    }
+    
     protected override void Start()
     {
         base.Start();
@@ -72,10 +81,6 @@ public class Stereonet2D : Stereonet
         {
             MoveStereonetUI(StereonetCanvas.Instance.Stereonet2DContainer.transform);
         }
-
-        poles3D = new LinkedList<StereonetPole3D>();
-        lineationPoles3D = new LinkedList<StereonetPole3D>();
-        planes3D = new LinkedList<StereonetPlane3D>();
     }
 
     private void Update()
@@ -88,8 +93,10 @@ public class Stereonet2D : Stereonet
         }
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+        
         foreach (var flag in flagsList)
         {
             if (flag)
@@ -256,6 +263,7 @@ public class Stereonet2D : Stereonet
     {
         AddPole(normal, flag);
         poleElevations.Add(elevation);
+        OnStereonetUpdate.Invoke(this);
     }
 
     public override void AddPlanePointThreePoint(Transform point)
@@ -301,7 +309,7 @@ public class Stereonet2D : Stereonet
 
             // Create mesh
             Mesh planeMesh = worldPlane.GetComponent<MeshFilter>().mesh;
-
+            
             planeMesh.SetVertices(new Vector3[] { a.position, b.position, c.position });
             planeMesh.uv = new Vector2[] { new Vector2(0, 0), new Vector2(0, 1), new Vector2(1, 1) };
 
@@ -319,7 +327,7 @@ public class Stereonet2D : Stereonet
             worldPlanes.AddFirst(worldPlane.transform);
             stereonetPlanes.AddFirst(piPlotPlane);
             
-            // 3D
+            // 3D stereonet
             var stereonetPlane3D = Instantiate(planePrefab3D, measurementsTransform3D).GetComponent<StereonetPlane3D>();
             stereonetPlane3D.SetNormal(normal, modelTransform);
             stereonetPlane3D.SetColor(planeColor3D);
@@ -327,6 +335,8 @@ public class Stereonet2D : Stereonet
             
             PiPlotPlaneButton.instance.UpdateButton();
             LatestMeasurementUI.instance.SetPlaneMeasurementInformation(piPlotPlane.strike, piPlotPlane.dip);
+            
+            OnStereonetUpdate.Invoke(this);
         }
     }
 
@@ -400,6 +410,8 @@ public class Stereonet2D : Stereonet
 
             PiPlotPlaneButton.instance.UpdateButton();
             LatestMeasurementUI.instance.SetPlaneMeasurementInformation(piPlotPlane.strike, piPlotPlane.dip);
+            
+            OnStereonetUpdate.Invoke(this);
         }
     }
 
@@ -455,6 +467,8 @@ public class Stereonet2D : Stereonet
 
             PiPlotLinearButton.instance.UpdateButton();
             UpdateLatestMeasurementUILinear(normal);
+            
+            OnStereonetUpdate.Invoke(this);
         }
     }
 
@@ -931,6 +945,32 @@ public class Stereonet2D : Stereonet
 
         modelTransform.Rotate(Vector3.right, delta.x, Space.World);
         modelTransform.Rotate(Vector3.up, -delta.y);
+    }
+
+    public override Vector3 CalculateCentroid()
+    {
+        var avgPos = Vector3.zero;
+        var numMeasurements = flagsList.Count + worldLinePoints.Count / 2 + worldPlanes.Count;
+
+        foreach (var pole in flagsList)
+        {
+            avgPos += pole.position;
+        }
+
+        foreach (var linePoint in worldLinePoints)
+        {
+            avgPos += linePoint.transform.position;
+        }
+
+        foreach (var plane in worldPlanes)
+        {
+            var vertices = plane.GetComponent<MeshFilter>().mesh.vertices;
+            var planeCenter = (vertices[0] + vertices[1] + vertices[2]) * 0.33f;
+            avgPos += planeCenter;
+        }
+
+        avgPos /= numMeasurements;
+        return avgPos;
     }
     
     

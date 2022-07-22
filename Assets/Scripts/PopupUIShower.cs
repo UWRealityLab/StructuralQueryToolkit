@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
-[ExecuteInEditMode]
 public class PopupUIShower : MonoBehaviour
 {
     private static int outlineShaderID;
@@ -22,23 +22,31 @@ public class PopupUIShower : MonoBehaviour
     private bool isTransitioning = false;
     private bool isMouseOver = false;
     
-    private Material mat;
+    protected Material mat;
     private static readonly int _showTrigger = Animator.StringToHash("showTrigger");
     private static readonly int _exitTrigger = Animator.StringToHash("exitTrigger");
 
-    private void Awake()
+    protected UnityEvent OnPopupShow;
+
+    protected virtual void Awake()
     {
         outlineShaderID = Shader.PropertyToID("_Outline");
-        mat = GetComponent<MeshRenderer>().sharedMaterial;
+        mat = GetComponent<MeshRenderer>().material;
         mat.SetFloat(outlineShaderID, outlineAmount);
+        OnPopupShow = new UnityEvent();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         if (Application.isPlaying)
         {
             UICanvas.SetActive(false);
         }
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(mat);
     }
 
     private void OnEnable()
@@ -76,11 +84,18 @@ public class PopupUIShower : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (!isTransitioning && !UICanvas.activeSelf)
+        if (!isTransitioning && !UICanvas.activeSelf && !MapView.instance.IsInMapView)
         {
-            StartCoroutine(ShowCoroutine());
+            Show();
         }
     }
+
+    private void Show()
+    {
+        StartCoroutine(ShowCoroutine());
+        OnPopupShow.Invoke();
+    }
+    
     IEnumerator ShowCoroutine()
     {
         UICanvas.SetActive(true);
@@ -94,7 +109,7 @@ public class PopupUIShower : MonoBehaviour
         isTransitioning = false;
     }
 
-    public void Exit() => StartCoroutine(ExitCoroutine());
+    protected virtual void Exit() => StartCoroutine(ExitCoroutine());
     IEnumerator ExitCoroutine()
     {
         UIAnimator.SetTrigger(_exitTrigger);

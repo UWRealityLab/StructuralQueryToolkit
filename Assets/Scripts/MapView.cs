@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
@@ -12,6 +15,7 @@ public class MapView : MonoBehaviour
     private Transform playerSprite;
     public int CameraFrameRate = 30;
     [SerializeField] private Canvas mapViewCanvas;
+    private RectTransform mapViewCanvasRectTrans;
     [SerializeField] private GameObject ResetButton;
 
     [Header("Dragging")] 
@@ -25,15 +29,28 @@ public class MapView : MonoBehaviour
 
     private Vector3 defaultCamPos;
     private float defaultCamSize;
-    
     private bool isInMapView = false;
+    public bool IsInMapView => isInMapView;
 
+    [Header("Diagrams in Map View")] 
+    [SerializeField] private GameObject StereonetMarkerPrefab;
+    [SerializeField] private Transform StrikeDipIconsParent;
+    private List<StereonetMapMarker> _strikeDipMarkers;
+    private float _markerFontSize = 36;
+
+    private Vector2 _uiOffset;
 
     private void Awake()
     {
         instance = this;
         defaultCamPos = mapViewCamera.transform.position;
         defaultCamSize = mapViewCamera.orthographicSize;
+
+        mapViewCanvasRectTrans = mapViewCanvas.GetComponent<RectTransform>();
+
+        _strikeDipMarkers = new List<StereonetMapMarker>();
+        
+        _uiOffset = new Vector2(mapViewCanvasRectTrans.sizeDelta.x / 2f, mapViewCanvasRectTrans.sizeDelta.y / 2f);
 
         zoomIncrement = ZoomSensitivity;
     }
@@ -46,6 +63,7 @@ public class MapView : MonoBehaviour
         {
             mapViewCanvas.gameObject.SetActive(true);
             GameController.CurrentCamera = mapViewCamera;
+            mapViewCamera.enabled = true;
             isInMapView = true;
             InvokeRepeating(nameof(RenderMapCamera), 0f, 1f / CameraFrameRate);
         });
@@ -53,13 +71,37 @@ public class MapView : MonoBehaviour
         {
             mapViewCanvas.gameObject.SetActive(false);
             GameController.CurrentCamera = Camera.main;
+            mapViewCamera.enabled = false;
             isInMapView = false;
+            GameController.instance.EnablePlayer();
             CancelInvoke(nameof(RenderMapCamera));
         });
         
-
-        gameObject.SetActive(false);
-
+        StereonetsController.instance.OnStereonetCreated.AddListener(stereonet =>
+        {
+            var marker = Instantiate(StereonetMarkerPrefab, StrikeDipIconsParent).GetComponent<StereonetMapMarker>();
+            marker.SetFontSize(_markerFontSize);
+            marker.SetPosition(new Vector2(float.MaxValue, float.MaxValue));
+            marker.SetId(stereonet.id);
+            _strikeDipMarkers.Add(marker);
+            
+            stereonet.OnStereonetUpdate.AddListener(stereonet =>
+            {
+                var uiPos = mapViewCamera.WorldToViewportPoint(stereonet.CalculateCentroid());
+                var canvasPos = new Vector2(uiPos.x * mapViewCanvasRectTrans.sizeDelta.x, uiPos.y * mapViewCanvasRectTrans.sizeDelta.y);
+                marker.SetPosition(canvasPos - _uiOffset);
+            });
+            
+            stereonet.OnStereonetDestroy.AddListener(stereonet =>
+            {
+                if (marker)
+                {
+                    Destroy(marker.gameObject);
+                }
+            });
+        });
+        
+        //gameObject.SetActive(false);
     }
 
     private void Update()
@@ -106,6 +148,7 @@ public class MapView : MonoBehaviour
                 ResetButton.SetActive(Math.Abs(mapViewCamera.orthographicSize - defaultCamSize) > float.Epsilon || mapViewCamera.transform.position != defaultCamPos);
             }
         }
+
     }
 
     private void RenderMapCamera()
@@ -184,6 +227,7 @@ public class MapView : MonoBehaviour
     public void ExitMapView()
     {
         GameController.instance.ReturnToFPS();
+        gameObject.SetActive(true); // TODO 
     }
 
     public void ToggleMapView()
@@ -202,5 +246,15 @@ public class MapView : MonoBehaviour
     {
         mapViewCamera.transform.position = defaultCamPos;
         mapViewCamera.orthographicSize = defaultCamSize;
+    }
+
+    public void SetMarkerSize(float size)
+    {
+        _markerFontSize = size;
+
+        foreach (var marker in _strikeDipMarkers)
+        {
+            marker.SetFontSize(_markerFontSize);
+        }
     }
 }

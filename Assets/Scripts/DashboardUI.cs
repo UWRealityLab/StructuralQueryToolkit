@@ -69,6 +69,7 @@ public abstract class DashboardUI : MonoBehaviour
     }
 
     // Adds a new card and its respective world representation to the world
+    [ContextMenu("Add Card")]
     public void AddCard()
     {
         if (LatestMeasurementUI.instance != null)

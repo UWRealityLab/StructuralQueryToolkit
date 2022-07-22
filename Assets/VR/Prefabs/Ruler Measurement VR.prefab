@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2715264475914866719}
   - component: {fileID: 2715264475914866712}
   - component: {fileID: 2715264475914866713}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Ruler Measurement VR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 2715264476128992467}
   - component: {fileID: 2715264476128992466}
   - component: {fileID: 8605353119828283594}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -311,7 +311,7 @@ GameObject:
   - component: {fileID: 2715264476784209385}
   - component: {fileID: 2715264476784209387}
   - component: {fileID: 2715264476784209386}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,7 +396,7 @@ GameObject:
   - component: {fileID: 1252777826153724381}
   - component: {fileID: 643132711109591116}
   - component: {fileID: 9023861437226342043}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
