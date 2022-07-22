@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.IO;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
 {
     public static StereonetDashboard instance;
+
+    public UnityEvent<StereonetCard> OnAddStereonetCard;
 
     [SerializeField] private StereonetsController stereonetController;
     [SerializeField] private StereonetFullscreenManager fullscreenManager;
@@ -25,13 +28,19 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
     }
 
     // Adds a new stereonet to the world and to the UI
-    protected override void OnAddCard(Transform newCard)
+    protected override void OnAddCard(Transform newCardTrans)
     {
-        stereonetController.CreateStereonet();
-        StereonetCamera.instance.UpdateStereonetImmediate(); // Ensures that the card image will be a blank stereonet
+        var stereonet = stereonetController.CreateStereonet();
+
+        if (StereonetCamera.instance)
+        {
+            StereonetCamera.instance.UpdateStereonetImmediate(); // Ensures that the card image will be a blank stereonet
+        }
 
         // Adding a fullscreen click card event
-        EventTrigger fullscreenTapEventTrigger = newCard.GetComponent<StereonetCard>().fullscreenEventTrigger;
+        var newCard = newCardTrans.GetComponent<StereonetCard>();
+        newCard.SetID(stereonet.id);
+        EventTrigger fullscreenTapEventTrigger = newCard.fullscreenEventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
@@ -41,11 +50,28 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
             FullscreenCard();
         });
         fullscreenTapEventTrigger.triggers.Add(entry);
+        
+        if (GameController.instance.IsVR)
+        {
+            newCard.SetStereonet2DImage(stereonetController.currStereonet as Stereonet2D);
+        }
+        OnAddStereonetCard.Invoke(newCard);
     }
 
     public override void OnOpenDashboard()
     {
         StereonetsController.instance.UpdateStereonetDashboard();
+
+        if (GameController.instance.IsVR)
+        {
+            gameObject.SetActive(!fullscreenManager.gameObject.activeSelf);
+        }
+        else
+        {
+            var currStereonet = StereonetsController.instance.currStereonet as Stereonet2D;
+            var test = selectedCard.GetComponent<StereonetCard>();
+            test.SetStereonet2DImage(currStereonet);
+        }
     }
 
     protected override void OnSelectCard(Transform card, int cardIndex)
@@ -74,16 +100,11 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
         card.SetStereonetImage(newStereonetImage);
     }
 
-    public void UpdateCard(int index, Stereonet2D stereonet)
-    {
-        StereonetCard card = cards[index].GetComponent<StereonetCard>();
-        card.SetStereonet2DImage(stereonet);
-    }
-
     public void FullscreenCard()
     {
         CloseSwatch();
         fullscreenManager.gameObject.SetActive(true);
+        gameObject.SetActive(false);
 
         // Assign the current card's information to the fullscreenmanager
         StereonetCard card = selectedCard.GetComponent<StereonetCard>();
@@ -92,12 +113,11 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
         fullscreenManager.OnCloseEvent.AddListener(() =>
         {
             card.SetStereonet2DImage(stereonet as Stereonet2D);
+            gameObject.SetActive(true);
             fullscreenManager.OnCloseEvent.RemoveAllListeners();
         });
 
         fullscreenManager.UpdateValues(card.GetTitle(), stereonet as Stereonet2D);
-        
-        //fullscreenManager.UpdateValues(card.GetImage(), card.GetTitle(), stereonet); // 3D
     }
     
 
@@ -106,10 +126,11 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
         CloseSwatch();
         
         var currStereonet = StereonetsController.instance.currStereonet as Stereonet2D;
-        currStereonet.MoveStereonetUI(StereonetCanvas.Instance.Stereonet2DContainer.transform);
 
-        // StereonetCamera.instance.UpdateStereonet(); // 3D
-
+        if (!GameController.instance.IsVR)
+        {
+            currStereonet.MoveStereonetUI(StereonetCanvas.Instance.Stereonet2DContainer.transform);
+        }
     }
 
     public void ChangeSelectedCardColor(ColorSwatchButton colorButton)
@@ -127,5 +148,13 @@ public class StereonetDashboard : DashboardUI, IDashboardColorSwatch
     public void CloseSwatch()
     {
         colorSwatchAnimator.SetBool(IsToggledTrigger, false);
+    }
+    
+    [ContextMenu("Download All")]
+    public void DownloadAllStereonets()
+    {
+        var stereonets = StereonetsController.instance.stereonets;
+        StereonetExportUtils.DownloadToListFormat(stereonets);
+        fullscreenManager.DownloadMap();
     }
 }

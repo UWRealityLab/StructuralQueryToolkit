@@ -85,6 +85,10 @@ Preset:
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_IsAlphaChannelOptional
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_Width
     value: 1920
     objectReference: {fileID: 0}
@@ -101,8 +105,8 @@ Preset:
     value: -1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
-    propertyPath: m_DepthFormat
-    value: 0
+    propertyPath: m_DepthStencilFormat
+    value: 94
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_ColorFormat
@@ -138,7 +142,7 @@ Preset:
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_TextureSettings.m_Aniso
-    value: 16
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_TextureSettings.m_MipBias
@@ -163,5 +167,9 @@ Preset:
   - target: {fileID: 0}
     propertyPath: m_VolumeDepth
     value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_ShadowSamplingMode
+    value: 2
     objectReference: {fileID: 0}
   m_ExcludedProperties: []

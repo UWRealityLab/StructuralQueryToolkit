@@ -19,11 +19,11 @@ public class TopoProfileDashboard : DashboardUI
     {
     }
 
-    protected override void OnAddCard(Transform newCard)
+    protected override void OnAddCard(Transform newCardTrans)
     {
         TopographicProfileTool.Instance.CreateNewProfile();
         _profilesCount++;
-        var topoProfileCard = newCard.GetComponent<TopoProfileCard>();
+        var topoProfileCard = newCardTrans.GetComponent<TopoProfileCard>();
         topoProfileCard.SetName($"Profile {_profilesCount}");
     }
 

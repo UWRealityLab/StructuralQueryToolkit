@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using StarterAssets;
+using Unity.XR.CoreUtils;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using Unity.XR.Oculus;
 
 public class GameController : MonoBehaviour
 {
-
     public Texture2D cursor;
 
     private static GameController _instance;
@@ -21,7 +22,8 @@ public class GameController : MonoBehaviour
                 return _instance;
             }
 
-            return FindObjectOfType<GameController>().GetComponent<GameController>();
+            _instance = FindObjectOfType<GameController>(true);
+            return _instance;
         }
         set
         {
@@ -33,27 +35,25 @@ public class GameController : MonoBehaviour
     public static Camera CurrentCamera;
 
     // Define cameras and canvases
+    public CharacterController CharacterController;
+    public FPSController FPSController;
     public GameObject playerObj;
     public GameObject playerUI;
     public GameObject StereonetUI;
-    public GameObject playerCamera;
     public GameObject playerMapView;
 
     GameObject currActivity;
 
-    private CharacterController characterController;
-    private FPSController firstPersonController;
 
     public UnityEvent switchToMapViewEvent;
     public UnityEvent returnToFPSEvent;
 
+    public bool IsVR;
+
     private void Awake() {
         instance = this;
-        playerObj = FindObjectOfType<FPSController>().gameObject;
-        characterController = playerObj.GetComponent<CharacterController>();
-        firstPersonController = playerObj.GetComponent<FPSController>();
-        playerCamera = playerObj.GetComponentInChildren<Camera>().gameObject;
         playerMapView = playerObj.GetComponentInChildren<SpriteRenderer>(true).gameObject;
+        IsVR = FindObjectOfType<XROrigin>(true) != null;
     }
 
     private void Start() {
@@ -63,6 +63,14 @@ public class GameController : MonoBehaviour
         {
             Cursor.SetCursor(cursor, Vector2.zero, CursorMode.Auto);
         }
+
+        #if UNITY_ANDROID
+        if (IsVR)
+        {
+            Utils.EnableDynamicFFR(true);
+            Utils.SetFoveationLevel(3);
+        }
+        #endif
     }
 
     public void SwitchToActivity(GameObject activity) {
@@ -80,24 +88,22 @@ public class GameController : MonoBehaviour
         activity.SetActive(true);
         playerMapView.SetActive(true);
 
-        characterController.enabled = false;
-        firstPersonController.enabled = false;
-        playerCamera.SetActive(false);
         playerUI.SetActive(false);
         StereonetUI.SetActive(false);
    
         switchToMapViewEvent.Invoke();
-        ToolManager.instance.DisableActiveTool();
+
+        if (!IsVR)
+        {
+            ToolManager.instance.DisableActiveTool();
+        }
     }
 
     public void ReturnToFPS() {
         currActivity.SetActive(false);
         playerMapView.SetActive(false);
         playerUI.SetActive(true);
-        playerCamera.SetActive(true);
         StereonetUI.SetActive(true);
-        characterController.enabled = true;
-        firstPersonController.enabled = true;
         returnToFPSEvent.Invoke();
     }
 
@@ -114,19 +120,19 @@ public class GameController : MonoBehaviour
 
     public void EnablePlayer()
     {
-        characterController.enabled = true;
-        firstPersonController.enabled = true;
+        CharacterController.enabled = true;
+        FPSController.enabled = true;
     }
 
     public void DisablePlayer()
     {
-        characterController.enabled = false;
-        firstPersonController.enabled = false;
+        CharacterController.enabled = false;
+        FPSController.enabled = false;
     }
 
     public bool IsPlayerEnabled()
     {
-        return characterController.enabled;
+        return false;
     }
 }
 

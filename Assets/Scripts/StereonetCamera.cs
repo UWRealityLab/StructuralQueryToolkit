@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.OpenVR;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
+using UnityEngine.XR.Management;
 
 public class StereonetCamera : MonoBehaviour
 {
@@ -16,7 +19,7 @@ public class StereonetCamera : MonoBehaviour
 
     private void OnDisable()
     {
-        cam.Render();
+        Render();
     }
 
     public void Toggle()
@@ -31,13 +34,22 @@ public class StereonetCamera : MonoBehaviour
 
     public void UpdateStereonetImmediate()
     {
-        cam.Render();
+        Render();
     }
 
     private IEnumerator UpdateStereonetCoroutine()
     {
         yield return new WaitForEndOfFrame();
-        cam.Render();
+
+        Render();
+    }
+
+    private void Render()
+    {
+        if (Application.isPlaying && !GameController.instance.IsVR)
+        {
+            cam.Render();
+        }
     }
 
 }

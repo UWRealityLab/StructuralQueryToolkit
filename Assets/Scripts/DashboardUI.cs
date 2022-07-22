@@ -16,6 +16,7 @@ public abstract class DashboardUI : MonoBehaviour
     protected List<Transform> cards;
     protected Transform selectedCard;
     protected int selectedCardIndex;
+    
 
     private void Awake()
     {
@@ -39,9 +40,18 @@ public abstract class DashboardUI : MonoBehaviour
     public void OpenDashboard()
     {
         gameObject.SetActive(true);
-        animator.SetTrigger("showTrigger");
-        GameController.instance.DisablePlayer();
-        ToolManager.instance.DisableActiveTool();
+        
+        if (!GameController.instance.IsVR)
+        {
+            
+            if (animator.enabled)
+            {
+                animator.SetTrigger("showTrigger");
+            }
+
+            GameController.instance.DisablePlayer();
+            ToolManager.instance.DisableActiveTool();
+        }
         OnOpenDashboard();
     }
 
@@ -49,13 +59,17 @@ public abstract class DashboardUI : MonoBehaviour
 
     public void CloseDashboard()
     {
-        GameController.instance.EnablePlayer();
-        ToolManager.instance.EnableActiveTool();
+        if (!GameController.instance.IsVR)
+        {
+            GameController.instance.EnablePlayer();
+            ToolManager.instance.EnableActiveTool();
+        }
         OnClosedDashboard();
         StartCoroutine(ExitCoroutine());
     }
 
     // Adds a new card and its respective world representation to the world
+    [ContextMenu("Add Card")]
     public void AddCard()
     {
         if (LatestMeasurementUI.instance != null)
@@ -79,7 +93,7 @@ public abstract class DashboardUI : MonoBehaviour
         SelectCard(newCard);
     }
     
-    protected abstract void OnAddCard(Transform newCard);
+    protected abstract void OnAddCard(Transform newCardTrans);
 
     public void SelectCard(Transform card)
     {
@@ -165,8 +179,11 @@ public abstract class DashboardUI : MonoBehaviour
 
     IEnumerator ExitCoroutine()
     {
-        animator.SetTrigger("exitTrigger");
-        yield return new WaitForSeconds(0.5f);
+        if (animator.enabled)
+        {
+            animator.SetTrigger("exitTrigger");
+            yield return new WaitForSeconds(0.5f);
+        }
         gameObject.SetActive(false);
     }
 }

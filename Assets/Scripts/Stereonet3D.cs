@@ -34,6 +34,11 @@ public class Stereonet3D : Stereonet
     [SerializeField] Material normalStereonetLinearLineMaterial;
     [SerializeField] Material desaturatedStereonetLinearPointMaterial;
 
+    public override void RenderCamera()
+    {
+        throw new NotImplementedException();
+    }
+
     private void Awake()
     {
         base.Awake();
@@ -86,26 +91,6 @@ public class Stereonet3D : Stereonet
     {
         throw new RowNotInTableException();
     }
-
-    private Vector3[] GenerateStereonetLine(Vector3 planeDown, Vector3 leftCorner, Vector3 rightCorner)
-    {
-        int itrCount = 50;
-        Vector3[] points = new Vector3[itrCount];
-
-        for (int i = 0; i < itrCount; i++)
-        {
-            Vector3 pos = Vector3.Lerp(leftCorner, rightCorner, Mathf.SmoothStep(0f, 1f, (float)i / (itrCount - 1)));
-
-            points[i] = pos + planeDown * 15f; 
-
-            //Instantiate(specialPointPrefab, points[i], Quaternion.identity);
-
-            Debug.DrawLine(StereonetsController.instance.originTransform.position, points[i], Color.blue, 3f);
-        }
-
-        return points;
-    }
-
 
     // Draws a point in the 3D stereonet
     public override void AddPole(Vector3 normal, Flag flag)
@@ -661,6 +646,11 @@ public class Stereonet3D : Stereonet
     public override int GetNumPlanes()
     {
         return stereonetPlanes.Count - numCombinedPlanes;
+    }
+
+    public override Vector3 CalculateCentroid()
+    {
+        throw new NotImplementedException();
     }
 
     public int GetNumPlanePoints()

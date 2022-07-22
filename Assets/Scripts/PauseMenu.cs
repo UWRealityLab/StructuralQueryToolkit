@@ -12,7 +12,6 @@ public class PauseMenu : MonoBehaviour
     private bool m_Paused;
 
     [SerializeField] GameObject pauseCanvas;
-    [SerializeField] FPSController playerController;
 
     private void Start()
     {
@@ -21,8 +20,9 @@ public class PauseMenu : MonoBehaviour
 
     private void MenuOn ()
     {
-        pauseCanvas.SetActive(true);
         GameController.instance.DisablePlayer();
+
+        pauseCanvas.SetActive(true);
 
         //m_TimeScaleRef = Time.timeScale;
         //Time.timeScale = 0f;
@@ -41,7 +41,6 @@ public class PauseMenu : MonoBehaviour
         GameController.instance.EnablePlayer();
 
         pauseCanvas.SetActive(false);
-        playerController.enabled = true;
 
         //Time.timeScale = m_TimeScaleRef;
         AudioListener.volume = m_VolumeRef;

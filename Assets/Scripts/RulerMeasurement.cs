@@ -160,24 +160,13 @@ public class RulerMeasurement : MonoBehaviour
 
     public void SetVisibilityState(bool state)
     {
-        if (state)
+        foreach (var point in rulerPoints)
         {
-            foreach (var point in rulerPoints)
-            {
-                point.gameObject.SetActive(true);
-            }
-
-            lineRenderer.enabled = true;
+            point.gameObject.SetActive(state);
         }
-        else
-        {
-            foreach (var point in rulerPoints)
-            {
-                point.gameObject.SetActive(false);
-            }
 
-            lineRenderer.enabled = false;
-        }
+        lineRenderer.enabled = state;
+        text.gameObject.SetActive(state);
     }
 
 }

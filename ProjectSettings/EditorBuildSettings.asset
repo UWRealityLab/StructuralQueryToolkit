@@ -6,13 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/Menu Template (Do not modify. Please duplicate this scene
-      and raname it).unity
-    guid: 7ca60801508355e43abcea1d3c6bb25d
-  - enabled: 1
     path: Assets/_Scenes/Toolkit Scene  (Do not modify. Please duplicate this scene
-      and raname it).unity
+      and raname it) 1.unity
+    guid: 3c066bcadc3c5a84b894f45eaa611f0b
+  - enabled: 0
+    path: Assets/_Ophiolite/Ophiolite VR.unity
+    guid: bf7e760aa8d2b3c4bb34ccf61291f5be
+  - enabled: 0
+    path: Assets/VR/_Scenes/VR Menu Template (Do not modify. Please duplicate this
+      scene and raname it).unity
+    guid: b41b8db86c55fad43856b2193e0c23cf
+  - enabled: 0
+    path: Assets/VR/_Scenes/VR Toolkit Scene  (Do not modify. Please duplicate this
+      scene and raname it).unity
     guid: 3f7b7aad81b5e4b3aaf3d5d66de3ec90
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 9e7be553448fa2546aea5752021cbcf7,
-      type: 2}
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 44ba0321436c24b46ad99298e932c1e2, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: b2bc04fa682bfc64db6aff1b90d34439, type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 8db9c1ccefdcd904e88ea81f30491a97, type: 2}

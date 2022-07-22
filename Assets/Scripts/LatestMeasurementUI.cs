@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
@@ -8,7 +9,7 @@ public class LatestMeasurementUI : MonoBehaviour
 {
     public static LatestMeasurementUI instance;
 
-    [SerializeField] TextMeshProUGUI infoText;
+    [SerializeField] TMP_Text infoText;
 
 
     private void Awake()
@@ -16,12 +17,33 @@ public class LatestMeasurementUI : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        StartCoroutine(TestCo());
+    }
+
+    private IEnumerator TestCo()
+    {
+        var elapsedTime = 0f;
+        var cnt = 0;
+        while (elapsedTime < 50f)
+        {
+            elapsedTime += Time.deltaTime;
+            //SetText($"{cnt}");
+            //print($"{infoText.transform.name}");
+            
+            cnt++;
+            yield return null;
+        }
+
+    }
+
     /// <summary>
     /// Set the latest measurement UI with the given text
     /// </summary>
     public void SetText(string text)
     {
-        infoText.text = text;
+        infoText.SetText(text);
     }
 
     /// <summary>
@@ -57,7 +79,7 @@ public class LatestMeasurementUI : MonoBehaviour
         Mathf.Round(dip).ToString("00")
         );
 
-        infoText.text = strBuilder.ToString();
+        SetText(strBuilder.ToString());
 
     }
 
@@ -70,7 +92,7 @@ public class LatestMeasurementUI : MonoBehaviour
         Mathf.Round(plunge).ToString("00")
         );
 
-        infoText.text = strBuilder.ToString();
+        SetText(strBuilder.ToString());
 
     }
 
@@ -95,8 +117,7 @@ public class LatestMeasurementUI : MonoBehaviour
 
         }
 
-        infoText.text = strBuilder.ToString();
-
+        SetText(strBuilder.ToString());
     }
 
     // Called when a new stereonet is selected
@@ -104,13 +125,5 @@ public class LatestMeasurementUI : MonoBehaviour
     // Called for delete all TODO
     public void Clear()
     {
-        if (ToolManager.instance.activeTool)
-        {
-            // TODO
-        }
-        else
-        {
-            infoText.text = "";
-        }
     }
 }

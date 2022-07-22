@@ -17,7 +17,7 @@ public class TextToolDashboard : DashboardUI, IDashboardColorSwatch
     {
     }
 
-    protected override void OnAddCard(Transform newCard)
+    protected override void OnAddCard(Transform newCardTrans)
     {
         TextTool.Instance.CreateNewTextGroup();
     }

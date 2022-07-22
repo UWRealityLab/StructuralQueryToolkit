@@ -4,36 +4,30 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - EduCamera
   - Terrain
-  - Point Collider
-  - Incorrect Answer
-  - Fire
-  - Tutorial Tap Point
-  - Tutorial Arrow
   - Sketch Line
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Show When Occluded
+  - Hidden to main camera
   - Water
   - UI
+  - Rotatable Object
+  - Map View
+  - Rock Models
   - 
   - 
-  - PostProcessing
-  - Stereonet
-  - Stigmaria
-  - Concretion
-  - Map
-  - Main UI
-  - Camera UI
-  - Optional Fold
-  - Stereonet Bowl UI
-  - Line
-  - Cave
-  - Cabin
-  - Always Render
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -46,9 +40,6 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: New Layer
-    uniqueID: 1308430651
-    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
