@@ -132,7 +132,7 @@ public class GameController : MonoBehaviour
 
     public bool IsPlayerEnabled()
     {
-        return false;
+        return CharacterController.enabled;
     }
 }
 
