@@ -25,36 +25,22 @@ public class JetpackController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!hasStopped && CheckCanMove(currYVelocity))
-        { // Slowly lerp the player up/down unless they're blocked
-            currYVelocity = Mathf.Lerp(currYVelocity, 0, 0.2f);
+        if (!GameController.instance.IsPlayerEnabled())
+        {
+            return;
+        }
+
+        print(currYVelocity);
+        if (hasStopped && CheckCanMove(currYVelocity))
+        { 
+            // Slowly lerp the player up/down unless they're blocked
             playerTransform.position += new Vector3(0, currYVelocity, 0);
         }
     }
 
     public void Move(float yVelocity)
     {
-        if (!GameController.instance.IsPlayerEnabled())
-        {
-            return;
-        }
-
-        if (!firstPersonController.isGravityOn && CheckCanMove(yVelocity))
-        {
-            currYVelocity = Mathf.Lerp(currYVelocity, yVelocity, 5f * Time.deltaTime);
-            playerTransform.position += new Vector3(0, currYVelocity, 0);
-            hasStopped = false;
-        }
-        else if (CheckCanMove(currYVelocity))
-        { // Slowly lerp the player up/down unless they're blocked
-            currYVelocity = Mathf.Lerp(currYVelocity, 0, 5f * Time.deltaTime);
-            playerTransform.position += new Vector3(0, currYVelocity, 0);
-        }
-        else
-        {
-            currYVelocity = 0;
-            hasStopped = true;
-        }
+        currYVelocity = Mathf.Lerp(currYVelocity, yVelocity, 5f * Time.deltaTime);
     }
 
     bool CheckCanMove(float yDist)

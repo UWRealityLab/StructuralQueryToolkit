@@ -15,6 +15,10 @@ public class AltitudeButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
         {
             JetpackController.instance.Move(isUp ? Settings.instance.JetpackVerticalSpeed : -Settings.instance.JetpackVerticalSpeed);
         }
+        else
+        {
+            JetpackController.instance.Move(0f);
+        }
     }
 
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
