@@ -25,12 +25,11 @@ public class JetpackController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameController.instance.IsPlayerEnabled())
+        if (firstPersonController.isGravityOn || !GameController.instance.IsPlayerEnabled())
         {
             return;
         }
 
-        print(currYVelocity);
         if (hasStopped && CheckCanMove(currYVelocity))
         { 
             // Slowly lerp the player up/down unless they're blocked

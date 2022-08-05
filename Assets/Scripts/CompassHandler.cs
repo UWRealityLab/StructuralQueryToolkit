@@ -15,7 +15,7 @@ public class CompassHandler : MonoBehaviour {
     }
 
     public void ChangeToNorth() {
-        North.z = -Player.eulerAngles.y;
+        North.z = Player.eulerAngles.y;
         NorthLayer.localEulerAngles = North;
     }
 
