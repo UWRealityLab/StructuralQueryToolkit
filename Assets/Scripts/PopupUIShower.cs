@@ -9,8 +9,8 @@ public class PopupUIShower : MonoBehaviour
 {
     private static int outlineShaderID;
 
-    [SerializeField] GameObject UICanvas;
-    [SerializeField] Animator UIAnimator;
+    [SerializeField] protected GameObject UICanvas;
+    [SerializeField] protected Animator UIAnimator;
 
     public bool DisablePlayer = true;
 
@@ -19,8 +19,8 @@ public class PopupUIShower : MonoBehaviour
     private static float outlineMax = 1.5f;
     private static float outlineScale = 1.5f;
     
-    private bool isTransitioning = false;
-    private bool isMouseOver = false;
+    protected bool isTransitioning = false;
+    protected bool isMouseOver = false;
     
     protected Material mat;
     private static readonly int _showTrigger = Animator.StringToHash("showTrigger");
@@ -31,7 +31,7 @@ public class PopupUIShower : MonoBehaviour
     protected virtual void Awake()
     {
         outlineShaderID = Shader.PropertyToID("_Outline");
-        mat = GetComponent<MeshRenderer>().material;
+        mat = GetComponentInChildren<MeshRenderer>().material;
         mat.SetFloat(outlineShaderID, outlineAmount);
         OnPopupShow = new UnityEvent();
     }
@@ -90,12 +90,11 @@ public class PopupUIShower : MonoBehaviour
         }
     }
 
-    private void Show()
+    protected virtual void Show()
     {
         StartCoroutine(ShowCoroutine());
         OnPopupShow.Invoke();
     }
-    
     IEnumerator ShowCoroutine()
     {
         UICanvas.SetActive(true);
@@ -109,7 +108,7 @@ public class PopupUIShower : MonoBehaviour
         isTransitioning = false;
     }
 
-    protected virtual void Exit() => StartCoroutine(ExitCoroutine());
+    public virtual void Exit() => StartCoroutine(ExitCoroutine());
     IEnumerator ExitCoroutine()
     {
         UIAnimator.SetTrigger(_exitTrigger);

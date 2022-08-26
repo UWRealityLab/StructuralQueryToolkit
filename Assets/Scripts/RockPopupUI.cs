@@ -5,14 +5,19 @@ using Cinemachine.Utility;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class RockPopupUI : PopupUIShower
 {
     private static readonly int _colorProperty = Shader.PropertyToID("_Color");
+    private static readonly int _showTrigger = Animator.StringToHash("showTrigger");
+    private static readonly int _exitTrigger = Animator.StringToHash("exitTrigger");
 
     [SerializeField] private Image _bg;
     [SerializeField] private TMP_Text _titleText;
     [SerializeField] private TMP_Text _descriptionText;
+    [SerializeField] private Animator _rockHammerAnimator;
+    [SerializeField] private ParticleSystem _hitVFX;
 
     [Header("Designer Settings")]
     [SerializeField] private GameObject _rockModelPrefab;
@@ -27,7 +32,7 @@ public class RockPopupUI : PopupUIShower
 
     [TextArea]
     public string Description;
-    
+
     private Mesh _rockMesh;
     private Material _rockMat;
     private Vector3 _objectCenter;
@@ -95,17 +100,33 @@ public class RockPopupUI : PopupUIShower
         RockPopupManager.Instance.Zoom(amount);
     }
 
-    private void Show()
+    protected override void Show()
     {
-        mat.SetColor(_colorProperty, Color.red);
+        if (!isTransitioning)
+        {
+            StartCoroutine(ShowCoroutine());
+        }
+
         RockPopupManager.Instance.SetRockModel(_rockModelPrefab, _rockModelPrefab.transform.rotation, _objectCenter);
     }
 
-    protected override void Exit()
+    IEnumerator ShowCoroutine()
     {
+        _rockHammerAnimator.SetTrigger(_showTrigger);
+        isTransitioning = true;
+
+        yield return new WaitForSeconds(1f);
+        //_hitVFX.Play();
+        mat.SetColor(_colorProperty, Color.blue);
+        base.Show();
+    }
+
+    public override void Exit()
+    {
+        _rockHammerAnimator.SetTrigger(_exitTrigger);
+
         RockPopupManager.Instance.ResetZoom();
         base.Exit();
     }
-    
     
 }

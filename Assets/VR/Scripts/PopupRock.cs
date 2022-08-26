@@ -6,6 +6,11 @@ using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.XR.Interaction.Toolkit;
 
+public abstract class RockPopup
+{
+    
+}
+
 [RequireComponent(typeof(XRSimpleInteractable))]
 public class PopupRock : MonoBehaviour
 {
