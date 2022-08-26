@@ -14125,8 +14125,8 @@ MonoBehaviour:
   maxSampleCount: 20
   samplingRadius: 1
   ObjectScaleMultiplier: 0.25
-  JetpackVerticalSpeed: 1
-  JetpackMovementSpeed: 1
+  JetpackVerticalSpeed: 50
+  JetpackMovementSpeed: 2
 --- !u!4 &926272664
 Transform:
   m_ObjectHideFlags: 0
