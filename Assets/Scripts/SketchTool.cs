@@ -41,7 +41,9 @@ public class SketchTool : PlayerTool
         
         instance = this;
         lines = new LinkedList<SketchMeasurement>();
-        
+
+        thicknessSlider.minValue *= Settings.instance.ObjectScaleMultiplier;
+        thicknessSlider.maxValue *= Settings.instance.ObjectScaleMultiplier;
         SetLineThickness(thicknessSlider);
 
         thicknessSlider.onValueChanged.AddListener((float x) =>

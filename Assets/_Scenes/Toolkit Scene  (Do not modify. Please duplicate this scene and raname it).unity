@@ -14222,7 +14222,7 @@ MonoBehaviour:
   randomSamplingRadius: 0
   maxSampleCount: 20
   samplingRadius: 1
-  ObjectScaleMultiplier: 0.25
+  ObjectScaleMultiplier: 1
   JetpackVerticalSpeed: 25
   JetpackMovementSpeed: 2
 --- !u!4 &926272664
@@ -23373,7 +23373,8 @@ Material:
   m_Name: Topo Profile Plane (Instance) (Instance) (Instance) (Instance) (Instance)
     (Instance) (Instance) (Instance) (Instance) (Instance) (Instance) (Instance)
   m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23383,6 +23384,7 @@ Material:
     RenderType: Transparent
   disabledShaderPasses:
   - SHADOWCASTER
+  - DepthOnly
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -23446,6 +23448,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _Blend: 0
+    - _BlendOp: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -23473,7 +23476,7 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 0.29814878, g: 0.44744134, b: 0.9433962, a: 0.2509804}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.29814878, g: 0.44744134, b: 0.9433962, a: 0.2509804}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
@@ -42924,8 +42927,8 @@ RectTransform:
   m_Father: {fileID: 2023343798463734124}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.053030305, y: 0}
-  m_AnchorMax: {x: 0.053030305, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -46141,7 +46144,7 @@ Transform:
   m_GameObject: {fileID: 5109485918424325907}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1000, y: 1000, z: 1}
+  m_LocalScale: {x: 100000, y: 100000, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5109485918083686128}
@@ -55703,8 +55706,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 7063132269151461762}
   m_HandleRect: {fileID: 2545966559079036738}
   m_Direction: 0
-  m_MinValue: 0.01
-  m_MaxValue: 1
+  m_MinValue: 0.062499996
+  m_MaxValue: 6.25
   m_WholeNumbers: 0
   m_Value: 0.0625
   m_OnValueChanged:
@@ -56504,7 +56507,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.053030305, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
