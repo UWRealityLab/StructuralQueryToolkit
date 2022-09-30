@@ -17,7 +17,16 @@ public class FacePlayer : MonoBehaviour
             player = Camera.main.transform; // lol
         }
         
+    }
+
+    private void OnEnable()
+    {
         InvokeRepeating(nameof(LookAtPlayer), 0f, 1f / LookAtFrameRate);
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke((nameof(LookAtPlayer)));
     }
 
     private void LookAtPlayer()

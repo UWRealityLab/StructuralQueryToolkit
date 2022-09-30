@@ -30,6 +30,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6530421283771247689}
   - {fileID: 6530421284489654138}
@@ -147,6 +148,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6530421284489654138}
   m_RootOrder: 2
@@ -252,7 +254,7 @@ MonoBehaviour:
         m_CallState: 2
 --- !u!95 &8693923646989669222
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -265,6 +267,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -313,6 +316,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6530421284489654138}
   m_RootOrder: 3
@@ -350,7 +354,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 294d0a13d056c23439275003e64a77e7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f17e2daa63e9dc946bea7176ab46f9b3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -430,7 +434,7 @@ MonoBehaviour:
         m_CallState: 2
 --- !u!95 &2768201975657477048
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -443,6 +447,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -460,8 +465,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isToggled: 0
-  unToggledImaged: {fileID: 21300000, guid: 294d0a13d056c23439275003e64a77e7, type: 3}
-  toggledImage: {fileID: 21300000, guid: bc0114df1e61eeb4ba31ae632fcfe604, type: 3}
+  unToggledImaged: {fileID: 21300000, guid: f17e2daa63e9dc946bea7176ab46f9b3, type: 3}
+  toggledImage: {fileID: 21300000, guid: 74e1cd943093d374d807b17e4cfbaf05, type: 3}
 --- !u!114 &1257078108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,6 +508,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -0.000022422753}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6530421284489654138}
   m_RootOrder: 1
@@ -599,6 +605,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6530421284214195224}
   m_RootOrder: 1
@@ -639,8 +646,7 @@ MonoBehaviour:
   m_text: "\u200B"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a3a53ce6ca0fe42ad802fd37a3e4075b, type: 2}
-  m_sharedMaterial: {fileID: -9112778463029432634, guid: a3a53ce6ca0fe42ad802fd37a3e4075b,
-    type: 2}
+  m_sharedMaterial: {fileID: -9112778463029432634, guid: a3a53ce6ca0fe42ad802fd37a3e4075b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -754,6 +760,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.100000024, y: 0.1, z: 0.100000024}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6530421284214195224}
   m_Father: {fileID: 2083331919}
@@ -936,6 +943,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6530421284316128539}
   - {fileID: 6530421282761759218}
@@ -1044,6 +1052,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6530421284489654138}
   m_RootOrder: 0
@@ -1185,7 +1194,7 @@ MonoBehaviour:
         m_CallState: 2
 --- !u!95 &6530421284298174898
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1198,6 +1207,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -1246,6 +1256,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6530421284214195224}
   m_RootOrder: 0
@@ -1286,8 +1297,7 @@ MonoBehaviour:
   m_text: Enter Text...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a3a53ce6ca0fe42ad802fd37a3e4075b, type: 2}
-  m_sharedMaterial: {fileID: -9112778463029432634, guid: a3a53ce6ca0fe42ad802fd37a3e4075b,
-    type: 2}
+  m_sharedMaterial: {fileID: -9112778463029432634, guid: a3a53ce6ca0fe42ad802fd37a3e4075b, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1403,6 +1413,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.100000024, y: 0.1, z: 0.100000024}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6530421284298174902}
   - {fileID: 8760367486812160885}
@@ -1526,6 +1537,7 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6530421284489654138}
   m_RootOrder: 4
@@ -1631,7 +1643,7 @@ MonoBehaviour:
         m_CallState: 2
 --- !u!95 &2893017249293871969
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1644,6 +1656,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -1687,6 +1700,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0.4539828, z: 0, w: 0.89101046}
   m_LocalPosition: {x: -186.45, y: 73.48, z: -24.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2083331919}
   m_Father: {fileID: 0}

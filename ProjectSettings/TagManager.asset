@@ -16,18 +16,18 @@ TagManager:
   - Rotatable Object
   - Map View
   - Rock Models
+  - Stereonet
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Map
+  - Main UI
+  - Camera UI
+  - Optional Fold
+  - Stereonet Bowl UI
+  - Line
+  - Cave
+  - Cabin
+  - Always Render
   - 
   - 
   - 

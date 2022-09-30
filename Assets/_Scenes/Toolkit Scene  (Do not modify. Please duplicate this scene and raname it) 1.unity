@@ -14125,7 +14125,7 @@ MonoBehaviour:
   maxSampleCount: 20
   samplingRadius: 1
   ObjectScaleMultiplier: 0.25
-  JetpackVerticalSpeed: 50
+  JetpackVerticalSpeed: 25
   JetpackMovementSpeed: 2
 --- !u!4 &926272664
 Transform:
@@ -14175,8 +14175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 1
-  m_RequiresOpaqueTextureOption: 0
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: -1
@@ -14249,7 +14249,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1179711
+    m_Bits: 1180223
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
