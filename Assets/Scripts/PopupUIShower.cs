@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 public class PopupUIShower : MonoBehaviour
 {
@@ -61,6 +62,12 @@ public class PopupUIShower : MonoBehaviour
 
     private void OnMouseOver()
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            // Mouse is over UI
+            return;
+        }
+        
         outlineAmount = Mathf.Clamp(outlineAmount + Time.deltaTime * outlineScale, outlineMin, outlineMax);
         mat.SetFloat(outlineShaderID, outlineAmount);
         isMouseOver = true;
@@ -84,7 +91,7 @@ public class PopupUIShower : MonoBehaviour
 
     private void OnMouseUp()
     {
-        if (!isTransitioning && !UICanvas.activeSelf && !MapView.instance.IsInMapView)
+        if (isMouseOver && !isTransitioning && !UICanvas.activeSelf && !MapView.instance.IsInMapView)
         {
             Show();
         }
