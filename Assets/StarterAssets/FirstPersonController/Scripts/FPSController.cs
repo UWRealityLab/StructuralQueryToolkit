@@ -137,8 +137,11 @@ namespace StarterAssets
 			}
 
 		}
-
+		
+		[Header("Camera Controls")]
 		[Range(0.1f, 50f)] public float rightClickDragRotationLerpAmount;
+
+		[SerializeField] private bool _flipCameraDragRotation = false;
 		private Vector3 prevMousePos;
 		private Vector3 currMousePos;
 		private void RightClickDragRotation()
@@ -155,6 +158,7 @@ namespace StarterAssets
 			}
 			
 			var delta = currMousePos - prevMousePos;
+			delta = _flipCameraDragRotation ? -delta : delta;
 				
 			_cinemachineTargetPitch += -delta.y * RightClickDragRotationSpeed * Time.deltaTime;
 			_rotationVelocity = delta.x * RightClickDragRotationSpeed * Time.deltaTime;
