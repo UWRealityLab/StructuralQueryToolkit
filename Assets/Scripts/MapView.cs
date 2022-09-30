@@ -17,9 +17,12 @@ public class MapView : MonoBehaviour
     [SerializeField] private Canvas mapViewCanvas;
     private RectTransform mapViewCanvasRectTrans;
     [SerializeField] private GameObject ResetButton;
+    
 
     [Header("Dragging")] 
     public float PanSensitivity;
+
+    public bool _flipDragging = false;
 
     [Header("Zooming")] 
     public float ZoomSensitivity;
@@ -128,6 +131,7 @@ public class MapView : MonoBehaviour
                     // Drag sensitivity scales with how zoomed in the player is relative to the default zoom
                     var zoomPercentage = mapViewCamera.orthographicSize / defaultCamSize;
                     var mouseDelta = isDragging ? new Vector2(-Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y")) * (PanSensitivity * zoomPercentage) : Vector2.zero;
+                    mouseDelta = _flipDragging ? -mouseDelta : mouseDelta;
                     mapViewCamera.transform.position += new Vector3(mouseDelta.x, 0f, mouseDelta.y);
                 }
 
@@ -211,6 +215,7 @@ public class MapView : MonoBehaviour
         //var pos2 = Input.GetTouch(1).position;
 
         var posDelta = prevDragPos - pos1;
+        posDelta = _flipDragging ? -posDelta : posDelta;
 
         var zoomPercentage = mapViewCamera.orthographicSize / defaultCamSize;
         var mouseDelta = new Vector2(posDelta.x, posDelta.y) * (PanSensitivity * zoomPercentage) * MOBILE_MODIFIER;
