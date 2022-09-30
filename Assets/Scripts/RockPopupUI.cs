@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Cinemachine.Utility;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.VFX;
 
@@ -25,7 +27,10 @@ public class RockPopupUI : PopupUIShower
     [SerializeField, Tooltip("Replaces the object's current pivot point to be the mean of all of its vertices")] 
     private bool _autoCalculatePivot = true;
     
-    [SerializeField] private float _scrollZoomSensitivity = 0.5f;
+    [SerializeField] private float _zoomSensitivity = 0.5f;
+    [SerializeField] private float _defaultDistanceToCamera = 8f;
+    [SerializeField, Tooltip("Max distance the away is from the object")] private float _closestDistToCamera = 100f;
+    [SerializeField, Tooltip("Min distance the camera is from the object")] private float _farthestDistFromCamera = 0.1f;
 
     [TextArea]
     public string Title;
@@ -48,12 +53,14 @@ public class RockPopupUI : PopupUIShower
     {
         if (Mathf.Abs(Input.mouseScrollDelta.y) > 0f)
         {
-            Zoom(Input.mouseScrollDelta.y * _scrollZoomSensitivity);
+            Zoom(Input.mouseScrollDelta.y * _zoomSensitivity);
         }
     }
 
     private void OnValidate()
     {
+        Assert.IsNotNull(_rockModelPrefab, "Please insert a rock model in RockPopupUI");
+        
         var meshes = _rockModelPrefab.GetComponentsInChildren<MeshFilter>();
         _titleText.text = Title;
         _descriptionText.text = Description;
@@ -95,9 +102,19 @@ public class RockPopupUI : PopupUIShower
         RockPopupManager.Instance.ResetCameraRotation();
     }
 
+    public void ZoomIncrement()
+    {
+        RockPopupManager.Instance.Zoom(_zoomSensitivity, _closestDistToCamera, _farthestDistFromCamera);
+    }
+
+    public void ZoomDecrement()
+    {
+        RockPopupManager.Instance.Zoom(-_zoomSensitivity, _closestDistToCamera, _farthestDistFromCamera);
+    }
+    
     public void Zoom(float amount)
     {
-        RockPopupManager.Instance.Zoom(amount);
+        RockPopupManager.Instance.Zoom(amount, _closestDistToCamera, _farthestDistFromCamera);
     }
 
     protected override void Show()
@@ -107,7 +124,7 @@ public class RockPopupUI : PopupUIShower
             StartCoroutine(ShowCoroutine());
         }
 
-        RockPopupManager.Instance.SetRockModel(_rockModelPrefab, _rockModelPrefab.transform.rotation, _objectCenter);
+        RockPopupManager.Instance.SetRockModel(_rockModelPrefab, _rockModelPrefab.transform.rotation, _objectCenter, _defaultDistanceToCamera);
     }
 
     IEnumerator ShowCoroutine()

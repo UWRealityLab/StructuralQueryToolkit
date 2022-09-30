@@ -5409,8 +5409,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
-        m_MethodName: Zoom
-        m_Mode: 4
+        m_MethodName: ZoomIncrement
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7488,8 +7488,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
-        m_MethodName: Zoom
-        m_Mode: 4
+        m_MethodName: ZoomDecrement
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -8780,9 +8780,12 @@ MonoBehaviour:
   _descriptionText: {fileID: 7085831810164771930}
   _rockHammerAnimator: {fileID: 4854752250556275477}
   _hitVFX: {fileID: 5479655961128397657}
-  _rockModelPrefab: {fileID: 4399714922860730671, guid: 283e6530a665e4513959d1cd4883682f, type: 3}
+  _rockModelPrefab: {fileID: 0}
   _autoCalculatePivot: 1
-  _scrollZoomSensitivity: 0.5
+  _zoomSensitivity: 0.5
+  _defaultDistanceToCamera: 8
+  _closestDistToCamera: 1
+  _farthestDistFromCamera: 50
   Title: '[Model Name]'
   Description: '[Description]'
 --- !u!136 &4943854964120829217

@@ -9,7 +9,6 @@ public class RockPopupManager : MonoBehaviour
     [SerializeField] private Camera _rockCamera;
     [SerializeField] private Transform _rockModelParent;
 
-        
     private Transform _rockModel;
     private float _defaultZoomValue;
     private int _rockModelLayerMask;
@@ -18,10 +17,9 @@ public class RockPopupManager : MonoBehaviour
     {
         Instance = this;
         _rockModelLayerMask = LayerMask.NameToLayer("Rock Models");
-        _defaultZoomValue = _rockCamera.orthographicSize;
     }
 
-    public void SetRockModel(GameObject prefab, Quaternion orientation, Vector3 offset)
+    public void SetRockModel(GameObject prefab, Quaternion orientation, Vector3 offset, float defaultDistAway)
     {
         if (_rockModel)
         {
@@ -31,7 +29,9 @@ public class RockPopupManager : MonoBehaviour
         _rockModel = Instantiate(prefab, Vector3.zero, orientation, _rockModelParent).transform;
         _rockModel.gameObject.SetLayerRecursively(_rockModelLayerMask);
         _rockModel.localPosition = -offset;
-        
+
+        _defaultZoomValue = defaultDistAway;
+        _rockCamera.transform.localPosition = new Vector3(0f, 0f, -defaultDistAway);
         _rockCamera.Render();
     }
 
@@ -45,12 +45,10 @@ public class RockPopupManager : MonoBehaviour
     }
 
 
-    public void Zoom(float amount)
+    public void Zoom(float amount, float minDist, float maxDist)
     {
-        //_rockCamera.focalLength = Mathf.Clamp(_rockCamera.focalLength + amount, 2f, 200f);
-        //_orbitalTransposer.m_FollowOffset.z = Mathf.Clamp(_orbitalTransposer.m_FollowOffset.z + amount, -100, -1.5f);
         var pos = _rockCamera.transform.position;
-        var newZOffset = Mathf.Clamp(pos.z + amount, -10, 1.5f);
+        var newZOffset = Mathf.Clamp(pos.z + amount, -maxDist, -minDist);
         _rockCamera.transform.position = new Vector3(pos.x, pos.y, newZOffset);
         
         RenderCamera();
@@ -63,14 +61,13 @@ public class RockPopupManager : MonoBehaviour
 
     public void ResetZoom()
     {
-        _rockCamera.orthographicSize = _defaultZoomValue;
+        _rockCamera.transform.localPosition = new Vector3(0f, 0f, -_defaultZoomValue);
     }
 
     private void RenderCamera() => StartCoroutine(RenderCameraCo());
     private IEnumerator RenderCameraCo()
     {
-        yield return new WaitForEndOfFrame();
-        yield return new WaitForEndOfFrame();
+        yield return null;
         _rockCamera.Render();
     }
 }
