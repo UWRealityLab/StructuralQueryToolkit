@@ -7,9 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ground 1
-  m_Shader: {fileID: -6465566751694194690, guid: 05cfea893f381114ea15483ea24c9f12,
-    type: 3}
+  m_Name: Forest Leaves
+  m_Shader: {fileID: -6465566751694194690, guid: 05cfea893f381114ea15483ea24c9f12, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ShaderKeywords: 
@@ -51,8 +50,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - Color_f3e3012213534df68930b2ccf6305e11: {r: 0.6037736, g: 0.6037736, b: 0.6037736,
-        a: 0}
+    - Color_f3e3012213534df68930b2ccf6305e11: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &4584889302529686447
 MonoBehaviour:
