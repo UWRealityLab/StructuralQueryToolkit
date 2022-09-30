@@ -195,7 +195,6 @@ GameObject:
   - component: {fileID: 4581430932823567949}
   - component: {fileID: 8751914535441129502}
   - component: {fileID: 1447269073138125995}
-  - component: {fileID: 8484110337129887280}
   m_Layer: 5
   m_Name: Exit Button
   m_TagString: Untagged
@@ -338,20 +337,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &8484110337129887280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2602631222313502591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e0858b15d366a4e8dd630426152bba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  sound: {fileID: 8300000, guid: 79df7ec09395d4ee881ae71c1e5fd7da, type: 3}
 --- !u!1 &3008836571431964898
 GameObject:
   m_ObjectHideFlags: 0
@@ -5422,7 +5407,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
         m_MethodName: Zoom
         m_Mode: 4
@@ -5577,7 +5562,6 @@ GameObject:
   - component: {fileID: 4878673235245589288}
   - component: {fileID: 4878673235245589291}
   - component: {fileID: 4878673235245589290}
-  - component: {fileID: 4878673235245589285}
   - component: {fileID: 4878673235245589284}
   - component: {fileID: 4878673235245589287}
   m_Layer: 5
@@ -5666,20 +5650,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4878673235245589285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4878673235245589281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e0858b15d366a4e8dd630426152bba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  sound: {fileID: 0}
 --- !u!114 &4878673235245589284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5706,7 +5676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -5737,7 +5707,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
         m_MethodName: SetBackgroundColor
         m_Mode: 2
@@ -5761,7 +5731,6 @@ GameObject:
   - component: {fileID: 4878673235270607504}
   - component: {fileID: 4878673235270607507}
   - component: {fileID: 4878673235270607506}
-  - component: {fileID: 4878673235270607501}
   - component: {fileID: 4878673235270607500}
   - component: {fileID: 4878673235270607503}
   m_Layer: 5
@@ -5850,20 +5819,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4878673235270607501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4878673235270607497}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e0858b15d366a4e8dd630426152bba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  sound: {fileID: 0}
 --- !u!114 &4878673235270607500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5890,7 +5845,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -5921,7 +5876,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
         m_MethodName: SetBackgroundColor
         m_Mode: 2
@@ -6267,7 +6222,6 @@ GameObject:
   - component: {fileID: 4878673235542265117}
   - component: {fileID: 4878673235542265116}
   - component: {fileID: 4878673235542265119}
-  - component: {fileID: 4878673235542265118}
   - component: {fileID: 4878673235542265113}
   - component: {fileID: 4878673235542265112}
   m_Layer: 5
@@ -6356,20 +6310,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4878673235542265118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4878673235542265114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e0858b15d366a4e8dd630426152bba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  sound: {fileID: 0}
 --- !u!114 &4878673235542265113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6396,7 +6336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -6427,7 +6367,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
         m_MethodName: SetBackgroundColor
         m_Mode: 2
@@ -6524,7 +6464,6 @@ GameObject:
   - component: {fileID: 4878673235600701495}
   - component: {fileID: 4878673235600701494}
   - component: {fileID: 4878673235600701489}
-  - component: {fileID: 4878673235600701488}
   - component: {fileID: 4878673235600701491}
   - component: {fileID: 4878673235600701490}
   m_Layer: 5
@@ -6613,20 +6552,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4878673235600701488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4878673235600701484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e0858b15d366a4e8dd630426152bba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  sound: {fileID: 0}
 --- !u!114 &4878673235600701491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6653,7 +6578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -6684,7 +6609,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
         m_MethodName: SetBackgroundColor
         m_Mode: 2
@@ -6829,7 +6754,6 @@ GameObject:
   - component: {fileID: 4878673235672379232}
   - component: {fileID: 4878673235672379235}
   - component: {fileID: 4878673235672379234}
-  - component: {fileID: 4878673235672379165}
   - component: {fileID: 4878673235672379164}
   - component: {fileID: 4878673235672379167}
   m_Layer: 5
@@ -6918,20 +6842,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4878673235672379165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4878673235672379161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e0858b15d366a4e8dd630426152bba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  sound: {fileID: 0}
 --- !u!114 &4878673235672379164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6958,7 +6868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -6989,7 +6899,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
         m_MethodName: SetBackgroundColor
         m_Mode: 2
@@ -7013,7 +6923,6 @@ GameObject:
   - component: {fileID: 4878673235720750657}
   - component: {fileID: 4878673235720750656}
   - component: {fileID: 4878673235720750659}
-  - component: {fileID: 4878673235720750658}
   - component: {fileID: 4878673235720750717}
   - component: {fileID: 4878673235720750716}
   m_Layer: 5
@@ -7102,20 +7011,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4878673235720750658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4878673235720750718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e0858b15d366a4e8dd630426152bba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  sound: {fileID: 0}
 --- !u!114 &4878673235720750717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7142,7 +7037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -7173,7 +7068,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
         m_MethodName: SetBackgroundColor
         m_Mode: 2
@@ -7349,7 +7244,6 @@ GameObject:
   - component: {fileID: 4878673235999136182}
   - component: {fileID: 4878673235999136177}
   - component: {fileID: 4878673235999136176}
-  - component: {fileID: 4878673235999136179}
   - component: {fileID: 4878673235999136178}
   - component: {fileID: 4878673235999136173}
   m_Layer: 5
@@ -7438,20 +7332,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4878673235999136179
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4878673235999136175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e0858b15d366a4e8dd630426152bba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  sound: {fileID: 0}
 --- !u!114 &4878673235999136178
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7478,7 +7358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -7509,7 +7389,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
         m_MethodName: SetBackgroundColor
         m_Mode: 2
@@ -7606,7 +7486,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
         m_MethodName: Zoom
         m_Mode: 4
@@ -8063,7 +7943,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -62.5}
+  m_AnchoredPosition: {x: 0, y: -62.49994}
   m_SizeDelta: {x: 0, y: -175}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4878673236879992436
@@ -8668,7 +8548,6 @@ GameObject:
   - component: {fileID: 4878673237207773566}
   - component: {fileID: 4878673237207773561}
   - component: {fileID: 4878673237207773560}
-  - component: {fileID: 4878673237207773563}
   - component: {fileID: 4878673237207773562}
   - component: {fileID: 4878673237207773557}
   m_Layer: 5
@@ -8757,20 +8636,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4878673237207773563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4878673237207773559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19e0858b15d366a4e8dd630426152bba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  source: {fileID: 0}
-  sound: {fileID: 0}
 --- !u!114 &4878673237207773562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8797,7 +8662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -8828,7 +8693,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 361803553851497623}
         m_TargetAssemblyTypeName: RockPopupUI, Assembly-CSharp
         m_MethodName: SetBackgroundColor
         m_Mode: 2
@@ -8915,7 +8780,7 @@ MonoBehaviour:
   _descriptionText: {fileID: 7085831810164771930}
   _rockHammerAnimator: {fileID: 4854752250556275477}
   _hitVFX: {fileID: 5479655961128397657}
-  _rockModelPrefab: {fileID: 0}
+  _rockModelPrefab: {fileID: 4399714922860730671, guid: 283e6530a665e4513959d1cd4883682f, type: 3}
   _autoCalculatePivot: 1
   _scrollZoomSensitivity: 0.5
   Title: '[Model Name]'
@@ -9128,7 +8993,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -16}
   m_SizeDelta: {x: 1280, y: 179.95935}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &5377358934353600983
@@ -9186,8 +9051,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38
-  m_fontSizeBase: 38
+  m_fontSize: 32
+  m_fontSizeBase: 32
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

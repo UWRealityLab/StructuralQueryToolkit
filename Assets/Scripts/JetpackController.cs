@@ -18,6 +18,9 @@ public class JetpackController : MonoBehaviour
 
     public void Move(float yVelocity)
     {
+        if (FPSController.Instance.isGravityOn)
+            return;
+        
         _currYVelocity = Mathf.Lerp(_currYVelocity, yVelocity, 5f * Time.deltaTime);
     }
 }

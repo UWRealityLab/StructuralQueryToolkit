@@ -14,6 +14,8 @@ namespace StarterAssets
 #endif
 	public class FPSController : MonoBehaviour
 	{
+		public static FPSController Instance;		
+		
 		[Header("Player")]
 		[Tooltip("Move speed of the character in m/s")]
 		public float MoveSpeed = 4.0f;
@@ -77,6 +79,7 @@ namespace StarterAssets
 
 		private void Awake()
 		{
+			Instance = this;
 			// get a reference to our main camera
 			if (_mainCamera == null)
 			{
@@ -213,7 +216,8 @@ namespace StarterAssets
 			}
 
 			// move the player
-            _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity + JetpackController.instance.YVelocity, 0.0f) * Time.deltaTime);
+			var jetpackVelocity = isGravityOn ? 0f : JetpackController.instance.YVelocity;
+            _controller.Move(inputDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity + jetpackVelocity, 0.0f) * Time.deltaTime);
 		}
 
 		private void JumpAndGravity()
