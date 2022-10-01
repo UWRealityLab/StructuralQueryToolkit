@@ -14222,7 +14222,7 @@ MonoBehaviour:
   randomSamplingRadius: 0
   maxSampleCount: 20
   samplingRadius: 1
-  ObjectScaleMultiplier: 1
+  ObjectScaleMultiplier: 0.25
   JetpackVerticalSpeed: 25
   JetpackMovementSpeed: 2
 --- !u!4 &926272664
