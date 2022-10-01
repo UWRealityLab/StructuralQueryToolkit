@@ -79,30 +79,33 @@ public class MapView : MonoBehaviour
             GameController.instance.EnablePlayer();
             CancelInvoke(nameof(RenderMapCamera));
         });
-        
-        StereonetsController.instance.OnStereonetCreated.AddListener(stereonet =>
+
+        if (GameController.instance.IsVR)
         {
-            var marker = Instantiate(StereonetMarkerPrefab, StrikeDipIconsParent).GetComponent<StereonetMapMarker>();
-            marker.SetFontSize(_markerFontSize);
-            marker.SetPosition(new Vector2(float.MaxValue, float.MaxValue));
-            marker.SetId(stereonet.id);
-            _strikeDipMarkers.Add(marker);
-            
-            stereonet.OnStereonetUpdate.AddListener(stereonet =>
+            StereonetsController.instance.OnStereonetCreated.AddListener(stereonet =>
             {
-                var uiPos = mapViewCamera.WorldToViewportPoint(stereonet.CalculateCentroid());
-                var canvasPos = new Vector2(uiPos.x * mapViewCanvasRectTrans.sizeDelta.x, uiPos.y * mapViewCanvasRectTrans.sizeDelta.y);
-                marker.SetPosition(canvasPos - _uiOffset);
-            });
+                var marker = Instantiate(StereonetMarkerPrefab, StrikeDipIconsParent).GetComponent<StereonetMapMarker>();
+                marker.SetFontSize(_markerFontSize);
+                marker.SetPosition(new Vector2(float.MaxValue, float.MaxValue));
+                marker.SetId(stereonet.id);
+                _strikeDipMarkers.Add(marker);
             
-            stereonet.OnStereonetDestroy.AddListener(stereonet =>
-            {
-                if (marker)
+                stereonet.OnStereonetUpdate.AddListener(stereonet =>
                 {
-                    Destroy(marker.gameObject);
-                }
+                    var uiPos = mapViewCamera.WorldToViewportPoint(stereonet.CalculateCentroid());
+                    var canvasPos = new Vector2(uiPos.x * mapViewCanvasRectTrans.sizeDelta.x, uiPos.y * mapViewCanvasRectTrans.sizeDelta.y);
+                    marker.SetPosition(canvasPos - _uiOffset);
+                });
+            
+                stereonet.OnStereonetDestroy.AddListener(stereonet =>
+                {
+                    if (marker)
+                    {
+                        Destroy(marker.gameObject);
+                    }
+                });
             });
-        });
+        }
         
         //gameObject.SetActive(false);
     }
