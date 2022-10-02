@@ -234,6 +234,8 @@ public class Stereonet2D : Stereonet
         
         UpdatePolePlottingState();
         FitPlane();
+        
+        OnStereonetUpdate.Invoke(this);
     }
 
     private bool hasChanged = false;
@@ -263,7 +265,6 @@ public class Stereonet2D : Stereonet
     {
         AddPole(normal, flag);
         poleElevations.Add(elevation);
-        OnStereonetUpdate.Invoke(this);
     }
 
     public override void AddPlanePointThreePoint(Transform point)
@@ -950,22 +951,34 @@ public class Stereonet2D : Stereonet
     public override Vector3 CalculateCentroid()
     {
         var avgPos = Vector3.zero;
-        var numMeasurements = flagsList.Count + worldLinePoints.Count / 2 + worldPlanes.Count;
+        var numMeasurements = flagsList.Count + worldLines.Count + worldPlanes.Count;
 
         foreach (var pole in flagsList)
         {
             avgPos += pole.position;
         }
 
-        foreach (var linePoint in worldLinePoints)
+        foreach (var linePoint in worldLines)
         {
-            avgPos += linePoint.transform.position;
+            var line = linePoint.GetComponent<LineRenderer>();
+            avgPos += (line.GetPosition(0) + line.GetPosition(1)) * 0.5f;
         }
 
         foreach (var plane in worldPlanes)
         {
-            var vertices = plane.GetComponent<MeshFilter>().mesh.vertices;
-            var planeCenter = (vertices[0] + vertices[1] + vertices[2]) * 0.33f;
+            var vertices = plane.GetComponentInChildren<MeshFilter>().mesh.vertices;
+
+            Vector3 planeCenter;
+            if (vertices.Length == 4)
+            {
+                // 2 point plane
+                planeCenter = plane.GetChild(0).position;
+            }
+            else
+            {
+                // 3 point plane
+                planeCenter = (vertices[0] + vertices[1] + vertices[2]) * 0.33f;
+            }
             avgPos += planeCenter;
         }
 

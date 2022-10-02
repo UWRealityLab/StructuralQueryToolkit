@@ -552,9 +552,9 @@ MonoBehaviour:
   CameraFrameRate: 30
   mapViewCanvas: {fileID: 62691888}
   ResetButton: {fileID: 753389040}
-  PanSensitivity: 5
+  PanSensitivity: 1
   _flipDragging: 0
-  ZoomSensitivity: 2
+  ZoomSensitivity: 1
   StereonetMarkerPrefab: {fileID: 3377441348388720809, guid: 9cbd5d2151a581346a033225c3b18793, type: 3}
   StrikeDipIconsParent: {fileID: 2083915531}
 --- !u!1 &62691886
@@ -22409,7 +22409,7 @@ Camera:
   far clip plane: 5000
   field of view: 60
   orthographic: 1
-  orthographic size: 100
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -41587,7 +41587,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0.053m
+  m_text: 0.05m
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3d03fb5cdabbdae4db063ac4c8e70d97, type: 2}
   m_sharedMaterial: {fileID: 8257012801633642944, guid: 3d03fb5cdabbdae4db063ac4c8e70d97, type: 2}
@@ -55706,10 +55706,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 7063132269151461762}
   m_HandleRect: {fileID: 2545966559079036738}
   m_Direction: 0
-  m_MinValue: 0.062499996
-  m_MaxValue: 6.25
+  m_MinValue: 9.313225e-10
+  m_MaxValue: 0.00000009313226
   m_WholeNumbers: 0
-  m_Value: 0.0625
+  m_Value: 0.00000009313226
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

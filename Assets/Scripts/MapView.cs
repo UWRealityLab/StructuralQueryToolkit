@@ -13,7 +13,7 @@ public class MapView : MonoBehaviour
     public static MapView instance;
     public Camera mapViewCamera;
     private Transform playerSprite;
-    public int CameraFrameRate = 30;
+    public int CameraFrameRate = 10;
     [SerializeField] private Canvas mapViewCanvas;
     private RectTransform mapViewCanvasRectTrans;
     [SerializeField] private GameObject ResetButton;
@@ -62,22 +62,39 @@ public class MapView : MonoBehaviour
     {
         playerSprite = GameController.instance.playerMapView.transform;
         playerSprite.localScale *= Settings.instance.ObjectScaleMultiplier;
+        
         GameController.instance.switchToMapViewEvent.AddListener(() =>
         {
             mapViewCanvas.gameObject.SetActive(true);
             GameController.CurrentCamera = mapViewCamera;
-            mapViewCamera.enabled = true;
             isInMapView = true;
-            InvokeRepeating(nameof(RenderMapCamera), 0f, 1f / CameraFrameRate);
+            
+            if (!GameController.instance.IsVR)
+            {
+                mapViewCamera.enabled = true;
+                GameController.instance.DisablePlayer();
+            }
+            else
+            {
+                InvokeRepeating(nameof(RenderMapCamera), 0f, 1f / CameraFrameRate);
+            }
+
         });
         GameController.instance.returnToFPSEvent.AddListener(() =>
         {
             mapViewCanvas.gameObject.SetActive(false);
             GameController.CurrentCamera = Camera.main;
-            mapViewCamera.enabled = false;
             isInMapView = false;
-            GameController.instance.EnablePlayer();
-            CancelInvoke(nameof(RenderMapCamera));
+            
+            if (!GameController.instance.IsVR)
+            {
+                mapViewCamera.enabled = false;
+                GameController.instance.EnablePlayer();
+            }
+            else
+            {
+                CancelInvoke(nameof(RenderMapCamera));
+            }
         });
 
         if (GameController.instance.IsVR)
